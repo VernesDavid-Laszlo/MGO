@@ -76,17 +76,17 @@ function App(): JSX.Element {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Section title="Step One">
+          <Section title="Hat szia te valami">
             Edit <Text style={styles.highlight}>App.tsx</Text> Working?
           </Section>
-          <Section title="See Your Changes">
+          <Section title="See Your changes">
             <ReloadInstructions />
           </Section>
           <Section title="Debug">
             <DebugInstructions />
           </Section>
           <Section title="Learn More">
-            Read the docs to discover what to do next:
+            Read the docs to dicover what to do next:
           </Section>
           <LearnMoreLinks />
         </View>
