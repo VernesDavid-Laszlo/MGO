@@ -1,5 +1,4 @@
 import "./Homepage.css"
-import ProfileDropdownMenu from "./ProfileDropdownMenu";
 
 
 function Card({ imageSrc, text }) {
@@ -53,7 +52,7 @@ function Header() {
                 <div className="header_center">
                     <img src="images/mess.png" alt="My Log" className="header_center_buttons" />
                     <img src="images/fav.png" alt="My Lo" className="header_center_buttons" />
-                    <ProfileDropdownMenu/>
+                    <button className="button">Account</button>
                 </div>
                 <div className="header_right">
                     <button className="button">New Advertising</button>
@@ -75,7 +74,8 @@ function HomePage(){
     return(
         <div className="appStyle">
             <div>
-                <Header/>
+                <div>r</div>
+                <div>r</div>
                 <Search/>
             </div>
             <div>
@@ -92,14 +92,13 @@ function HomePage(){
                 <Card imageSrc="images/fumes.jpg" text="Fragrances" />
                 {/* Ide add hozzá további kártyákat szükség szerint */}
             </div>
-            <div>
-                <Footer/>
+            <div className="footer">
+                <p> contacts</p>
             </div>
-
         </div>
     );
 }
 
-export default HomePage;
+export default Header;
 
 

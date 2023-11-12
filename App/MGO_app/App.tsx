@@ -4,10 +4,10 @@
  *
  * @format
  */
-
-import React from 'react';
+import React, {useEffect} from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  Platform,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -24,6 +24,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import SplashScreen from 'react-native-splash-screen';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -57,7 +58,11 @@ function Section({children, title}: SectionProps): JSX.Element {
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-
+  useEffect(() => {
+    if (Platform.OS == 'android') {
+      SplashScreen.hide();
+    }
+  }, []);
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -76,17 +81,17 @@ function App(): JSX.Element {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Section title="Step One">
+          <Section title="Hat szia te valami">
             Edit <Text style={styles.highlight}>App.tsx</Text> Working?
           </Section>
-          <Section title="See Your Changes">
+          <Section title="See Your changes">
             <ReloadInstructions />
           </Section>
           <Section title="Debug">
             <DebugInstructions />
           </Section>
           <Section title="Learn More">
-            Read the docs to discover what to do next:
+            Read the docs to dicover what to do next:
           </Section>
           <LearnMoreLinks />
         </View>
