@@ -1,3 +1,9 @@
+.appStyle  {
+    background-color: black;
+    min-height: 100vh;
+}
+
+
 .header{
     background-color: black;
     width: 100%;
@@ -70,6 +76,7 @@
     justify-content: center;
     align-items: center;
     color: white;
+    margin-top: 45px;
 }
 
 .card-container {
@@ -119,12 +126,13 @@
     --input-line: #cccccc;
     --input-text-color: #ffffff;
     --input-text-hover-color: transparent;
-    --input-border-color: #808080;
-    --input-border-hover-color: #999999;
+    --input-border-color: black;
+    --input-border-hover-color: #9c19d3;
     --input-bg-color: #9c19d3;
-    --search-width: calc(100% - 60px);
+    --search-width: 700px;
     --border-radius: 50px;
     --transition-cubic-bezier: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 50px;
 }
 
 .search-box {

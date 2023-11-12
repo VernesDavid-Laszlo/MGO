@@ -58,6 +58,21 @@ function Header() {
                     <button className="button">New Advertising</button>
                 </div>
             </div>
+        </div>
+    );
+}
+
+function Footer(){
+    return(
+        <div className="footer">
+            <p> contacts</p>
+        </div>
+    );
+}
+
+function HomePage(){
+    return(
+        <div className="appStyle">
             <div>
                 <div>r</div>
                 <div>r</div>
