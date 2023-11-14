@@ -2,6 +2,8 @@
 import './App.css';
 import HomePage from "./components/HomePage/HomePage";
 import LoginPage from "./components/LoginPage/LoginPage";
+import SignUpPage from "./components/SignUpPage/SignUpPage"
+import ProductsByCaregory from "./components/ProductsByCaregory/ProductsByCaregory";
 
 
 function App() {
@@ -9,7 +11,7 @@ function App() {
 
     return (
         <div >
-            <HomePage/>
+            <ProductsByCaregory/>
         </div>
     );
 }
