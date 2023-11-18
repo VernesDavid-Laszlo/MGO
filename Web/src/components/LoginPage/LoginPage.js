@@ -1,36 +1,26 @@
-// LoginPage.js
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 import "./LoginPage.css";
 
-
-function LoginPage({ onLogin, isLoggedIn }) {
+function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const history = useHistory();
 
-    // Check if the user is already logged in and redirect them to the home page
-    if (isLoggedIn) {
-        history.push('/home');
-        return null; // Render nothing if already logged in
-    }
-
-    const handleLogin = () => {
-        // Check if the email and password are not empty
-        if (email.trim() !== '' && password.trim() !== '') {
-            // You might want to implement actual authentication logic here
-            // For simplicity, we'll consider the user logged in
-            onLogin();
-
-            // Redirect to the home page
+    const handleLogin = async () => {
+        try {
+            await firebase.auth().signInWithEmailAndPassword(email, password);
             history.push('/home');
-        } else {
-            // Fields are empty, do nothing or show an error message
+        } catch (error) {
+            console.error('Login failed:', error.message);
+            setError('Invalid email or password. Please try again.');
         }
     };
 
     const handleSignup = () => {
-        // Redirect to the signup page
         history.push('/signup');
     };
 
@@ -57,10 +47,10 @@ function LoginPage({ onLogin, isLoggedIn }) {
                         className="inputLP"
                         placeholder="Password"
                     />
+                    {error && <p className="error-message" style={{ color: 'red' }}>{error}</p>}
                 </div>
                 <div className="cardLP-buttons">
                     <button onClick={handleLogin}>Login</button>
-                    {/* Call handleSignup when the "Sign up" button is clicked */}
                     <button onClick={handleSignup}>Sign up</button>
                 </div>
             </div>
