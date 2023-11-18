@@ -1,21 +1,34 @@
-// SignUpPage.js
-import "./SignUpPage.css";
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+import "./SignUpPage.css";
 
 function SignUpPage({ onSignup }) {
     const history = useHistory();
+    const [userName, setUserName] = useState('');
+    const [dateOfBirth, setDateOfBirth] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    const handleContinue = () => {
-        // Implement your signup logic here if needed
+    const handleContinue = async () => {
+        try {
+            const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+            const user = userCredential.user;
 
-        // For simplicity, let's assume signup is successful
+            await firebase.firestore().collection('users').doc(user.uid).set({
+                userName,
+                dateOfBirth,
+                email,
+            });
 
-        // Call onSignup to update the login status
-        onSignup();
+            onSignup();
 
-        // Redirect to the home page
-        history.push('/home');
+            history.push('/home');
+        } catch (error) {
+            console.error('Error creating user:', error.message);
+        }
     };
 
     return (
@@ -25,10 +38,38 @@ function SignUpPage({ onSignup }) {
                     <img src="images/MGO_logo.png" alt="My Logo" className="logoSU1" />
                 </div>
                 <div className="cardSU-inputs">
-                    <input type="text" name="text" className="inputSU" placeholder="User name" />
-                    <input type="text" name="text" className="inputSU" placeholder="Date of birth" />
-                    <input type="text" name="text" className="inputSU" placeholder="Email" />
-                    <input type="text" name="text" className="inputSU" placeholder="Password" />
+                    <input
+                        type="text"
+                        name="userName"
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
+                        className="inputSU"
+                        placeholder="User name"
+                    />
+                    <input
+                        type="text"
+                        name="dateOfBirth"
+                        value={dateOfBirth}
+                        onChange={(e) => setDateOfBirth(e.target.value)}
+                        className="inputSU"
+                        placeholder="Date of birth"
+                    />
+                    <input
+                        type="text"
+                        name="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="inputSU"
+                        placeholder="Email"
+                    />
+                    <input
+                        type="password"
+                        name="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="inputSU"
+                        placeholder="Password"
+                    />
                 </div>
                 <div className="cardSU-buttons">
                     {/* Call handleContinue when the "Continue" button is clicked */}

@@ -1,35 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import HomePage from "./components/HomePage/HomePage";
 import LoginPage from "./components/LoginPage/LoginPage";
 import SignUpPage from "./components/SignUpPage/SignUpPage";
-import ProductsByCaregory from "./components/ProductsByCaregory/ProductsByCaregory";
-import EditPage from "./components/EditPage/Editpage";
-import MyProfile from "./components/MyProfile/MyProfile";
-import { Header } from "./components/Headre-Footer/Header-Footer";
+import { Header, Footer } from "./components/Headre-Footer/Header-Footer";
+import firebase from "firebase/compat/app";
+import 'firebase/compat/auth';
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
 
-    const handleLogin = () => {
-        setLoggedIn(true);
-    };
+    useEffect(() => {
+        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                setLoggedIn(true);
+            } else {
+                setLoggedIn(false);
+            }
+        });
 
-    const handleSignup = () => {
-        // Implement signup logic if needed
-        // For simplicity, let's assume signup is successful
-        setLoggedIn(true);
-    };
+        // Cleanup function
+        return () => unsubscribe();
+    }, []);
 
     return (
         <Router>
             <div>
                 <Switch>
                     <Route path="/login">
-                        <LoginPage onLogin={handleLogin} onSignup={handleSignup} />
+                        {loggedIn ? <Redirect to="/home" /> : <LoginPage />}
                     </Route>
                     <Route path="/signup">
-                        <SignUpPage onSignup={handleSignup} />
+                        {loggedIn ? <Redirect to="/home" /> : <SignUpPage />}
                     </Route>
                     <Route path="/home">
                         {loggedIn ? <HomePage /> : <Redirect to="/login" />}

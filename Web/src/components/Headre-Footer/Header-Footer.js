@@ -1,8 +1,9 @@
+import React, { useState } from 'react';
 import ProfileDropdownMenu from "./ProfileDropdownMenu";
 import "./Header-Footer.css"
 
-
 export function Header() {
+    const [username, setUsername] = useState("YourUsername");
 
     return (
         <div>
@@ -13,7 +14,7 @@ export function Header() {
                 <div className="header_center">
                     <img src="images/mess.png" alt="My Log" className="header_center_buttons" />
                     <img src="images/fav.png" alt="My Lo" className="header_center_buttons" />
-                    <ProfileDropdownMenu/>
+                    <ProfileDropdownMenu username={username} />
                 </div>
                 <div className="header_right">
                     <button className="button">New Advertising</button>
