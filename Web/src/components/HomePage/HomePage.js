@@ -1,5 +1,4 @@
 import "./Homepage.css"
-import ProfileDropdownMenu from "../Headre-Footer/ProfileDropdownMenu";
 import {Footer, Header} from "../Headre-Footer/Header-Footer";
 
 

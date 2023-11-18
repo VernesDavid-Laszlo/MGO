@@ -1,7 +1,24 @@
-import "./SignUpPage.css"
+// SignUpPage.js
+import "./SignUpPage.css";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 
-function SignUpPage(){
-    return(
+function SignUpPage({ onSignup }) {
+    const history = useHistory();
+
+    const handleContinue = () => {
+        // Implement your signup logic here if needed
+
+        // For simplicity, let's assume signup is successful
+
+        // Call onSignup to update the login status
+        onSignup();
+
+        // Redirect to the home page
+        history.push('/home');
+    };
+
+    return (
         <div className="bodySU">
             <div className="cardSU">
                 <div className="logoSU2">
@@ -14,7 +31,8 @@ function SignUpPage(){
                     <input type="text" name="text" className="inputSU" placeholder="Password" />
                 </div>
                 <div className="cardSU-buttons">
-                    <button>Continue</button>
+                    {/* Call handleContinue when the "Continue" button is clicked */}
+                    <button onClick={handleContinue}>Continue</button>
                 </div>
             </div>
         </div>
