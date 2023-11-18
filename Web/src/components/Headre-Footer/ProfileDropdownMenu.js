@@ -46,6 +46,13 @@ function ProfileDropdownMenu({ onLogout }) {
         }
     };
 
+    const handleMyProfile = () => {
+        history.push('/myprofile');
+    };
+    const handleEditProfile = () => {
+        history.push('/edit');
+    };
+
     return (
         <div className="App">
             <div className='menu-container' ref={menuRef}>
@@ -56,13 +63,12 @@ function ProfileDropdownMenu({ onLogout }) {
                 <div className={`dropdown-menu ${open ? 'active' : 'inactive'}`} >
                     {username && (
                         <h3>
-                            Name<br />
                             <span>{username}</span>
                         </h3>
                     )}
                     <ul>
-                        <DropdownItem img={user} text="My Profile" />
-                        <DropdownItem img={edit} text="Edit Profile" />
+                        <DropdownItem img={user} text="My Profile" onClick={handleMyProfile} />
+                        <DropdownItem img={edit} text="Edit Profile" onClick={handleEditProfile}/>
                         <DropdownItem img={logout} text="Logout" onClick={handleLogout} />
                     </ul>
                 </div>

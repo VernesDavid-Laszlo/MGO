@@ -11,9 +11,31 @@ function SignUpPage({ onSignup }) {
     const [dateOfBirth, setDateOfBirth] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [usernameError, setUsernameError] = useState('');
+
+    const checkUsernameAvailability = async (username) => {
+        try {
+            const querySnapshot = await firebase.firestore().collection('users').where('userName', '==', username).get();
+            return querySnapshot.empty;
+        } catch (error) {
+            console.error('Error checking username availability:', error.message);
+            return false;
+        }
+    };
 
     const handleContinue = async () => {
         try {
+            setEmailError('');
+            setUsernameError('');
+
+            const isUsernameAvailable = await checkUsernameAvailability(userName);
+
+            if (!isUsernameAvailable) {
+                setUsernameError('Username is already in use!!');
+                return;
+            }
+
             const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
             const user = userCredential.user;
 
@@ -27,7 +49,13 @@ function SignUpPage({ onSignup }) {
 
             history.push('/home');
         } catch (error) {
-            console.error('Error creating user:', error.message);
+            if (error.code === 'auth/invalid-email') {
+                setEmailError('Invalid email format. Please enter a valid email!!');
+            } else if (error.code === 'auth/email-already-in-use') {
+                setEmailError('Email is already in use!!');
+            } else {
+                console.error('Error creating user:', error.message);
+            }
         }
     };
 
@@ -46,6 +74,7 @@ function SignUpPage({ onSignup }) {
                         className="inputSU"
                         placeholder="User name"
                     />
+                    {usernameError && <p className="error-text" style={{ color: 'red' }}>{usernameError}</p>}
                     <input
                         type="text"
                         name="dateOfBirth"
@@ -62,6 +91,7 @@ function SignUpPage({ onSignup }) {
                         className="inputSU"
                         placeholder="Email"
                     />
+                    {emailError && <p className="error-text" style={{ color: 'red' }}>{emailError}</p>}
                     <input
                         type="password"
                         name="password"
@@ -72,7 +102,6 @@ function SignUpPage({ onSignup }) {
                     />
                 </div>
                 <div className="cardSU-buttons">
-                    {/* Call handleContinue when the "Continue" button is clicked */}
                     <button onClick={handleContinue}>Continue</button>
                 </div>
             </div>

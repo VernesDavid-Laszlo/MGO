@@ -16,7 +16,7 @@ function LoginPage() {
             history.push('/home');
         } catch (error) {
             console.error('Login failed:', error.message);
-            setError('Invalid email or password. Please try again.');
+            setError('Invalid email or password!   Please try again!    ');
         }
     };
 
