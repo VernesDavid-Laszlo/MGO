@@ -1,16 +1,17 @@
-body {
+bodyEP {
     background: white;
-    min-width: 280px;
+    min-width: 250px;
 }
 
-#userProfileForm div {
+#userEditForm div {
     margin: 10px 0 0 0;
     display: flex;
     flex-wrap: wrap;
     width: 100%;
+
 }
 
-#userProfileForm div label {
+#userEditForm div label {
     min-width: 150px;
     margin-right: 10px;
     margin-left: 10px;
@@ -18,28 +19,27 @@ body {
     align-items: center;
 }
 
-#userProfileForm div text {
-
-    max-width: 100px;
+#userEditForm div input {
+    min-width: 200px;
     display: flex;
     align-items: center;
     margin: 0 5px;
     width: 65%;
 }
 
+button {
+    margin: 10px 0 0 10px;
+}
 
-@media screen and (max-width: 380px) {
-    #userProfileForm div text {
-        width: 100%;
+@media screen and (max-width: 555px) {
+    #userEditForm div input {
+        width: 95%;
         margin-top: 3px;
-
     }
-    #userProfileForm div label {
+    #userEditForm div label {
         margin-top: 7px;
     }
-    #userProfileForm div {
-        max-width: 500px;
-
+    button {
+        margin-left: 5px;
     }
-
 }
