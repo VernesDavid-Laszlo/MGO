@@ -1,0 +1,45 @@
+body {
+    background: white;
+    min-width: 280px;
+}
+
+#userProfileForm div {
+    margin: 10px 0 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+#userProfileForm div label {
+    min-width: 150px;
+    margin-right: 10px;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}
+
+#userProfileForm div text {
+
+    max-width: 100px;
+    display: flex;
+    align-items: center;
+    margin: 0 5px;
+    width: 65%;
+}
+
+
+@media screen and (max-width: 380px) {
+    #userProfileForm div text {
+        width: 100%;
+        margin-top: 3px;
+
+    }
+    #userProfileForm div label {
+        margin-top: 7px;
+    }
+    #userProfileForm div {
+        max-width: 500px;
+
+    }
+
+}
