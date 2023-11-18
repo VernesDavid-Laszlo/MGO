@@ -1,0 +1,45 @@
+body {
+    background: white;
+    min-width: 250px;
+}
+
+#userEditForm div {
+    margin: 10px 0 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+
+}
+
+#userEditForm div label {
+    min-width: 150px;
+    margin-right: 10px;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}
+
+#userEditForm div input {
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    margin: 0 5px;
+    width: 65%;
+}
+
+button {
+    margin: 10px 0 0 10px;
+}
+
+@media screen and (max-width: 555px) {
+    #userEditForm div input {
+        width: 95%;
+        margin-top: 3px;
+    }
+    #userEditForm div label {
+        margin-top: 7px;
+    }
+    button {
+        margin-left: 5px;
+    }
+}
