@@ -1,6 +1,8 @@
 
-import './App.css';
+
 import HomePage from "./components/HomePage";
+import EditPage from "./EditPage/Editpage";
+import MyProfile from "./MyProfile/MyProfile";
 
 
 function App() {
@@ -8,7 +10,7 @@ function App() {
 
     return (
         <div className="appStyle">
-            <HomePage/>
+            <MyProfile/>
         </div>
     );
 }
