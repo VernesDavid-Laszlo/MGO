@@ -26,41 +26,44 @@ const MyProfilePage = () => {
     };
 
     return (
-        <div className="bodyMP">
+        <div >
             <Header />
-            <div className="cardContainerMP">
-                <div id="myProfileTitle">
-                    <h2>Your Profile {checkUserType()}</h2>
+            <div className="bodyMP">
+
+                <div className="cardContainerMP">
+                    <div id="myProfileTitle">
+                        <h2>Your Profile {checkUserType()}</h2>
+                    </div>
+                    <div id="userProfileForm">
+                        <div id="newAddress">
+                            <MyProfileLabel
+                                label="Address:"
+                                text={userAddress}
+                            />
+                        </div>
+                        <div>
+                            <MyProfileLabel
+                                label="City:"
+                                text={userCity}
+                            />
+                        </div>
+                        <div>
+                            <MyProfileLabel
+                                label="Phone Number:"
+                                text={userPhoneNum}
+                            />
+                        </div>
+                        <div id="last">
+                            <MyProfileLabel
+                                label="Email:"
+                                text={userEmail}
+                            />
+                        </div>
+                    </div>
                 </div>
-                <div id="userProfileForm">
-                    <div id="newAddress">
-                        <MyProfileLabel
-                            label="Address:"
-                            text={userAddress}
-                        />
-                    </div>
-                    <div>
-                        <MyProfileLabel
-                            label="City:"
-                            text={userCity}
-                        />
-                    </div>
-                    <div>
-                        <MyProfileLabel
-                            label="Phone Number:"
-                            text={userPhoneNum}
-                        />
-                    </div>
-                    <div id="last">
-                        <MyProfileLabel
-                            label="Email:"
-                            text={userEmail}
-                        />
-                    </div>
+                <div id="footerMyProfile">
+                    <Footer />
                 </div>
-            </div>
-            <div id="footerMyProfile">
-                <Footer />
             </div>
         </div>
     );

@@ -1,45 +1,75 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import user from './ProfileIcons/user.png';
 import edit from './ProfileIcons/edit.png';
 import logout from './ProfileIcons/logout.png';
 import './ProfileDropdownMenu.css';
-import React, {useState, useEffect, useRef} from 'react';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 
-function ProfileDropdownMenu() {
-
+function ProfileDropdownMenu({ onLogout }) {
     const [open, setOpen] = useState(false);
-
-    let menuRef = useRef();
+    const [username, setUsername] = useState('');
+    const menuRef = useRef();
+    const history = useHistory();
 
     useEffect(() => {
-        let handler = (e)=>{
-            if(!menuRef.current.contains(e.target)){
-                setOpen(false);
-                console.log(menuRef.current);
+        const fetchData = async () => {
+            try {
+                const currentUser = firebase.auth().currentUser;
+
+                if (currentUser) {
+                    const userDoc = await firebase.firestore().collection('users').doc(currentUser.uid).get();
+
+                    if (userDoc.exists) {
+                        setUsername(userDoc.data().userName);
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error.message);
             }
         };
 
-        document.addEventListener("mousedown", handler);
+        fetchData();
+    }, []);
 
+    const handleLogout = async () => {
+        try {
+            await firebase.auth().signOut();
 
-        return() =>{
-            document.removeEventListener("mousedown", handler);
+            onLogout();
+
+            history.push('/login');
+        } catch (error) {
+            console.error('Error logging out:', error.message);
         }
+    };
 
-    });
+    const handleMyProfile = () => {
+        history.push('/myprofile');
+    };
+    const handleEditProfile = () => {
+        history.push('/edit');
+    };
 
     return (
         <div className="App">
             <div className='menu-container' ref={menuRef}>
-                <div className='menu-trigger' onClick={()=>{setOpen(!open)}}>
-                    <img src={user}></img>
+                <div className='menu-trigger' onClick={() => setOpen(!open)}>
+                    <img src={user} alt="User Icon" />
                 </div>
 
-                <div className={`dropdown-menu ${open? 'active' : 'inactive'}`} >
-                    <h3>Name<br/><span>Seller</span></h3>
+                <div className={`dropdown-menu ${open ? 'active' : 'inactive'}`} >
+                    {username && (
+                        <h3>
+                            <span>{username}</span>
+                        </h3>
+                    )}
                     <ul>
-                        <DropdownItem img = {user} text = {"My Profile"}/>
-                        <DropdownItem img = {edit} text = {"Edit Profile"}/>
-                        <DropdownItem img = {logout} text = {"Logout"}/>
+                        <DropdownItem img={user} text="My Profile" onClick={handleMyProfile} />
+                        <DropdownItem img={edit} text="Edit Profile" onClick={handleEditProfile}/>
+                        <DropdownItem img={logout} text="Logout" onClick={handleLogout} />
                     </ul>
                 </div>
             </div>
@@ -47,11 +77,11 @@ function ProfileDropdownMenu() {
     );
 }
 
-function DropdownItem(props){
-    return(
-        <li className = 'dropdownItem'>
-            <img src={props.img}></img>
-            <a> {props.text} </a>
+function DropdownItem(props) {
+    return (
+        <li className='dropdownItem'>
+            <img src={props.img} alt="Dropdown Icon" />
+            <a onClick={props.onClick}>{props.text}</a>
         </li>
     );
 }
