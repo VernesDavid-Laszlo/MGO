@@ -81,7 +81,7 @@ function SignUpPage({ onSignup }) {
                         value={dateOfBirth}
                         onChange={(e) => setDateOfBirth(e.target.value)}
                         className="inputSU"
-                        placeholder="Date of birth"
+                        placeholder="Phone number"
                     />
                     <input
                         type="text"

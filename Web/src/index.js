@@ -30,14 +30,14 @@ getDocs(colRef).then((snapshot)=>{
 
     //snaphot keszul a collectionrol amiben a .docs-al elerjuk a documentumokat amiben foreach-el megyunk a fildeken
     snapshot.docs.forEach((doc) =>{
-    if (doc.data().category === 'Alex Samuel')
-        users.push(doc.data());
+        if (doc.data().category === 'Alex Samuel')
+            users.push(doc.data());
 
     })
 
     users.forEach((user)=>{
-       if(user.name === 'Alex Samuel')
-        console.log(user);
+        if(user.name === 'Alex Samuel')
+            console.log(user);
     })
 })
 

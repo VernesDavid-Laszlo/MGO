@@ -1,14 +1,38 @@
-import "./Homepage.css"
-import {Footer, Header} from "../Headre-Footer/Header-Footer";
+import React, { useEffect, useState } from 'react';
+import { Header, Footer } from '../Headre-Footer/Header-Footer';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+import './Homepage.css';
 
 
 
 
-function Card({ imageSrc, text }) {
+function Card({ text, imageSrc }) {
+    const [imageUrl, setImageUrl] = useState('');
+
+    useEffect(() => {
+        const fetchImageUrl = async () => {
+            try {
+                const storage = getStorage();
+                const imageRef = ref(storage, `Home_category_images/${imageSrc}`);
+                const url = await getDownloadURL(imageRef);
+                setImageUrl(url);
+            } catch (error) {
+                console.error('Error fetching image URL from Firebase Storage: ', error);
+            }
+        };
+
+        fetchImageUrl();
+    }, [imageSrc]);
+
     return (
         <div className="card">
             <div className="image-container">
-                <img src={imageSrc} alt="Card Background" className="card-image" />
+                {imageUrl ? (
+                    <img src={imageUrl} alt="Card Background" className="card-image" />
+                ) : (
+                    <div>Loading image...</div>
+                )}
             </div>
             <p className="card-text">{text}</p>
         </div>
@@ -44,35 +68,52 @@ function Search() {
 }
 
 
-function HomePage(){
-    return(
+function HomePage() {
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const db = getFirestore();
+            const colRef = collection(db, 'category');
+
+            try {
+                const snapshot = await getDocs(colRef);
+                const categoriesData = snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
+                setCategories(categoriesData);
+            } catch (error) {
+                console.error('Error fetching data from Firestore: ', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    return (
         <div className="appStyle">
             <div>
-                <Header/>
+                <Header />
                 <Search/>
             </div>
             <div>
                 <h1 className="body_text">Main Categories</h1>
             </div>
             <div className="card-container">
-                <Card imageSrc="images/car.png" text="Cars" />
-                <Card imageSrc="images/phone.jpg" text="Phones" />
-                <Card imageSrc="images/laptopL.jpg" text="Laptops" />
-                <Card imageSrc="images/jbl.jpg" text="Speakers" />
-                <Card imageSrc="images/tv.jpg" text="TV's" />
-                <Card imageSrc="images/dress.jpg" text="Clothes" />
-                <Card imageSrc="images/house.jpg" text="Household" />
-                <Card imageSrc="images/fumes.jpg" text="Fragrances" />
-                {/* Ide add hozzá további kártyákat szükség szerint */}
+                {categories.map((category) => (
+                    <Card
+                        key={category.id}
+                        imageSrc={category.image} // Assuming the 'image' field in Firestore contains the image filename
+                        text={category.category_name}
+                    />
+                ))}
             </div>
             <div>
-                <Footer/>
+                <Footer />
             </div>
-
         </div>
     );
 }
 
 export default HomePage;
-
-

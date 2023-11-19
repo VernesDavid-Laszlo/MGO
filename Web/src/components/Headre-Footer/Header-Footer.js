@@ -14,9 +14,10 @@ export function Header() {
                 <div className="header_center">
                     <img src="images/mess.png" alt="My Log" className="header_center_buttons" />
                     <img src="images/fav.png" alt="My Lo" className="header_center_buttons" />
-                    <ProfileDropdownMenu username={username} />
                 </div>
                 <div className="header_right">
+                    <ProfileDropdownMenu username={username} />
+                    <p>space</p>
                     <button className="button">New Advertising</button>
                 </div>
             </div>
@@ -29,7 +30,8 @@ export function Header() {
 export function Footer(){
     return(
         <div className="footer">
-            <p> contacts</p>
+            <p> Contacts:vernes.david.laszlo@student.ms.sapientia.ro </p>
+
         </div>
     );
 }
