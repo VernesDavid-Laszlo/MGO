@@ -77,73 +77,73 @@ const EditPage = () => {
     };
 
     return (
-        <div className="bodyMP">
+        <div >
             <Header/>
+            <div className="bodyMP">
+                <div className="cardContainerEP">
+                    <div id="editPageTitle">
+                        <h2>{checkUserType()} you can edit your Profile here </h2>
+                    </div>
+                    <div id="userEditForm">
+                        <div id="newAddress">
+                            <EditpageLabel
+                                id="newAddress"
+                                label="New Address"
+                                type="text"
+                                value={newAddress}
+                                onChange={handleNewAddressChange}
+                                placeholder=''
+                            />
+                        </div>
+                        <div>
+                            <EditpageLabel
+                                id="userName"
+                                label="Edit your Name"
+                                type="text"
+                                value={newName}
+                                onChange={handleNewNameChange}
+                                placeholder={"Your current name is " + checkUserType()}
+                            />
+                        </div>
+                        <div>
+                            <EditpageLabel
+                                id="newPassword"
+                                label="New Password"
+                                type="password"
+                                value={newPassword}
+                                onChange={handleNewPasswordChange}
+                                placeholder=""
+                            />
+                        </div>
+                        <div>
+                            <EditpageLabel
+                                id="confirmPassword"
+                                label="Confirm Password"
+                                type="password"
+                                value={confirmPassword}
+                                onChange={handleChangePasswordChange}
+                                placeholder=""
+                            />
+                        </div>
 
-            <div className="cardContainerEP">
-                <div id="editPageTitle">
-                    <h2>{checkUserType()} you can edit your Profile here </h2>
+                        <div id="lastEditPage">
+                            <EditpageLabel
+                                id="city"
+                                label="Change city"
+                                type="text"
+                                value={newCity}
+                                onChange={handleNewCityChange}
+                                placeholder=""
+                            />
+                        </div>
+                    </div>
+
+                <button onClick={handleSaveChanges} id = "buttonEditPage">Save Changes</button>
                 </div>
-                <div id="userEditForm">
-                    <div id="newAddress">
-                        <EditpageLabel
-                            id="newAddress"
-                            label="New Address"
-                            type="text"
-                            value={newAddress}
-                            onChange={handleNewAddressChange}
-                            placeholder=''
-                        />
-                    </div>
-                    <div>
-                        <EditpageLabel
-                            id="userName"
-                            label="Edit your Name"
-                            type="text"
-                            value={newName}
-                            onChange={handleNewNameChange}
-                            placeholder={"Your current name is " + checkUserType()}
-                        />
-                    </div>
-                    <div>
-                        <EditpageLabel
-                            id="newPassword"
-                            label="New Password"
-                            type="password"
-                            value={newPassword}
-                            onChange={handleNewPasswordChange}
-                            placeholder=""
-                        />
-                    </div>
-                    <div>
-                        <EditpageLabel
-                            id="confirmPassword"
-                            label="Confirm Password"
-                            type="password"
-                            value={confirmPassword}
-                            onChange={handleChangePasswordChange}
-                            placeholder=""
-                        />
-                    </div>
-
-                    <div id="lastEditPage">
-                        <EditpageLabel
-                            id="city"
-                            label="Change city"
-                            type="text"
-                            value={newCity}
-                            onChange={handleNewCityChange}
-                            placeholder=""
-                        />
-                    </div>
+                <div className="footerEditPage">
+                    <Footer/>
                 </div>
-
-            <button onClick={handleSaveChanges} id = "buttonEditPage">Save Changes</button>
             </div>
-            <div className="footerEditPage">
-                <Footer/>
-            </div>
-
         </div>
     );
 };
