@@ -8,7 +8,7 @@
     margin: 70px auto;
 }
 
-.bodyEP, html {
+.bodyEP {
     position: relative;
     background: black;
     min-width: 280px;
