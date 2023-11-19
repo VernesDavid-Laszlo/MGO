@@ -1,45 +1,147 @@
-bodyMP {
-    background: white;
+.bodyMP, html {
+
+    background: black;
     min-width: 280px;
+    overflow-x: hidden;
+    color: white;
+    height: 100vh;
+    font-size: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+.cardContainerMP {
+    background: #333;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+}
+
+#myProfileTitle {
+    margin-left: 20px;
+    margin-top: 20px; /* Adjusted margin */
+    font-size: 24px;
+    color: #61dafb; /* Accent color */
 }
 
 #userProfileForm div {
-    margin: 10px 0 0 0;
+    margin: 10px 0 20px 0;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     width: 100%;
 }
 
 #userProfileForm div label {
-    min-width: 150px;
-    margin-right: 10px;
-    margin-left: 10px;
+    min-width: 200px;
+    margin-right: 20px;
+    margin-left: 20px;
     display: flex;
     align-items: center;
 }
 
 #userProfileForm div text {
-
-    max-width: 100px;
+    min-width: 200px;
     display: flex;
     align-items: center;
-    margin: 0 5px;
-    width: 65%;
+    margin: 0 20px 0 0;
+    width: 40%;
 }
 
+#footerMyProfile {
 
-@media screen and (max-width: 380px) {
+    justify-content: center;
+    display: flex;
+    border-top: 1px solid #61dafb;
+    width: 100%;
+    background: black;
+    bottom: 0;
+    align-items: center;
+
+}
+.cardContainerMP{
+    max-width: 1200px;
+    position: relative;
+    margin: 150px auto;
+
+}
+@media screen and (max-width: 650px) and (min-width: 520px) {
     #userProfileForm div text {
         width: 100%;
         margin-top: 3px;
+        margin-left: 20px;
+    }
 
+    .bodyMP {
+        font-size: 25px;
     }
+
     #userProfileForm div label {
-        margin-top: 7px;
+        margin: 0;
     }
+
     #userProfileForm div {
         max-width: 500px;
-
     }
 
+    #userProfileForm #last {
+        padding-bottom: 20px;
+    }
+    .cardContainerMP{
+        margin-bottom: 250px;
+    }
+}
+
+@media screen and (min-width: 650px) {
+    #userProfileForm div text,
+    #userProfileForm div label {
+        width: 100%;
+        margin: 3px 20px;
+    }
+
+    .bodyMP {
+        font-size: 25px;
+    }
+
+    #userProfileForm div {
+        max-width: 810px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #userProfileForm #last {
+        padding-bottom: 20px;
+    }
+
+    .footerMyProfile footer {
+        padding: 0;
+    }
+
+}
+
+@media screen and (max-width: 520px) {
+    #userProfileForm div text,
+    #userProfileForm div label {
+        width: 100%;
+        margin: 3px 20px;
+    }
+
+    .bodyMP {
+        font-size: 25px;
+    }
+
+    #userProfileForm div {
+        max-width: 500px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    #userProfileForm #last {
+        padding-bottom: 20px;
+    }
+
+    .footerMyProfile footer {
+        padding: 0;
+    }
 }

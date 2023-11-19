@@ -1,20 +1,42 @@
-bodyEP {
-    background: white;
-    min-width: 250px;
+.cardContainerEP {
+    background: #333;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 1200px;
+    position: relative;
+    margin: 70px auto;
+}
+
+.bodyEP, html {
+    position: relative;
+    background: black;
+    min-width: 280px;
+    overflow-x: hidden;
+    color: white;
+    height: 100vh;
+    font-size: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+
+#editPageTitle {
+    margin-left: 50px;
+    margin-top: 70px;
 }
 
 #userEditForm div {
-    margin: 10px 0 0 0;
+    margin: 10px 0 20px 0;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     width: 100%;
-
 }
 
 #userEditForm div label {
-    min-width: 150px;
-    margin-right: 10px;
-    margin-left: 10px;
+    min-width: 200px;
+    margin-right: 160px;
+    margin-left: 100px;
     display: flex;
     align-items: center;
 }
@@ -23,23 +45,155 @@ bodyEP {
     min-width: 200px;
     display: flex;
     align-items: center;
-    margin: 0 5px;
-    width: 65%;
+    margin: 0 20px 0 0;
+
 }
 
-button {
-    margin: 10px 0 0 10px;
+.footerEditPage {
+    display: flex;
+    bottom: 0;
+    justify-content:center;
+    left: 0;
+    margin-right: 20px;
+    border-top: white 1px solid;
+    width: 100%;
+    background: black;
+    align-content: end;
+
 }
 
-@media screen and (max-width: 555px) {
-    #userEditForm div input {
-        width: 95%;
-        margin-top: 3px;
-    }
+#editPageTitle {
+    margin-left: 20px;
+}
+
+#buttonEditPage {
+    margin: 10px 0 0 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+
+
+@media screen and (max-width: 650px) and (min-width: 520px) {
+    #userEditForm div input,
     #userEditForm div label {
-        margin-top: 7px;
+        width: 100%;
+        margin: 3px 20px;
     }
-    button {
-        margin-left: 5px;
+
+
+
+
+    .bodyEP {
+        font-size: 25px;
+    }
+
+    #userEditForm div {
+        max-width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    #userEditForm #last {
+        padding-bottom: 20px;
+    }
+
+    .footerEditPage footer {
+        padding: 0;
+    }
+    #editPageTitle{
+        margin-top: 0;
     }
 }
+
+#userEditForm div label{
+    max-width: none;
+
+}
+#editPageTitle{
+    margin-top: 0;
+}
+
+
+@media screen and (min-width: 650px) {
+
+    #userEditForm div label {
+        width: 68%;
+        max-width: 400px;
+        margin: 3px 20px;
+    }
+    #userEditForm div input{
+        width: 100%;
+        margin: 3px 20px 0 0;
+    }
+    .bodyEP {
+        font-size: 25px;
+    }
+
+    #userEditForm div {
+        max-width: 91%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #userEditForm #last {
+        padding-bottom: 20px;
+
+    }
+
+    .footerEditPage footer {
+        padding: 0;
+    }
+    .cardContainerEP{
+        margin-bottom: 150px;
+        margin-top: 100px;
+
+    }
+
+}
+
+@media screen and (max-width: 520px) {
+    #userEditForm div input,
+    #userEditForm div label {
+        width: 100%;
+        margin: 3px 20px;
+        max-width: none;
+    }
+
+    #editPageTitle{
+        font-size: 20px;
+    }
+
+    .bodyEP {
+        font-size: 25px;
+    }
+
+    #userEditForm div {
+        max-width: 500px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    #userEditForm #last {
+        padding-bottom: 20px;
+    }
+
+    .footerMyProfile footer {
+        padding: 0;
+    }
+    #editPageTitle{
+        margin-top: 0;
+    }
+}
+
