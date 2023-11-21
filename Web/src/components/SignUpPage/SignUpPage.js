@@ -8,10 +8,12 @@ import "./SignUpPage.css";
 function SignUpPage({ onSignup }) {
     const history = useHistory();
     const [userName, setUserName] = useState('');
-    const [dateOfBirth, setDateOfBirth] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
+    const [phoneNumberError, setPhoneNumberError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
     const [usernameError, setUsernameError] = useState('');
 
     const checkUsernameAvailability = async (username) => {
@@ -24,10 +26,32 @@ function SignUpPage({ onSignup }) {
         }
     };
 
+    const validatePhoneNumber = () => {
+        const phoneRegex = /^07\d{8}$/;
+
+        if (!phoneRegex.test(phoneNumber)) {
+            setPhoneNumberError('Phone number must start with "07" and contain exactly 10 numbers');
+            return false;
+        }
+
+        setPhoneNumberError('');
+        return true;
+    };
+
+    const validPassword = () => {
+        if (password.length < 6) {
+            setPasswordError("Your password must contain at least 6 characters");
+        } else {
+            setPasswordError('');
+        }
+    };
+
     const handleContinue = async () => {
         try {
             setEmailError('');
             setUsernameError('');
+            setPhoneNumberError('');
+            setPasswordError('');
 
             const isUsernameAvailable = await checkUsernameAvailability(userName);
 
@@ -36,16 +60,27 @@ function SignUpPage({ onSignup }) {
                 return;
             }
 
+            if (!validatePhoneNumber()) {
+                return;
+            }
+
+            validPassword();
+
+            if (passwordError) {
+                return;
+            }
+
             const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
             const user = userCredential.user;
 
             await firebase.firestore().collection('users').doc(user.uid).set({
                 userName,
-                dateOfBirth,
+                phoneNumber,
                 email,
             });
 
             onSignup();
+
 
             history.push('/home');
         } catch (error) {
@@ -77,12 +112,13 @@ function SignUpPage({ onSignup }) {
                     {usernameError && <p className="error-text" style={{ color: 'red' }}>{usernameError}</p>}
                     <input
                         type="text"
-                        name="dateOfBirth"
-                        value={dateOfBirth}
-                        onChange={(e) => setDateOfBirth(e.target.value)}
+                        name="phoneNumber"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
                         className="inputSU"
                         placeholder="Phone number"
                     />
+                    {phoneNumberError && <p className="error-text" style={{ color: 'red' }}>{phoneNumberError}</p>}
                     <input
                         type="text"
                         name="email"
@@ -100,6 +136,7 @@ function SignUpPage({ onSignup }) {
                         className="inputSU"
                         placeholder="Password"
                     />
+                    {passwordError && <p className="error-text" style={{ color: 'red' }}>{passwordError}</p>}
                 </div>
                 <div className="cardSU-buttons">
                     <button onClick={handleContinue}>Continue</button>
