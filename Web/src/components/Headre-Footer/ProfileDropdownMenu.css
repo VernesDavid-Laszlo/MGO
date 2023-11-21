@@ -8,7 +8,7 @@
 
 }
 
-body {
+bodyPDM {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -94,9 +94,13 @@ h3{
 }
 
 h3 span{
-    font-size: 14px;
-    color: var(--secondary-text-color);
-    font-weight: 400;
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    padding: 20px 0;
+    font-weight: 500;
+    color: var(--primary-text-color);
+    line-height: 1.2rem;
 }
 
 .dropdown-menu ul li{

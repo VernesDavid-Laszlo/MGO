@@ -1,0 +1,41 @@
+/* ProductsbyCategory.css */
+
+.bodyPBC {
+    background-color: black;
+    min-height: 100vh;
+}
+
+.centerPBC {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+.cardPBC {
+    width: 1100px;
+    height: 200px;
+    margin: 10px;
+    background-color: #737373;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.cardImagePBC {
+    height: 200px;
+    object-fit: cover;
+
+}
+
+
+
+.priceTagPBC {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: white;
+    padding: 5px;
+    border-radius: 20px;
+    font-weight: bold;
+}
