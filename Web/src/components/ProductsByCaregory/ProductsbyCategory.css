@@ -42,6 +42,8 @@
     border-radius: 20px;
     font-weight: bold;
     align-self: flex-end;
+    width: 70px;
+    justify-content: flex-end;
 }
 
 .userLocationPBC {
@@ -52,4 +54,5 @@
 .productNameAndPricePBC {
     display: flex;
     justify-content: space-between;
+
 }

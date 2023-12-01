@@ -9,10 +9,14 @@ function SignUpPage({ onSignup }) {
     const history = useHistory();
     const [userName, setUserName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [city, setCity] = useState('');
+    const [address, setAddress] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
     const [phoneNumberError, setPhoneNumberError] = useState('');
+    const [cityError, setCityError] = useState('');
+    const [addressError, setAddressError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [usernameError, setUsernameError] = useState('');
 
@@ -38,6 +42,26 @@ function SignUpPage({ onSignup }) {
         return true;
     };
 
+    const validateCity = () => {
+        if (!city || !/^[A-Z][a-z]*$/.test(city)) {
+            setCityError('City must start with a capital letter');
+            return false;
+        }
+
+        setCityError('');
+        return true;
+    };
+
+    const validateAddress = () => {
+        if (!address) {
+            setAddressError('Address cannot be empty');
+            return false;
+        }
+
+        setAddressError('');
+        return true;
+    };
+
     const validPassword = () => {
         if (password.length < 6) {
             setPasswordError("Your password must contain at least 6 characters");
@@ -52,6 +76,8 @@ function SignUpPage({ onSignup }) {
             setUsernameError('');
             setPhoneNumberError('');
             setPasswordError('');
+            setCityError('');
+            setAddressError('');
 
             const isUsernameAvailable = await checkUsernameAvailability(userName);
 
@@ -60,7 +86,7 @@ function SignUpPage({ onSignup }) {
                 return;
             }
 
-            if (!validatePhoneNumber()) {
+            if (!validatePhoneNumber() || !validateCity() || !validateAddress()) {
                 return;
             }
 
@@ -76,11 +102,12 @@ function SignUpPage({ onSignup }) {
             await firebase.firestore().collection('users').doc(user.uid).set({
                 userName,
                 phoneNumber,
+                city,
+                address,
                 email,
             });
 
             onSignup();
-
 
             history.push('/home');
         } catch (error) {
@@ -119,6 +146,24 @@ function SignUpPage({ onSignup }) {
                         placeholder="Phone number"
                     />
                     {phoneNumberError && <p className="error-text" style={{ color: 'red' }}>{phoneNumberError}</p>}
+                    <input
+                        type="text"
+                        name="city"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        className="inputSU"
+                        placeholder="City"
+                    />
+                    {cityError && <p className="error-text" style={{ color: 'red' }}>{cityError}</p>}
+                    <input
+                        type="text"
+                        name="address"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                        className="inputSU"
+                        placeholder="Address"
+                    />
+                    {addressError && <p className="error-text" style={{ color: 'red' }}>{addressError}</p>}
                     <input
                         type="text"
                         name="email"
