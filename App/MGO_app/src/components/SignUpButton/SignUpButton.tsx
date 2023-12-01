@@ -11,7 +11,7 @@ const CustomSignUpButton = () => {
     <TouchableOpacity
       // onPress={handlePress}
       style={loginButtonStyle.buttonContainer}>
-      <Text style={loginButtonStyle.buttonText}>Sign Up</Text>
+      <Text style={loginButtonStyle.buttonText}>Sign Up here</Text>
     </TouchableOpacity>
   );
 };
