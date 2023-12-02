@@ -19,9 +19,9 @@ import HintSection from '../../components/HintSection/HintSection';
 import ShowIcon from '../../assets/eye-slash.svg';
 import HideIcon from '../../assets/eye.svg';
 
-const LoginScreen: React.FC = () => {
-  type LoginScreenProps = {
-    navigation: StackNavigationProp<RootStackParamList, RouterKey.LOGIN_SCREEN>;
+const SignUpScreen: React.FC = () => {
+  type SignUpScreenProps = {
+    navigation: StackNavigationProp<RootStackParamList, RouterKey.SIGNUP_SCREEN>;
   };
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
@@ -79,6 +79,14 @@ const LoginScreen: React.FC = () => {
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.inputField}
+              placeholder={'e-mal'}
+              placeholderTextColor={Colors.LIGHTGRAY}
+              // value={username}
+              autoCapitalize={'none'}
+              // onChangeText={handleUsernameChange}
+            />
+            <TextInput
+              style={styles.inputField}
               placeholder={'Username'}
               placeholderTextColor={Colors.LIGHTGRAY}
               // value={username}
@@ -123,4 +131,5 @@ const LoginScreen: React.FC = () => {
     </SafeAreaView>
   );
 };
-export default LoginScreen;
+
+export default SignUpScreen;
