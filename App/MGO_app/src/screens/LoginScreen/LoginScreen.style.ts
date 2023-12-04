@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   logo: {
     width: '100%',
     height: 300,
-    borderRadius: 50,
+    borderRadius: 150,
     borderWidth: 2,
     borderColor: '#8707ff',
     alignItems: 'center',

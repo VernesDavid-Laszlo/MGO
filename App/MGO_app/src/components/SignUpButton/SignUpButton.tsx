@@ -6,10 +6,10 @@ export interface CustomSignUpButtonProps {
   handlePress: () => void;
 }
 
-const CustomSignUpButton = () => {
+const CustomSignUpButton = ({handlePress}: CustomSignUpButtonProps) => {
   return (
     <TouchableOpacity
-      // onPress={handlePress}
+      onPress={handlePress}
       style={loginButtonStyle.buttonContainer}>
       <Text style={loginButtonStyle.buttonText}>Sign Up here</Text>
     </TouchableOpacity>
