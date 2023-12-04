@@ -66,7 +66,6 @@ const LoginScreen: React.FC = () => {
     setDeleteUsernameVisible(email.length !== 0);
   }, [email.length]);
   const handleSignUppress = () => {
-    // Navigate to another screen here
     navigation.navigate(RouterKey.SIGNUP_SCREEN);
   };
 
