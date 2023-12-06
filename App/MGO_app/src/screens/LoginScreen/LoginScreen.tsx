@@ -19,6 +19,7 @@ import HintSection from '../../components/HintSection/HintSection';
 import ShowIcon from '../../assets/eye-slash.svg';
 import HideIcon from '../../assets/eye.svg';
 import {useNavigation} from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
 
 const LoginScreen: React.FC = () => {
   type LoginScreenProps = {
@@ -26,7 +27,7 @@ const LoginScreen: React.FC = () => {
   };
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  // const [error, setError] = useState('');
   const navigation = useNavigation();
 
   const handleEmailChange = useCallback((text: string) => {
@@ -41,6 +42,19 @@ const LoginScreen: React.FC = () => {
     setEmail('');
   }, []);
 
+  const handleLogin = async () => {
+    try {
+      const userCredential = await auth().signInWithEmailAndPassword(
+        email,
+        password,
+      );
+      console.log('Login success:', userCredential.user);
+      navigation.navigate(RouterKey.HOME_SCREEN)
+    } catch (error) {
+      console.error('Login error:', error.message);
+    }
+  };
+
   // const handleLogin = async () => {
   //   const success = await login(username, password);
   //   if (success) {
@@ -54,10 +68,6 @@ const LoginScreen: React.FC = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isDeleteUsernameVisible, setDeleteUsernameVisible] = useState(false);
 
-  // const handleLogin = useState(() => {
-  //   navigation.navigate(RouterKey.HOME_SCREEN);
-  // }, []);
-
   const handleTogglePasswordVisibility = useCallback(() => {
     setIsPasswordVisible(prevState => !prevState);
   }, []);
@@ -66,7 +76,6 @@ const LoginScreen: React.FC = () => {
     setDeleteUsernameVisible(email.length !== 0);
   }, [email.length]);
   const handleSignUppress = () => {
-    // Navigate to another screen here
     navigation.navigate(RouterKey.SIGNUP_SCREEN);
   };
 
@@ -121,7 +130,7 @@ const LoginScreen: React.FC = () => {
         {/*{!!loginError ? (*/}
         {/*  <Text style={styles.errorText}>Incorrect username or password.</Text>*/}
         {/*) : null}*/}
-        <CustomLoginButton />
+        <CustomLoginButton handlePress={handleLogin} />
         <CustomSignUpButton handlePress={handleSignUppress} />
         <HintSection />
       </View>
