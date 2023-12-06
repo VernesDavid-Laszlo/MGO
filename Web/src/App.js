@@ -3,11 +3,11 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import HomePage from "./components/HomePage/HomePage";
 import LoginPage from "./components/LoginPage/LoginPage";
 import SignUpPage from "./components/SignUpPage/SignUpPage";
-import { Header, Footer } from "./components/Headre-Footer/Header-Footer";
 import firebase from "firebase/compat/app";
 import 'firebase/compat/auth';
 import MyProfilePage from "./components/MyProfile/MyProfile";
 import Editpage from "./components/EditPage/Editpage";
+import ProductsByCaregory from "./components/ProductsByCaregory/ProductsByCaregory";
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -44,6 +44,7 @@ function App() {
                     <Route path="/edit">
                         {loggedIn ? <Editpage /> : <Redirect to="/login" />}
                     </Route>
+                    <Route path="/products/:categoryId" component={ProductsByCaregory} />
                     <Redirect from="/" to="/login" />
                 </Switch>
             </div>
