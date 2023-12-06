@@ -53,6 +53,7 @@
 
     justify-content: center;
     display: flex;
+    width: 100%;
     border-top: 1px solid #61dafb;
     position: absolute;
     background: black;

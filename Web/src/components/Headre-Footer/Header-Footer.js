@@ -19,7 +19,9 @@ export function Header() {
                 </div>
                 <div className="header_center">
                     <img src={mess} alt="Message" className="header_center_buttons" />
-                    <img src={fav} alt="Favorite" className="header_center_buttons" />
+                    <Link to="/favorites">
+                        <img src={fav} alt="Favorite" className="header_center_buttons" />
+                    </Link>
                 </div>
                 <div className="header_right">
                     <ProfileDropdownMenu username={username} />
@@ -32,24 +34,6 @@ export function Header() {
 }
 
 export function Footer() {
-    useEffect(() => {
-        const handleScroll = () => {
-            const footer = document.querySelector(".footer");
-            const isBottom = document.documentElement.clientHeight + document.documentElement.scrollTop >= document.body.offsetHeight;
-
-            if (isBottom) {
-                footer.style.opacity = 1; // Láthatóvá teszi a láblécet
-            } else {
-                footer.style.opacity = 0; // Elrejti a láblécet
-            }
-        };
-
-        window.addEventListener("scroll", handleScroll);
-
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, []);
 
     return (
         <div className="footer">
