@@ -133,7 +133,7 @@ const LoginScreen: React.FC = () => {
         <CustomLoginButton handlePress={handleLogin} />
         <CustomSignUpButton handlePress={handleSignUppress} />
         <HintSection />
-      </View>
+      </View >
     </SafeAreaView>
   );
 };
