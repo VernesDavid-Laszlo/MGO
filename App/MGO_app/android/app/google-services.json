@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1058292079708",
+    "firebase_url": "https://mgoo-faa26-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "mgoo-faa26",
+    "storage_bucket": "mgoo-faa26.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1058292079708:android:85ca5572483ae53a08da99",
+        "android_client_info": {
+          "package_name": "com.mgo_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1058292079708-djufc2tvfer0s2ov7v4poa6ja6gb4l2v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mgo_app",
+            "certificate_hash": "f5a5b1bf879642042d0c60eed5b86b954b852541"
+          }
+        },
+        {
+          "client_id": "1058292079708-v1b3kueqiga9gar6puvp1qekihjdqg82.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQrZ68X5MRHir7A5cOwDIhcP-wneQwAM0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1058292079708-v1b3kueqiga9gar6puvp1qekihjdqg82.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
