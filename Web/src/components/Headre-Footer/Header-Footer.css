@@ -64,7 +64,6 @@ body {
 
 .main {
     flex-grow: 1;
-    /* További stílusok a fő tartalomhoz, ha szükséges */
 }
 
 .footer {
@@ -74,7 +73,7 @@ body {
     color: #fff;
     text-align: center;
     padding: 20px;
-    border: #61dafb;
     position: fixed;
     bottom: 0;
+    height: 30px;
 }
