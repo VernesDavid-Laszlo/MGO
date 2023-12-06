@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Header, Footer } from '../Headre-Footer/Header-Footer';
+import { Link } from 'react-router-dom';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+import { Header, Footer } from '../Headre-Footer/Header-Footer';
 import './Homepage.css';
 
 
-
-
-function Card({ text, imageSrc }) {
+function Card({ text, imageSrc, categoryId }) {
     const [imageUrl, setImageUrl] = useState('');
 
     useEffect(() => {
@@ -26,16 +25,18 @@ function Card({ text, imageSrc }) {
     }, [imageSrc]);
 
     return (
-        <div className="card">
-            <div className="image-container">
-                {imageUrl ? (
-                    <img src={imageUrl} alt="Card Background" className="card-image" />
-                ) : (
-                    <div>Loading image...</div>
-                )}
+        <Link to={`/products/${categoryId}`} className="card-link">
+            <div className="card">
+                <div className="image-container">
+                    {imageUrl ? (
+                        <img src={imageUrl} alt="Card Background" className="card-image" />
+                    ) : (
+                        <div>Loading image...</div>
+                    )}
+                </div>
+                <p className="card-text">{text}</p>
             </div>
-            <p className="card-text">{text}</p>
-        </div>
+        </Link>
     );
 }
 
@@ -104,7 +105,8 @@ function HomePage() {
                 {categories.map((category) => (
                     <Card
                         key={category.id}
-                        imageSrc={category.image} // Assuming the 'image' field in Firestore contains the image filename
+                        categoryId={category.id}
+                        imageSrc={category.image}
                         text={category.category_name}
                     />
                 ))}

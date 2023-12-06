@@ -8,7 +8,7 @@
     margin: 70px auto;
 }
 
-.bodyEP{
+.bodyEP {
     position: relative;
     background: black;
     min-width: 280px;
@@ -58,7 +58,7 @@
     border-top: white 1px solid;
     width: 100%;
     background: black;
-    align-content: end;
+    align-content: flex-end;
 
 }
 
@@ -196,4 +196,3 @@ button:hover {
         margin-top: 0;
     }
 }
-
