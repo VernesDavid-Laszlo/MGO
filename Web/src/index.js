@@ -5,6 +5,11 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import firebase from "firebase/compat/app";
 import {getFirestore,collection,getDocs} from "firebase/firestore";
+import UploadPage from "./components/UploadPage/UploadPage";
+import ProductCard from "./components/ProductCard/ProductCard";
+import EditPage from "./components/EditPage/Editpage";
+import MyProfile from "./components/MyProfile/MyProfile";
+import MyProfilePage from "./components/MyProfile/MyProfile";
 
 
 const firebaseConfig = {
@@ -49,14 +54,12 @@ getDocs(colRef).then((snapshot)=>{
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-        <App />
+        <App/>
 
 
     </React.StrictMode>,
 
 );
-
-
 
 
 
