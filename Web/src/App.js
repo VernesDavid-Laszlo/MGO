@@ -8,6 +8,7 @@ import 'firebase/compat/auth';
 import MyProfilePage from "./components/MyProfile/MyProfile";
 import Editpage from "./components/EditPage/Editpage";
 import ProductsByCaregory from "./components/ProductsByCaregory/ProductsByCaregory";
+import FavoritePage from "./components/FavoritesPage/FavoritePage";
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -45,6 +46,7 @@ function App() {
                         {loggedIn ? <Editpage /> : <Redirect to="/login" />}
                     </Route>
                     <Route path="/products/:categoryId" component={ProductsByCaregory} />
+                    <Route path="/favorites" component={FavoritePage} />
                     <Redirect from="/" to="/login" />
                 </Switch>
             </div>
