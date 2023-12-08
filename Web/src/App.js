@@ -7,7 +7,7 @@ import { Header, Footer } from "./components/Headre-Footer/Header-Footer";
 import firebase from "firebase/compat/app";
 import 'firebase/compat/auth';
 import MyProfilePage from "./components/MyProfile/MyProfile";
-import Editpage from "./components/EditPage/Editpage";
+import EditPage from "./components/EditPage/Editpage";
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -42,7 +42,7 @@ function App() {
                         {loggedIn ? <MyProfilePage /> : <Redirect to="/login" />}
                     </Route>
                     <Route path="/edit">
-                        {loggedIn ? <Editpage /> : <Redirect to="/login" />}
+                        {loggedIn ? <EditPage /> : <Redirect to="/login" />}
                     </Route>
                     <Redirect from="/" to="/login" />
                 </Switch>
