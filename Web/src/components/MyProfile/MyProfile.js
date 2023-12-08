@@ -18,7 +18,7 @@ const MyProfilePage = () => {
     const auth = getAuth();
     const user = auth.currentUser;
     const firestore = getFirestore();
-    const userDocRef = doc(firestore, 'users', user.uid);
+    const userDocRef = doc(firestore, 'users', user.uid); // current user document reference
 
     useEffect(() => {
         const fetchData = async () => {
