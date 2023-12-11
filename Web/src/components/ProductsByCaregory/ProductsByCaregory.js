@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import {
     getFirestore,
     collection,
@@ -14,21 +14,21 @@ import { Header, Footer } from '../Headre-Footer/Header-Footer';
 import heart from './images/heart1.png';
 import './ProductsbyCategory.css';
 
-function ProductCard({ product, user }) {
+function ProductCard({ product, user, onFavoriteClick }) {
     const [imageUrl, setImageUrl] = useState('');
 
-    useEffect(() => {
-        const fetchImageUrl = async () => {
-            try {
-                const storage = getStorage();
-                const imageRef = ref(storage, `Products/${product.id}/${product.images[0]}`);
-                const url = await getDownloadURL(imageRef);
-                setImageUrl(url);
-            } catch (error) {
-                console.error('Error fetching image URL from Firebase Storage: ', error);
-            }
-        };
+    const fetchImageUrl = async () => {
+        try {
+            const storage = getStorage();
+            const imageRef = ref(storage, `Products/${product.id}/${product.images[0]}`);
+            const url = await getDownloadURL(imageRef);
+            setImageUrl(url);
+        } catch (error) {
+            console.error('Error fetching image URL from Firebase Storage: ', error);
+        }
+    };
 
+    useEffect(() => {
         fetchImageUrl();
     }, [product.id, product.images]);
 
@@ -43,7 +43,13 @@ function ProductCard({ product, user }) {
 
                 <div className="cardContentPBC">
                     <div className="productNameAndPricePBC">
-                        <img src={heart} alt="Heart" className="faviconPBC" />
+                        <img
+                            src={heart}
+                            alt="Heart"
+                            className="faviconPBC"
+                            onClick={() => onFavoriteClick(product)}
+                            style={{ cursor: 'pointer' }}
+                        />
                         <div className="priceTagPBC">
                             <p> {product.price}</p>
                         </div>
@@ -62,8 +68,9 @@ function ProductsByCategory() {
     const { categoryId } = useParams();
     const [products, setProducts] = useState([]);
     const [users, setUsers] = useState({});
-    const [sortCriteria, setSortCriteria] = useState('price'); // Default sorting criteria
-    const [sortOrder, setSortOrder] = useState('asc'); // Default sorting order
+    const [sortCriteria, setSortCriteria] = useState('price');
+    const [sortOrder, setSortOrder] = useState('asc');
+    const history = useHistory();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -120,6 +127,14 @@ function ProductsByCategory() {
                     sortOrder === 'asc' ? a.product_name.localeCompare(b.product_name) : b.product_name.localeCompare(a.product_name)
                 );
                 break;
+            case 'price':
+                sortedProducts.sort((a, b) => {
+                    const priceA = parseInt(a.price);
+                    const priceB = parseInt(b.price);
+
+                    return sortOrder === 'asc' ? priceA - priceB : priceB - priceA;
+                });
+                break;
             default:
                 break;
         }
@@ -137,20 +152,33 @@ function ProductsByCategory() {
         sortProducts();
     }, [sortCriteria, sortOrder]);
 
+    const handleFavoriteClick = (product) => {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        if (!favorites.find((fav) => fav.id === product.id)) {
+            favorites.push(product);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            alert('Product added to favorites!');
+        } else {
+            alert('Product is already in favorites!');
+        }
+    };
+
     return (
         <div className="bodyPBC">
             <div>
                 <Header />
             </div>
-            <div>
+            <div className="centerPBC">
                 <div className="dropdownPBC">
                     <select id="sort" value={`${sortCriteria}-${sortOrder}`} onChange={handleSortChange}>
                         <option value="name-asc">Name Ascending</option>
                         <option value="name-desc">Name Descending</option>
+                        <option value="price-asc">Price Ascending</option>
+                        <option value="price-desc">Price Descending</option>
                     </select>
                 </div>
                 {products.map((product) => (
-                    <ProductCard key={product.id} product={product} user={users[product.user]} />
+                    <ProductCard key={product.id} product={product} user={users[product.user]} onFavoriteClick={handleFavoriteClick} />
                 ))}
             </div>
             <div>
