@@ -163,6 +163,8 @@ function ProductsByCategory() {
         }
     };
 
+
+
     return (
         <div className="bodyPBC">
             <div>
