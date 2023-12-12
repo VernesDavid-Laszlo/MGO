@@ -1,0 +1,303 @@
+body {
+    background: black;
+}
+
+.cardContainerUP {
+    background: #333;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 1200px;
+    position: relative;
+    margin: 0 auto;
+}
+
+.bodyUP input{
+    border-radius: 15px;
+}
+#categoryUploadPage, #descriptionUploadPage,#imageUploadPage {
+    background: #333;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 1200px;
+    position: relative;
+    margin: 10px auto 10px;
+}
+
+#imageUploadPage {
+    margin-top: 10px;
+}
+
+#imageUploadPage label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: white;
+}
+
+#imageUploadPage input[type="file"] {
+    display: none;
+}
+
+
+#imageUploadPage label::after {
+    content: 'Select Image';
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 5px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+#imageUploadPage input[type="file"]:hover + label::after {
+    background-color: #2980b9;
+}
+
+#categoryUploadPage {
+    margin-bottom: 150px;
+
+}
+.bodyUp input{
+    border-radius: 15px;
+}
+
+#descriptionUploadPage textarea {
+    height: 250px;
+    width: 90%;
+    margin-top: 30px;
+    vertical-align: top; /* Add this line to align text at the upper left corner */
+    border-radius: 15px;
+    padding: 20px;
+    font-size: 18px;
+}
+
+
+.bodyUP {
+    position: relative;
+    background: black;
+    min-width: 280px;
+    color: white;
+    height: 100vh;
+    font-size: 30px;
+    margin: 20px;
+    padding: 0;
+}
+
+
+#uploadPageTitle {
+    margin-left: 50px;
+    margin-top: 70px;
+}
+
+#userUploadForm div {
+    margin: 10px 0 20px 0;
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+#userUploadForm div label {
+    min-width: 200px;
+    margin-right: 160px;
+    margin-left: 100px;
+    display: flex;
+    align-items: center;
+}
+
+#userUploadForm div input {
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    margin: 0 20px 0 0;
+
+}
+
+.footerUploadPage {
+    display: flex;
+    bottom: 0;
+    justify-content:center;
+    left: 0;
+    margin-right: 20px;
+
+    width: 100%;
+    background: black;
+    align-content: end;
+
+}
+
+#uploadPageTitle {
+    margin-left: 20px;
+}
+
+
+
+
+#buttonUploadPage {
+    margin: 20px 0 0 0;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#buttonUploadPage:hover {
+    background-color: #2980b9;
+}
+
+
+
+#categoryUploadPage select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 30px 0 5px 0;
+    height: 60px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: white;
+    color: #333;
+}
+
+#categoryUploadPage select:hover {
+    border-color: #3498db;
+}
+
+#categoryUploadPage select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.7);
+}
+
+
+@media screen and (max-width: 520px) {
+
+}
+
+@media screen and (max-width: 650px) and (min-width: 520px) {
+    #userUploadForm div input,
+    #userUploadForm div label {
+        width: 100%;
+        margin: 3px 20px;
+    }
+
+
+
+
+    .bodyUP {
+        font-size: 25px;
+    }
+
+    #userUploadForm div {
+        max-width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    #userUploadForm #last {
+        padding-bottom: 20px;
+    }
+
+    .footerUploadPage {
+        padding: 0;
+        bottom: -150px;
+    }
+    #uploadPageTitle{
+        margin-top: 0;
+    }
+}
+
+#userUploadForm div label{
+    max-width: none;
+
+}
+#uploadPageTitle{
+    margin-top: 0;
+}
+
+
+@media screen and (min-width: 650px) {
+
+    #userUploadForm div label {
+        width: 68%;
+        max-width: 400px;
+        margin: 3px 20px;
+    }
+    #userUploadForm div input{
+        width: 100%;
+        margin: 3px 20px 0 0;
+    }
+    .bodyUP {
+        font-size: 25px;
+    }
+
+    #userUploadForm div {
+        max-width: 91%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #userUploadForm #last {
+        padding-bottom: 20px;
+
+    }
+
+    .footerUploadPage {
+        padding: 0;
+        bottom: -150px;
+    }
+    .cardContainerUP{
+
+        margin-top: 100px;
+
+    }
+
+}
+
+@media screen and (max-width: 520px) {
+    #userUploadForm div input,
+    #userUploadForm div label {
+        width: 100%;
+        margin: 3px 20px;
+        max-width: none;
+    }
+    #categoryUploadPage, #descriptionUploadPage {
+        max-width: 90%;
+        margin: 10px auto 0;
+    }
+
+    #uploadPageTitle{
+        font-size: 20px;
+    }
+
+    .bodyUP {
+        font-size: 25px;
+    }
+
+    #userUploadForm div {
+        max-width: 500px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    #userUploadForm #last {
+        padding-bottom: 20px;
+    }
+
+    .footerUploadPage {
+        padding: 0;
+        bottom: -150px;
+    }
+    #uploadPageTitle{
+        margin-top: 0;
+    }
+}
+

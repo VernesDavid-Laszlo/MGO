@@ -6,9 +6,9 @@ import SignUpPage from "./components/SignUpPage/SignUpPage";
 import firebase from "firebase/compat/app";
 import 'firebase/compat/auth';
 import MyProfilePage from "./components/MyProfile/MyProfile";
-import Editpage from "./components/EditPage/Editpage";
 import ProductsByCaregory from "./components/ProductsByCaregory/ProductsByCaregory";
 import FavoritePage from "./components/FavoritesPage/FavoritePage";
+import EditPage from "./components/EditPage/Editpage";
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -43,7 +43,7 @@ function App() {
                         {loggedIn ? <MyProfilePage /> : <Redirect to="/login" />}
                     </Route>
                     <Route path="/edit">
-                        {loggedIn ? <Editpage /> : <Redirect to="/login" />}
+                        {loggedIn ? <EditPage /> : <Redirect to="/login" />}
                     </Route>
                     <Route path="/products/:categoryId" component={ProductsByCaregory} />
                     <Route path="/favorites" component={FavoritePage} />
