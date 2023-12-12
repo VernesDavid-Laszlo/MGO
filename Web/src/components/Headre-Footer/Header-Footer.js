@@ -5,6 +5,7 @@ import MGO_logo from "./ProfileIcons/MGO_logo.png";
 import fav from "./ProfileIcons/fav.png";
 import mess from "./ProfileIcons/mess.png";
 import { Link } from "react-router-dom";
+import SearchComponent from "../SearchBar/SearchBar";
 
 export function Header() {
     const [username, setUsername] = useState("YourUsername");
@@ -18,6 +19,7 @@ export function Header() {
                     </Link>
                 </div>
                 <div className="header_center">
+                    <SearchComponent/>
                     <img src={mess} alt="Message" className="header_center_buttons" />
                     <Link to="/favorites">
                         <img src={fav} alt="Favorite" className="header_center_buttons" />

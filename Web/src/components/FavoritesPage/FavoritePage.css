@@ -2,3 +2,68 @@
     background-color: black;
     min-height: 100vh;
 }
+
+.centerFP {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    margin-top: 70px;
+}
+
+.cardFP {
+    width: 1000px;
+    height: 200px;
+    margin: 10px;
+    background-color: #737373;
+    border-radius: 8px;
+    display: flex;
+    overflow: hidden;
+    border: 2px solid #737373 ;
+    margin-bottom: 20px;
+}
+
+.cardImageFP {
+    width: 200px;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px 0 0 8px;
+}
+
+.cardContentFP {
+    flex: 1;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.priceTagFP {
+    background-color: white;
+    padding: 5px;
+    border-radius: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 30px;
+}
+
+.userLocationFP {
+    color: white;
+    align-self: flex-start;
+}
+
+.productNameAndPriceFP {
+    display: flex;
+    justify-content: space-between;
+}
+.faviconFP{
+    width: 20px;
+    height: 20px;
+}
+.h1text{
+    font-size: xxx-large;
+    color: white;
+    margin-bottom: 40px;
+}
