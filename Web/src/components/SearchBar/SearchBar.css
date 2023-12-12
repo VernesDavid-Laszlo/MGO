@@ -18,6 +18,8 @@
     transition: all 0.3s ease;
 }
 
+
+
 .checkbox:focus {
     border: none;
     outline: none;
