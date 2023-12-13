@@ -97,13 +97,13 @@ const UploadPage = () => {
 
                 // Add product data to Firestore
                 const newProductDocRef = await addDoc(productRef, {
-                    title,
+                    product_name: title,
                     city,
                     price,
                     phoneNumber,
-                    productDescription,
+                    description: productDescription,
                     category,
-                    userId,
+                    user: userId,
                 });
 
                 // Get the newly created product ID
@@ -276,16 +276,15 @@ const UploadPage = () => {
                             <option value="" disabled>
                                 Select a category
                             </option>
-                            <option value="Electronics">TV's</option>
-                            <option value="Clothing">Laptops</option>
-                            <option value="Books">Phones</option>
-                            <option value="Perfumes">Cars</option>
-                            <option value="Cars">Household</option>
-                            <option value="Toys">Clothes</option>
-                            <option value="Sports">Fragrances</option>
-                            <option value="Sports">Speakers</option>
-                            <option value="Entertainment">Others</option>
-                            {/* Add more categories as needed */}
+                            <option value="TV's">TV's</option>
+                            <option value="Laptop">Laptops</option>
+                            <option value="Phones">Phones</option>
+                            <option value="Cars">Cars</option>
+                            <option value="Household">Household</option>
+                            <option value="Clothes">Clothes</option>
+                            <option value="Fragrances">Fragrances</option>
+                            <option value="Speakers">Speakers</option>
+                            <option value="Others">Others</option>
                         </select>
                     </div>
                     <button onClick={handleSaveChanges} id="buttonUploadPage">

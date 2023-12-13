@@ -8,7 +8,7 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-import createUserWithEmailAndPassword from '@react-native-firebase/auth';
+
 import CustomSignUpButton from '../../components/SignUpButton/SignUpButton';
 import styles from './SignUpStyle';
 import {Colors} from '../../utils/Colors';
@@ -20,6 +20,8 @@ import HintSection from '../../components/HintSection/HintSection';
 import ShowIcon from '../../assets/eye-slash.svg';
 import HideIcon from '../../assets/eye.svg';
 import {useNavigation} from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 const SignUpScreen: React.FC = () => {
   const navigation = useNavigation();
@@ -29,7 +31,7 @@ const SignUpScreen: React.FC = () => {
   const [confpassword, setConfirmPassword] = useState('');
   const [username, setUsername] = useState('');
   const [city, setCity] = useState('');
-
+  const [address, setAddress] = useState('');
   const [phonenumber, setPhoneNumber] = useState('');
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -37,18 +39,28 @@ const SignUpScreen: React.FC = () => {
   const handleTogglePasswordVisibility = useCallback(() => {
     setIsPasswordVisible(prevState => !prevState);
   }, []);
-
   const handleSignUp = async () => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        email,
-        password,
-      );
-      // Additional actions after user creation, e.g., redirect to another screen
-      console.log('User:', userCredential.user);
-      // navigation.navigate(RouterKey.HOME_SCREEN); // Uncomment this line to navigate to another screen
+      if (password !== confpassword) {
+        console.error('Passwords do not match');
+        return;
+      }
+
+      const userCredential = await auth().createUserWithEmailAndPassword(email, password);
+      const user = userCredential.user;
+      console.log('User created:', user.uid);
+
+      await firestore().collection('users').doc(user.uid).set({
+        email: email,
+        userName: username,
+        phoneNumber: phonenumber,
+        address: address,
+        city: city
+      });
+
+      // Navigate to Home Screen and remove SignUp screen from stack
+      navigation.replace('HomeScreen'); // Replace 'HomeScreen' with your home screen's route name
     } catch (error) {
-      // Handle the error, display an error message, etc.
       console.error('Error:', error.message);
     }
   };
