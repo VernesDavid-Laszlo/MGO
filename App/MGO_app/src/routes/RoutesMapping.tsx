@@ -1,5 +1,3 @@
-// Routes.tsx
-
 import React from 'react';
 import {RouterKey} from './Routes';
 import {createStackNavigator} from '@react-navigation/stack';

@@ -103,7 +103,6 @@ const LoginScreen: React.FC = () => {
               onPress={handleDeleteEmail}
               style={{width: '10%'}}>
               {isDeleteUsernameVisible && <DeleteIcon width={25} height={25} />}
-              <DeleteIcon width={25} height={25} />
             </TouchableOpacity>
           </View>
           <Text style={styles.text}>Password</Text>
