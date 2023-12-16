@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Header, Footer } from '../Headre-Footer/Header-Footer';
-import heart from './imagesf/heart1.png';
+import remove from './imagesf/remove.png';
 import { getFirestore, collection, getDocs, doc, where, getDoc, deleteDoc } from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import './FavoritePage.css'; // Import the external CSS file
@@ -99,7 +99,7 @@ function FavoritePage() {
 
                         <div className="cardContentFP">
                             <div className="productNameAndPriceFP">
-                                <img src={heart} alt="Heart" className="faviconFP" />
+                                <img src={remove} alt="Heart" className="faviconFP" onClick={() => removeFromFavorites(product.id)} />
                                 <div className="priceTagFP">
                                     <p> {product.price}</p>
                                 </div>

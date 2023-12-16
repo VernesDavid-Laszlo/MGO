@@ -9,6 +9,8 @@ import MyProfilePage from "./components/MyProfile/MyProfile";
 import Editpage from "./components/EditPage/Editpage";
 import ProductsByCaregory from "./components/ProductsByCaregory/ProductsByCaregory";
 import FavoritePage from "./components/FavoritesPage/FavoritePage";
+import SearchComponent from "./components/SearchBar/SearchBar";
+import ProductDetails from "./components/ProductsBySearch/ProductsBySearch";
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -46,6 +48,7 @@ function App() {
                         {loggedIn ? <Editpage /> : <Redirect to="/login" />}
                     </Route>
                     <Route path="/products/:categoryId" component={ProductsByCaregory} />
+                    <Route path="/product-details/:productId" component={ProductDetails} />
                     <Route path="/favorites" component={FavoritePage} />
                     <Redirect from="/" to="/login" />
                 </Switch>

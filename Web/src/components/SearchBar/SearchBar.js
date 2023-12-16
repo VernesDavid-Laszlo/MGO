@@ -1,18 +1,64 @@
-import React, { useState } from 'react';
-import "./SearchBar.css"
-
+import React, { useState, useEffect } from 'react';
+import {
+    getFirestore,
+    collection,
+    query,
+    where,
+    getDocs,
+} from 'firebase/firestore';
+import './SearchBar.css';
+import { useHistory } from 'react-router-dom';
 
 const SearchComponent = () => {
-    const [isChecked, setIsChecked] = useState(true);
-    const handleCheckboxChange = () => setIsChecked(!isChecked);
+    const [isChecked, setIsChecked] = useState(false);
+    const [searchText, setSearchText] = useState('');
+    const [filteredProducts, setFilteredProducts] = useState([]);
+    const db = getFirestore();
+    const history = useHistory();
+
+    const handleCheckboxChange = () => {
+        setIsChecked(!isChecked);
+    };
+
+    const handleInputChange = async (event) => {
+        const value = event.target.value;
+        setSearchText(value);
+
+        try {
+            const productsRef = collection(db, 'products');
+            const q = query(productsRef, where('product_name', '>=', value));
+
+            const snapshot = await getDocs(q);
+            const products = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+
+            const filtered = products.filter((product) =>
+                product.product_name.toLowerCase().includes(value.toLowerCase())
+            );
+            setFilteredProducts(filtered);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
+    };
+
+    const handleProductClick = async (product) => {
+        setSearchText(product.product_name);
+        setFilteredProducts([]);
+        localStorage.setItem('selectedProduct', JSON.stringify(product));
+
+        // Redirect to product details page
+        history.push(`/product-details/${product.id}`);  // Use the product ID instead of product name
+    };
 
     return (
         <div className="container">
             <input
                 checked={isChecked}
+                onChange={handleCheckboxChange}
                 className="checkbox"
                 type="checkbox"
-                onChange={handleCheckboxChange}
             />
             <div className="mainbox">
                 <div className="iconContainer">
@@ -25,11 +71,33 @@ const SearchComponent = () => {
                         <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"></path>
                     </svg>
                 </div>
-                <input className="search_input" placeholder="search" type="text" />
+                <input
+                    className="search_input"
+                    placeholder="search"
+                    type="text"
+                    value={searchText}
+                    onChange={handleInputChange}
+                    style={{
+                        width: isChecked ? '0' : '170px',
+                        height: isChecked ? '0px' : '100%',
+                    }}
+                />
+                {filteredProducts.length > 0 && (
+                    <div className="dropdown-container">
+                        {filteredProducts.map((product, index) => (
+                            <div
+                                key={index}
+                                className="dropdown-item"
+                                onClick={() => handleProductClick(product)}
+                            >
+                                {product.product_name}
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );
 };
 
 export default SearchComponent;
-
