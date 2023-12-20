@@ -28,7 +28,7 @@ const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   // const [error, setError] = useState('');
-  const navigation = useNavigation();
+  const navigation = useNavigation<LoginScreenProps['navigation']>();
 
   const handleEmailChange = useCallback((text: string) => {
     setEmail(text);
@@ -49,9 +49,9 @@ const LoginScreen: React.FC = () => {
         password,
       );
       console.log('Login success:', userCredential.user);
-      navigation.navigate(RouterKey.HOME_SCREEN);
+      navigation.replace(RouterKey.HOME_SCREEN);
     } catch (error) {
-      console.error('Login error:', error.message);
+      console.error('Login error:', error);
     }
   };
 

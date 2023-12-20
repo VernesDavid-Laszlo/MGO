@@ -1,15 +1,15 @@
 import {StyleSheet} from 'react-native';
+import {Colors} from '../../utils/Colors';
 
 export const styles = StyleSheet.create({
   appStyle: {
     backgroundColor: 'black',
-    flex: 1, // This replaces 'min-height: 100vh' for filling the screen
+    flex: 1
   },
   bodyText: {
     color: 'white',
     alignSelf: 'center',
     marginTop: 65,
-    // Flex properties like 'justifyContent' and 'alignItems' are typically used on container views
   },
   cardContainer: {
     justifyContent: 'center',
@@ -23,8 +23,6 @@ export const styles = StyleSheet.create({
     margin: 50,
     padding: 5,
     width: 200,
-    // textAlign is not used in React Native. Text alignment is controlled within the Text component
-    // Transitions are not supported in React Native StyleSheet
   },
   categoryItem: {
     flex: 1,
@@ -44,6 +42,18 @@ export const styles = StyleSheet.create({
     fontSize: 16, // Set the font size
     fontWeight: 'bold', // Make the text bold
     color: '#333', // Set the text color
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center', // Középre helyezi a tartalmat függőlegesen
+    alignItems: 'center', // Középre helyezi a tartalmat vízszintesen
+    backgroundColor: Colors.BACKGROUND_COLOR,
+    padding: 20,
+  },
+  loadingText: {
+    fontSize: 18, // Betűméret
+    marginBottom: 10,
+    color: Colors.WHITE,
   },
   imageContainer: {
     width: 200,
