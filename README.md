@@ -7,7 +7,7 @@ Web Application Setup
 To launch the web application, ensure you have the following prerequisites:
 
 Integrated Development Environment (IDE): You should have an IDE capable of running HTML, CSS, JavaScript, and React code. Recommended IDEs include Visual Studio Code (vsCode), WebStorm, or any similar software.
-Node.js: Node.js should be installed on your system as it's essential for running the application.
+Node.js: Node.js should be installed on your system as it's essential for running the application, at least Node 17.
 For additional details and specific setup instructions, refer to the readme file located in the "Web" folder.
 
 Mobile Application Setup
