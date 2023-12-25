@@ -3,7 +3,7 @@ import { Header, Footer } from '../Headre-Footer/Header-Footer';
 import remove from './imagesf/remove.png';
 import { getFirestore, collection, getDocs, doc, where, getDoc, deleteDoc } from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
-import './FavoritePage.css'; // Import the external CSS file
+import './FavoritePage.css';
 
 function FavoritePage() {
     const [favoriteProducts, setFavoriteProducts] = useState([]);
@@ -86,7 +86,7 @@ function FavoritePage() {
                     Your favourite products:
                 </div>
                 {favoriteProducts.map((product) => (
-                    <div key={product.id} className="cardFP" onClick={() => removeFromFavorites(product.id)}>
+                    <div key={product.id} className="cardFP">
                         {imageUrls[product.id] ? (
                             <img
                                 src={imageUrls[product.id]}

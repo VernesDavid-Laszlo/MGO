@@ -11,6 +11,7 @@ import ProductsByCaregory from "./components/ProductsByCaregory/ProductsByCarego
 import FavoritePage from "./components/FavoritesPage/FavoritePage";
 import SearchComponent from "./components/SearchBar/SearchBar";
 import ProductDetails from "./components/ProductsBySearch/ProductsBySearch";
+import MessagesPage from "./components/MessagesPage/MessagesPage";
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -50,6 +51,7 @@ function App() {
                     <Route path="/products/:categoryId" component={ProductsByCaregory} />
                     <Route path="/product-details/:productId" component={ProductDetails} />
                     <Route path="/favorites" component={FavoritePage} />
+                    <Route path="/messages" component={MessagesPage} />
                     <Redirect from="/" to="/login" />
                 </Switch>
             </div>

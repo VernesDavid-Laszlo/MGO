@@ -5,28 +5,54 @@ import {
     query,
     where,
     getDocs,
+    updateDoc,
 } from 'firebase/firestore';
 import './SearchBar.css';
 import { useHistory } from 'react-router-dom';
 
 const SearchComponent = () => {
-    const [isChecked, setIsChecked] = useState(false);
+    const [isChecked, setIsChecked] = useState(true);
     const [searchText, setSearchText] = useState('');
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const [isSearchBoxClosed, setIsSearchBoxClosed] = useState(false);
     const db = getFirestore();
     const history = useHistory();
 
+    useEffect(() => {
+        // Példa arra, hogy hogyan adhatod hozzá a kisbetűs mezőt a termékekhez
+        const addLowercaseFieldToProducts = async () => {
+            const productsRef = collection(db, 'products');
+            const snapshot = await getDocs(productsRef);
+
+            snapshot.forEach(async (doc) => {
+                const data = doc.data();
+                const lowercaseName = data.product_name.toLowerCase();
+
+                // Hozzáadja a kisbetűs mezőt a termékhez
+                await updateDoc(doc.ref, { product_name_lowercase: lowercaseName });
+            });
+        };
+
+        // Hívja meg a függvényt, példa adatok hozzáadásához
+        addLowercaseFieldToProducts();
+    }, [db]);
+
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked);
+        setIsSearchBoxClosed(!isChecked);
+        if (!isChecked) {
+            setSearchText('');
+            setFilteredProducts([]);
+        }
     };
 
     const handleInputChange = async (event) => {
-        const value = event.target.value;
+        const value = event.target.value.toLowerCase();
         setSearchText(value);
 
         try {
             const productsRef = collection(db, 'products');
-            const q = query(productsRef, where('product_name', '>=', value));
+            const q = query(productsRef, where('product_name_lowercase', '>=', value));
 
             const snapshot = await getDocs(q);
             const products = snapshot.docs.map((doc) => ({
@@ -35,7 +61,7 @@ const SearchComponent = () => {
             }));
 
             const filtered = products.filter((product) =>
-                product.product_name.toLowerCase().includes(value.toLowerCase())
+                product.product_name_lowercase.includes(value)
             );
             setFilteredProducts(filtered);
         } catch (error) {
@@ -46,12 +72,9 @@ const SearchComponent = () => {
     const handleProductClick = async (product) => {
         setSearchText(product.product_name);
         setFilteredProducts([]);
-        localStorage.setItem('selectedProduct', JSON.stringify(product));
-
-        // Redirect to product details page
-        history.push(`/product-details/${product.id}`);  // Use the product ID instead of product name
+        setIsSearchBoxClosed(true);
+        history.push(`/product-details/${product.id}`);
     };
-
     return (
         <div className="container">
             <input
@@ -82,7 +105,7 @@ const SearchComponent = () => {
                         height: isChecked ? '0px' : '100%',
                     }}
                 />
-                {filteredProducts.length > 0 && (
+                {filteredProducts.length > 0 && searchText !== '' && (
                     <div className="dropdown-container">
                         {filteredProducts.map((product, index) => (
                             <div

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getFirestore, doc, getDoc, collection } from 'firebase/firestore'; // Importálás itt
+import { getFirestore, doc, getDoc, collection } from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import {Header} from "../Headre-Footer/Header-Footer";
 import heart from './heart1.png'
 import "./ProductsBySearch.css"
 
-const ProductDetails = (onFavoriteClick) => {
+function ProductDetails() {
     const { productId } = useParams();
     const [product, setProduct] = useState(null);
     const [users, setUsers] = useState({});
@@ -99,16 +99,6 @@ const ProductDetails = (onFavoriteClick) => {
         return <div>Loading...</div>;
     }
 
-    const handleeFavoriteClick = (product) => {
-        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-        if (!favorites.find((fav) => fav.id === product.id)) {
-            favorites.push(product);
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-            alert('Product added to favorites!');
-        } else {
-            alert('Product is already in favorites!');
-        }
-    };
 
     return (
         <div>
@@ -128,15 +118,13 @@ const ProductDetails = (onFavoriteClick) => {
 
                     <div className="cardContentPS">
                         <div className="productNameAndPricePS">
-                            <img src={heart} alt="Heart" className="faviconPS" onClick={handleeFavoriteClick}/>
+                            <p style={{ color: 'white', fontWeight: 'bold', fontSize: '20px' }}>
+                                {product.product_name}
+                            </p>
                             <div className="priceTagFP">
                                 <p> {product.price}</p>
                             </div>
                         </div>
-
-                        <p style={{ color: 'white', fontWeight: 'bold', fontSize: '20px' }}>
-                            {product.product_name}
-                        </p>
                         <p className="userLocationFP">Location: {users[product.user]?.city}</p>
                     </div>
                 </div>
