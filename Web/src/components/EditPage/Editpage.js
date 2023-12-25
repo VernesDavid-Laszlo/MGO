@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import firebase from "firebase/compat/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, updatePassword } from "firebase/auth";
 import { getFirestore,collection,updateDoc} from "firebase/firestore";
 import Editpage from './Editpage.css';
 import { doc, getDoc } from "firebase/firestore";
@@ -11,22 +11,17 @@ import {Footer, Header} from "../Headre-Footer/Header-Footer";
 const EditPage = () => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [newName, setNewName] = useState(''); // Added for newName
+    const [newName, setNewName] = useState('');
     const [newAddress, setNewAddress] = useState('');
     const [newCity, setNewCity] = useState('');
+    const [newPhoneNumber, setNewPhoneNumber] = useState('');
+    const [username, setUsername] = useState(''); // megszolitas miatt kell
     const auth = getAuth();
     const db = getFirestore();
-    const user = auth.currentUser;
+    const user = firebase.auth().currentUser;
 
 
-    const checkUserType = () => {
-        if (user) {
-            const uName = user.displayName;
-            return uName;
-        } else {
-            return "admin";
-        }
-    };
+
 
     const handleNewPasswordChange = (e) => {
         setNewPassword(e.target.value);
@@ -47,42 +42,125 @@ const EditPage = () => {
         setNewCity(e.target.value);
     };
 
+    const handlePhoneNumberChange = (e) => {
+            setNewPhoneNumber(e.target.value)
+    };
+
+
+
     const handleSaveChanges = async () => {
         if (newPassword !== confirmPassword) {
-            console.log('Passwords do not match');
+            alert('Passwords do not match');
             return;
         }
 
         try {
             if (user) {
-                await user.updatePassword(newPassword);
-                console.log('Password updated successfully');
+                const userDocRef = doc(db, 'users', user.uid);
+                const userDoc = await getDoc(userDocRef);
+
+                // Update password if provided
+                if (newPassword !== confirmPassword) {
+                    console.error('Passwords do not match');
+                    return;
+
+                }
+                if ( newPassword && newPassword.length < 9) {
+                    alert('Password must be at least 9 characters long');
+                    return;
+                }
+
+                try {
+                    await updatePassword(auth.currentUser, newPassword);
+                    console.log('Password updated successfully');
+                    // You may want to redirect the user or show a success message here
+                } catch (error) {
+                    console.error('Error updating password:', error.message);
+                    // Log the detailed error for further investigation
+                    console.error('Detailed error:', error);
+                    // Log the response details if available
+                    if (error.response) {
+                        console.error('Response details:', error.response.data);
+                    }
+                }
+
+                // Update name if provided
+                if (newName) {
+                    await updateDoc(userDocRef, {userName: newName});
+                    console.log('Name updated successfully');
+                }
+
+                if (newPhoneNumber) {
+                    await updateDoc(userDocRef, {phoneNumber: newPhoneNumber});
+                    console.log('Phone number updated successfully');
+                }
+
+                // Update address, city, and phoneNumber if provided
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    const updatedData = {};
+
+                    if (newAddress) {
+                       await updateDoc(userDocRef, {address: newAddress});
+                        console.log('Address updated successfully');
+                    }
+
+                    if (newCity) {
+                        await updateDoc(userDocRef, {city: newCity});
+                        console.log('City updated successfully');
+                    }
+
+
+                    if (Object.keys(updatedData).length > 0) {
+                        await updateDoc(userDocRef, updatedData);
+                        console.log('Data updated successfully');
+                    }
+                }
+                alert("updated successfully");
+                setNewPassword('');
+                setConfirmPassword('');
+                setNewName('');
+                setNewAddress('');
+                setNewCity('');
+                setNewPhoneNumber('');
             } else {
                 alert('User does not exist');
             }
         } catch (error) {
-            console.error('Error updating password:', error);
+            console.error('Error updating user data:', error);
         }
 
 
-        console.log('New Address:', newAddress);
-        setNewName('')
-        setConfirmPassword('');
-        setNewPassword('');
-        console.log('New Password:', newPassword);
-        console.log('Confirm Password:', confirmPassword);
-        alert("Your name changed to " + newName);
-        alert("Your address changed to " + newAddress);
-        // Add API call or other logic for updating user information on the server
+
     };
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const currentUser = firebase.auth().currentUser;
+
+                if (currentUser) {
+                    const userDoc = await firebase.firestore().collection('users').doc(currentUser.uid).get();
+
+                    if (userDoc.exists) {
+                        setUsername(userDoc.data().userName);
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error.message);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     return (
-        <div >
+        <div id="allEP">
             <Header/>
-            <div className="bodyMP">
+            <div className="bodyEP">
                 <div className="cardContainerEP">
                     <div id="editPageTitle">
-                        <h2>{checkUserType()} you can edit your Profile here </h2>
+                        <h2>{username} edit your Profile here </h2>
                     </div>
                     <div id="userEditForm">
                         <div id="newAddress">
@@ -102,7 +180,7 @@ const EditPage = () => {
                                 type="text"
                                 value={newName}
                                 onChange={handleNewNameChange}
-                                placeholder={"Your current name is " + checkUserType()}
+                                placeholder=""
                             />
                         </div>
                         <div>
@@ -125,7 +203,16 @@ const EditPage = () => {
                                 placeholder=""
                             />
                         </div>
-
+                        <div>
+                            <EditpageLabel
+                                id="phoneNumber"
+                                label="Phone Number"
+                                type="text"
+                                value={newPhoneNumber}
+                                onChange={handlePhoneNumberChange}
+                                placeholder=""
+                            />
+                        </div>
                         <div id="lastEditPage">
                             <EditpageLabel
                                 id="city"
@@ -138,7 +225,7 @@ const EditPage = () => {
                         </div>
                     </div>
 
-                <button onClick={handleSaveChanges} id = "buttonEditPage">Save Changes</button>
+                 <button onClick={handleSaveChanges} id = "buttonEditPage">Save Changes</button>
                 </div>
                 <div className="footerEditPage">
                     <Footer/>

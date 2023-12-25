@@ -8,17 +8,19 @@
     margin: 70px auto;
 }
 
-.bodyEP{
+.bodyEP {
     position: relative;
     background: black;
     min-width: 280px;
-    overflow-x: hidden;
     color: white;
     height: 100vh;
     font-size: 30px;
     margin: 0;
     padding: 0;
 }
+
+
+
 
 
 #editPageTitle {
@@ -49,6 +51,10 @@
 
 }
 
+.cardContainerEP input{
+    border-radius: 15px;
+}
+
 .footerEditPage {
     display: flex;
     bottom: 0;
@@ -58,6 +64,7 @@
     width: 100%;
     background: black;
     align-content: flex-end;
+    position: absolute;
 
 }
 
@@ -72,11 +79,13 @@
     background-color: #3498db;
     color: white;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
+    border-radius: 15px;
+    height: 35px;
+
 }
 
-button:hover {
+#buttonEditPage:hover {
     background-color: #2980b9;
 }
 
@@ -107,8 +116,9 @@ button:hover {
         padding-bottom: 20px;
     }
 
-    .footerEditPage footer {
+    .footerEditPage {
         padding: 0;
+        bottom: -200px;
     }
     #editPageTitle{
         margin-top: 0;
@@ -150,8 +160,10 @@ button:hover {
 
     }
 
-    .footerEditPage footer {
+    .footerEditPage {
         padding: 0;
+        bottom: -200px;
+
     }
     .cardContainerEP{
         margin-bottom: 150px;
@@ -176,6 +188,9 @@ button:hover {
     .bodyEP {
         font-size: 25px;
     }
+    .footerEditPage{
+        bottom: -250px;
+    }
 
     #userEditForm div {
         max-width: 500px;
@@ -188,8 +203,10 @@ button:hover {
         padding-bottom: 20px;
     }
 
-    .footerMyProfile footer {
+    .footerEditPage {
         padding: 0;
+        bottom: -200px;
+
     }
     #editPageTitle{
         margin-top: 0;

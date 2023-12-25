@@ -2,12 +2,13 @@
 
     background: black;
     min-width: 280px;
-    overflow-x: hidden;
     color: white;
     height: 100vh;
     font-size: 30px;
-    margin: 0;
+    margin: 0 20px;
     padding: 0;
+    position: relative;
+
 }
 
 .cardContainerMP {
@@ -53,8 +54,11 @@
     justify-content: center;
     display: flex;
     width: 100%;
+    border-top: 1px solid #61dafb;
+    position: absolute;
     background: black;
-    bottom: 0;
+    bottom: -100px;
+    width: 100%;
     align-items: center;
 
 }
@@ -64,7 +68,7 @@
     margin: 150px auto;
 
 }
-@media screen and (max-width: 650px) and (min-width: 520px) {
+@media screen and (max-width: 650px) and (min-width: 555px) {
     #userProfileForm div text {
         width: 100%;
         margin-top: 3px;
@@ -88,6 +92,9 @@
     }
     .cardContainerMP{
         margin-bottom: 250px;
+    }
+    .footer{
+        font-size: 15px;
     }
 }
 
@@ -114,19 +121,29 @@
 
     .footerMyProfile footer {
         padding: 0;
+
     }
 
 }
 
-@media screen and (max-width: 520px) {
+@media screen and (max-width: 555px) {
     #userProfileForm div text,
     #userProfileForm div label {
         width: 100%;
         margin: 3px 20px;
     }
 
+
     .bodyMP {
         font-size: 25px;
+
+    }
+    .footer{
+        font-size: 15px;
+
+    }
+    .header_right{
+        padding: 0;
     }
 
     #userProfileForm div {

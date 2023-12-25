@@ -29,7 +29,7 @@ export function Header() {
                 </div>
                 <div className="header_right">
                     <ProfileDropdownMenu username={username} />
-                    <p>space</p>
+                    <span> space</span>
                     <button className="button">New Advertising</button>
                 </div>
             </div>
