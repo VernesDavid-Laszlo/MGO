@@ -1,16 +1,16 @@
-.bodyPBC {
+.bodyPS {
     background-color: black;
     min-height: 100vh;
 }
 
-.centerPBC {
+.centerPS {
     display: grid;
     align-items: center;
     justify-content: center;
-    margin-top: 40px;
+    margin-top: 70px;
 }
 
-.cardPBC {
+.cardPS {
     width: 1000px;
     height: 200px;
     margin: 10px;
@@ -19,16 +19,17 @@
     display: flex;
     overflow: hidden;
     border: 2px solid #737373 ;
+    margin-bottom: 20px;
 }
 
-.cardImagePBC {
+.cardImagePS {
     width: 200px;
     height: 100%;
     object-fit: cover;
     border-radius: 8px 0 0 8px;
 }
 
-.cardContentPBC {
+.cardContentPS {
     flex: 1;
     padding: 10px;
     display: flex;
@@ -36,7 +37,7 @@
     justify-content: space-between;
 }
 
-.priceTagPBC {
+.priceTagPS {
     background-color: white;
     padding: 5px;
     border-radius: 10px;
@@ -48,30 +49,16 @@
     height: 30px;
 }
 
-.userLocationPBC {
+.userLocationPS {
     color: white;
     align-self: flex-start;
 }
 
-.productNameAndPricePBC {
+.productNameAndPricePS {
     display: flex;
     justify-content: space-between;
 }
-.faviconPBC{
+.faviconPS{
     width: 20px;
     height: 20px;
 }
-
-.dropdownPBC {
-    display: flex;
-    align-items: center;
-}
-
-#sort {
-    width: 100%;
-    height: 40px;
-    background-color: #a9a9a9;
-    font-weight: bold;
-    border-radius: 7px;
-}
-

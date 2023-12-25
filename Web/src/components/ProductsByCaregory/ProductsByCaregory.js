@@ -68,8 +68,9 @@ function ProductsByCategory() {
     const { categoryId } = useParams();
     const [products, setProducts] = useState([]);
     const [users, setUsers] = useState({});
-    const [sortCriteria, setSortCriteria] = useState('price');
+    const [sortCriteria, setSortCriteria] = useState('default');
     const [sortOrder, setSortOrder] = useState('asc');
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Fixed variable name
     const history = useHistory();
 
     useEffect(() => {
@@ -119,31 +120,37 @@ function ProductsByCategory() {
     }, [products]);
 
     const sortProducts = () => {
-        let sortedProducts = [...products];
+        if (sortCriteria !== 'default') {
+            let sortedProducts = [...products];
 
-        switch (sortCriteria) {
-            case 'name':
-                sortedProducts.sort((a, b) =>
-                    sortOrder === 'asc' ? a.product_name.localeCompare(b.product_name) : b.product_name.localeCompare(a.product_name)
-                );
-                break;
-            case 'price':
-                sortedProducts.sort((a, b) => {
-                    const priceA = parseInt(a.price);
-                    const priceB = parseInt(b.price);
+            switch (sortCriteria) {
+                case 'name':
+                    sortedProducts.sort((a, b) =>
+                        sortOrder === 'asc' ? a.product_name.localeCompare(b.product_name) : b.product_name.localeCompare(a.product_name)
+                    );
+                    break;
+                case 'price':
+                    sortedProducts.sort((a, b) => {
+                        const priceA = parseInt(a.price);
+                        const priceB = parseInt(b.price);
 
-                    return sortOrder === 'asc' ? priceA - priceB : priceB - priceA;
-                });
-                break;
-            default:
-                break;
+                        return sortOrder === 'asc' ? priceA - priceB : priceB - priceA;
+                    });
+                    break;
+                default:
+                    break;
+            }
+
+            setProducts(sortedProducts);
         }
-
-        setProducts(sortedProducts);
     };
 
     const handleSortChange = (event) => {
         const value = event.target.value;
+        if (value === 'default') {
+            setIsDropdownOpen(false);
+            return;
+        }
         setSortCriteria(value.split('-')[0]);
         setSortOrder(value.split('-')[1]);
     };
@@ -163,16 +170,21 @@ function ProductsByCategory() {
         }
     };
 
-
-
     return (
         <div className="bodyPBC">
             <div>
-                <Header />
+                <Header/>
             </div>
             <div className="centerPBC">
                 <div className="dropdownPBC">
-                    <select id="sort" value={`${sortCriteria}-${sortOrder}`} onChange={handleSortChange}>
+                    <select
+                        id="sort"
+                        value={`${sortCriteria}-${sortOrder}`}
+                        onChange={handleSortChange}
+                        onClick={() => setIsDropdownOpen(true)}
+                        onBlur={() => setIsDropdownOpen(false)}
+                    >
+                        {!isDropdownOpen && <option value="default">Sort By:</option>}
                         <option value="name-asc">Name Ascending</option>
                         <option value="name-desc">Name Descending</option>
                         <option value="price-asc">Price Ascending</option>
@@ -184,7 +196,7 @@ function ProductsByCategory() {
                 ))}
             </div>
             <div>
-                <Footer />
+                <Footer/>
             </div>
         </div>
     );

@@ -20,7 +20,9 @@ export function Header() {
                 </div>
                 <div className="header_center">
                     <SearchComponent/>
-                    <img src={mess} alt="Message" className="header_center_buttons" />
+                    <Link to="/messages">
+                        <img src={mess} alt="Message" className="header_center_buttons" />
+                    </Link>
                     <Link to="/favorites">
                         <img src={fav} alt="Favorite" className="header_center_buttons" />
                     </Link>
