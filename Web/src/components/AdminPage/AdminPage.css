@@ -1,0 +1,36 @@
+#allAdminPage input{
+    border-radius: 15px;
+}
+
+#adminPageUserSearch, #adminPageProductSearch {
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    color: white;
+}
+
+#adminPageUserSearch input,#adminPageProductSearch input {
+    width: 80%;
+    height: 30px;
+    max-width: 1000px;
+}
+
+#adminPageUserSearch button, #adminPageProductSearch button {
+    border-radius: 15px;
+    margin-top: 15px;
+    height: 27px;
+    width: 100px;
+}
+
+#adminPageUserSearch button:hover, #adminPageProductSearch button:hover {
+    cursor: pointer;
+    background-color: #9c19d3;
+}
+
+#adminPageUserSearch label,#adminPageProductSearch label {
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
