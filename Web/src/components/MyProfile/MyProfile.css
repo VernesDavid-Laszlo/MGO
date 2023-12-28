@@ -49,6 +49,8 @@
     width: 40%;
 }
 
+
+
 #footerMyProfile {
 
     justify-content: center;
@@ -56,7 +58,7 @@
     border-top: 1px solid #61dafb;
     position: absolute;
     background: black;
-    bottom: -100px;
+    bottom: -300px;
     width: 100%;
     align-items: center;
 
@@ -67,6 +69,47 @@
     margin: 150px auto;
 
 }
+
+#myProfilePageProductList {
+   padding-left: 0;
+    max-width: 1242px; /*ekkora a felso dobozkanak a szelessege*/
+    margin: 0 auto;
+    background-color: #333;
+}
+
+#myProfileProducts {
+    padding-left: 0;
+    max-width: 1242px; /*ekkora a felso dobozkanak a szelessege*/
+    margin: 0 auto;
+
+}
+
+#myProfilePageProductList li{
+    border: white 1px solid;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    color: white;
+    justify-content: space-around;
+    position: relative;
+    border-radius: 10px;
+
+}
+#myProfileProducts button{
+    border-radius: 15px;
+    margin-bottom: 10px;
+    min-width: 100px;
+    min-height: 30px;
+}
+
+
+#myProfilePageProductList img{
+    max-width: 150px;
+    max-height: 150px;
+    margin: 10px;
+}
+
+
 @media screen and (max-width: 650px) and (min-width: 555px) {
     #userProfileForm div text {
         width: 100%;
