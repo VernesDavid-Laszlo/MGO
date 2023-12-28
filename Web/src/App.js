@@ -3,10 +3,14 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import HomePage from "./components/HomePage/HomePage";
 import LoginPage from "./components/LoginPage/LoginPage";
 import SignUpPage from "./components/SignUpPage/SignUpPage";
-import { Header, Footer } from "./components/Headre-Footer/Header-Footer";
 import firebase from "firebase/compat/app";
 import 'firebase/compat/auth';
 import MyProfilePage from "./components/MyProfile/MyProfile";
+import ProductsByCaregory from "./components/ProductsByCaregory/ProductsByCaregory";
+import FavoritePage from "./components/FavoritesPage/FavoritePage";
+import SearchComponent from "./components/SearchBar/SearchBar";
+import ProductDetails from "./components/ProductsBySearch/ProductsBySearch";
+import MessagesPage from "./components/MessagesPage/MessagesPage";
 import EditPage from "./components/EditPage/Editpage";
 
 function App() {
@@ -44,6 +48,10 @@ function App() {
                     <Route path="/edit">
                         {loggedIn ? <EditPage /> : <Redirect to="/login" />}
                     </Route>
+                    <Route path="/products/:categoryId" component={ProductsByCaregory} />
+                    <Route path="/product-details/:productId" component={ProductDetails} />
+                    <Route path="/favorites" component={FavoritePage} />
+                    <Route path="/messages" component={MessagesPage} />
                     <Redirect from="/" to="/login" />
                 </Switch>
             </div>

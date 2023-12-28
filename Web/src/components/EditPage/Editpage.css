@@ -63,11 +63,11 @@
     justify-content:center;
     left: 0;
     margin-right: 20px;
-    border-top: white 1px solid;
     width: 100%;
     background: black;
-    align-content: end;
+    align-content: flex-end;
     position: absolute;
+
 }
 
 #editPageTitle {
@@ -214,4 +214,3 @@
         margin-top: 0;
     }
 }
-
