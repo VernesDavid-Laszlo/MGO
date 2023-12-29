@@ -19,7 +19,7 @@ import HintSection from '../../components/HintSection/HintSection';
 import ShowIcon from '../../assets/eye-slash.svg';
 import HideIcon from '../../assets/eye.svg';
 import {useNavigation} from '@react-navigation/native';
-import auth, { firebase } from "@react-native-firebase/auth";
+import auth from '@react-native-firebase/auth';
 
 const LoginScreen: React.FC = () => {
   type LoginScreenProps = {
@@ -28,7 +28,7 @@ const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   // const [error, setError] = useState('');
-  const navigation = useNavigation();
+  const navigation = useNavigation<LoginScreenProps['navigation']>();
 
   const handleEmailChange = useCallback((text: string) => {
     setEmail(text);
@@ -49,9 +49,9 @@ const LoginScreen: React.FC = () => {
         password,
       );
       console.log('Login success:', userCredential.user);
-      navigation.navigate(RouterKey.HOME_SCREEN);
+      navigation.replace(RouterKey.DRAWERNAVIGATION);
     } catch (error) {
-      console.error('Login error:', error.message);
+      console.error('Login error:', error);
     }
   };
 
@@ -132,7 +132,7 @@ const LoginScreen: React.FC = () => {
         <CustomLoginButton handlePress={handleLogin} />
         <CustomSignUpButton handlePress={handleSignUppress} />
         <HintSection />
-      </View >
+      </View>
     </SafeAreaView>
   );
 };
