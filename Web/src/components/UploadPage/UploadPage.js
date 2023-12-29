@@ -15,9 +15,10 @@ import {getDownloadURL, getStorage, ref, uploadBytesResumable} from "firebase/st
 const UploadPage = () => {
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+
     const [productDescription, setProductDescription] = useState('');
     const [category, setCategory] = useState('');
+    const [currency, setCurrency] = useState('');
 
     const [city, setCity] = useState('');
     const auth = getAuth();
@@ -58,19 +59,13 @@ const UploadPage = () => {
         setTitle(e.target.value);
     };
 
-    const handleCityChange = (e) => {
-        setCity(e.target.value);
-    };
 
     const handlePriceChange = (e) => {
         if ( !isNaN(e.target.value)){
             setPrice(e.target.value);}
     };
 
-    const handlePhoneNumberChange = (e) => {
-        if ( !isNaN(e.target.value)){
-        setPhoneNumber(e.target.value);}
-    };
+
 
     const handleProductDescriptionChange = (e) => {
         setProductDescription(e.target.value);
@@ -81,58 +76,66 @@ const UploadPage = () => {
     };
 
     const handleSaveChanges = async () => {
-        if (!title || !city || !price || !phoneNumber || !productDescription || !category || selectedImages.length === 0) {
+        if (!title || !price  || !productDescription || !category || selectedImages.length === 0) {
             alert("Please fill all the fields and select at least one image");
             return;
         }
 
         try {
-            const currentUser = firebase.auth().currentUser;
+            // Fetch category ID asynchronously
+            const categoryIdSnapshot = await firebase.firestore().collection('category')
+                .where('category_name', '==', category)
+                .get();
 
-            if (currentUser) {
-                const userId = currentUser.uid;
+            if (!categoryIdSnapshot.empty) {
+                // Assuming there's only one category with the given name
+                const categoryId = categoryIdSnapshot.docs[0].id;
 
-                // Create a reference to the 'products' collection
-                const productRef = collection(db, 'products');
+                const currentUser = firebase.auth().currentUser;
 
-                // Add product data to Firestore
-                const newProductDocRef = await addDoc(productRef, {
-                    product_name: title,
-                    city,
-                    price,
-                    phoneNumber,
-                    description: productDescription,
-                    category,
-                    user: userId,
-                });
+                if (currentUser) {
+                    const userId = currentUser.uid;
 
-                // Get the newly created product ID
-                const productId = newProductDocRef.id;
+                    // Create a reference to the 'products' collection
+                    const productRef = collection(db, 'products');
 
-                // Upload each selected image to Firebase Storage in the 'Products/{productId}' folder
-                const storage = getStorage();
-                const storageRef = ref(storage, `Products/${productId}`);
-
-                //Puts the images in firebase
-                for (const image of selectedImages) {
-                    const imageRef = ref(storageRef, image.name);
-                    const uploadTask = uploadBytesResumable(imageRef, image);
-
-                    // Wait for the upload to complete
-                    await uploadTask;
-
-                    // Get the download URL for the uploaded image
-                    const imageUrl = await getDownloadURL(imageRef);
-
-                    // Update the product document in Firestore with the image URL
-                    await updateDoc(doc(db, 'products', productId), {
-                        images: arrayUnion(imageUrl),
+                    // Add product data to Firestore
+                    const newProductDocRef = await addDoc(productRef, {
+                        product_name: title,
+                        price,
+                        description: productDescription,
+                        category: categoryId,
+                        user: userId,
                     });
-                }
 
-                console.log('Product data and images uploaded successfully to Firestore and Storage');
+                    // Get the newly created product ID
+                    const productId = newProductDocRef.id;
+
+                    // Upload each selected image to Firebase Storage in the 'Products/{productId}' folder
+                    const storage = getStorage();
+                    const storageRef = ref(storage, `Products/${productId}`);
+
+                    //Puts the images in firebase
+                    for (const image of selectedImages) {
+                        const imageRef = ref(storageRef, image.name);
+                        const uploadTask = uploadBytesResumable(imageRef, image);
+
+                        // Wait for the upload to complete
+                        await uploadTask;
+
+                        // Update the product document in Firestore with the image URL
+                        await updateDoc(doc(db, 'products', productId), {
+                            images: arrayUnion(image.name),
+                        });
+                    }
+
+                    console.log('Product data and images uploaded successfully to Firestore and Storage');
+                } else {
+                    alert('User not found');
+                }
             } else {
-                alert('User not found');
+                console.error("Category not found");
+                alert("Category not found");
             }
         } catch (error) {
             console.error('Error uploading product data to Firestore:', error);
@@ -140,9 +143,9 @@ const UploadPage = () => {
 
         // Reset the state variables
         setTitle('');
-        setCity('');
+
         setPrice('');
-        setPhoneNumber('');
+
         setProductDescription('');
         setCategory('');
         setSelectedImages([]);
@@ -157,6 +160,16 @@ const UploadPage = () => {
 
         // Update the state with the new array of selected images
         setSelectedImages(updatedImages);
+    };
+
+    const handleCurrencyChange = (e) => {
+        const selectedCurrency = e.target.value;
+        setCurrency(selectedCurrency);
+
+        // If price is not empty and is a number, update the price with the selected currency
+        if (!isNaN(price) && price !== '') {
+            setPrice(`${price}${selectedCurrency}`);
+        }
     };
 
 
@@ -180,36 +193,42 @@ const UploadPage = () => {
                             />
                         </div>
 
-                        <div>
-                            <UploadPageLabel
-                                id="city"
-                                label="City"
-                                type="text"
-                                value={city}
-                                onChange={handleCityChange}
-                                placeholder=""
-                            />
+
+                        <div id = "priceUploadPageall">
+                            <div id = "priceUploadPage">
+                                <UploadPageLabel
+                                    id="price"
+                                    label="Price"
+                                    type="text"
+                                    value={price}
+                                    onChange={handlePriceChange}
+                                    placeholder=""
+                                />
+                            </div>
+                            <div id="currencyUploadPage">
+                                <legend>Select a currency:</legend>
+                                <input
+                                    type="radio"
+                                    id="dollarUploadPage"
+                                    name="currency"
+                                    value="$"
+                                    checked={currency === '$'} // Add this to check if the currency is selected
+                                    onChange={handleCurrencyChange}
+                                />
+                                <label htmlFor="$">$</label>
+                                <input
+                                    type="radio"
+                                    id="euroUploadPage"
+                                    name="currency"
+                                    value="€"
+                                    checked={currency === '€'} // Add this to check if the currency is selected
+                                    onChange={handleCurrencyChange}
+                                />
+                                <label htmlFor="€">€</label>
+                            </div>
+
                         </div>
-                        <div>
-                            <UploadPageLabel
-                                id="price"
-                                label="Price"
-                                type="text"
-                                value={price}
-                                onChange={handlePriceChange}
-                                placeholder=""
-                            />
-                        </div>
-                        <div>
-                            <UploadPageLabel
-                                id="phoneNumber"
-                                label="Contact number"
-                                type="text"
-                                value={phoneNumber}
-                                onChange={handlePhoneNumberChange}
-                                placeholder=""
-                            />
-                        </div>
+
                     </div>
 
                 </div>
@@ -277,7 +296,7 @@ const UploadPage = () => {
                                 Select a category
                             </option>
                             <option value="TV's">TV's</option>
-                            <option value="Laptop">Laptops</option>
+                            <option value="Laptops">Laptops</option>
                             <option value="Phones">Phones</option>
                             <option value="Cars">Cars</option>
                             <option value="Household">Household</option>
@@ -285,6 +304,7 @@ const UploadPage = () => {
                             <option value="Fragrances">Fragrances</option>
                             <option value="Speakers">Speakers</option>
                             <option value="Others">Others</option>
+                            {/* Add more categories as needed */}
                         </select>
                     </div>
                     <button onClick={handleSaveChanges} id="buttonUploadPage">

@@ -15,10 +15,12 @@
     color: white;
     height: 100vh;
     font-size: 30px;
-    margin: 0;
+    margin: 20px;
     padding: 0;
 }
-
+.bodyEP input{
+    height: 27px;
+}
 
 
 
@@ -91,7 +93,7 @@
 
 
 
-@media screen and (max-width: 650px) and (min-width: 520px) {
+@media screen and (max-width: 710px) and (min-width: 520px) {
     #userEditForm div input,
     #userEditForm div label {
         width: 100%;
@@ -134,7 +136,7 @@
 }
 
 
-@media screen and (min-width: 650px) {
+@media screen and (min-width: 710px) {
 
     #userEditForm div label {
         width: 68%;

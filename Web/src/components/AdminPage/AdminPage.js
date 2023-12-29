@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import firebase from 'firebase/compat/app';
-import { deleteDoc } from "firebase/firestore";
+import {deleteDoc, getFirestore} from "firebase/firestore";
 import { getAuth} from "firebase/auth";
 import './AdminPage.css';
 import {doc} from "firebase/firestore";
 import {Header} from "../Headre-Footer/Header-Footer";
+import {deleteObject, getDownloadURL, getStorage, ref} from "firebase/storage";
+
 
 const AdminPage = () => {
     const [city, setCity] = useState('');
@@ -218,7 +220,30 @@ const AdminPage = () => {
                 console.error("Error deleting {{collection}}: ", error);
             });
     };
+    const deleteProduct = async (productID) => {
+        try {
 
+            // Delete folder from Storage
+            const storage = getStorage();
+            const folderRef = ref(storage, `gs://mgoo-faa26.appspot.com/Products/${productID}`);
+
+
+
+            console.log(folderRef)
+            await deleteObject(folderRef);
+
+            console.log(`Folder for product ID ${productID} deleted from Storage`);
+
+            // Delete document from Firestore
+            const firestore = getFirestore();
+            const productDocRef = doc(firestore, 'products', productID);
+            await deleteDoc(productDocRef);
+
+            console.log(`Document for product ID ${productID} deleted from Firestore`);
+        } catch (error) {
+            console.error('Error deleting product:', error);
+        }
+    };
 
 
     return (
@@ -330,6 +355,7 @@ const AdminPage = () => {
                         <li key={productData[1]}> {/* Access the document ID from the array */}
                             Name: {productData[0].userName}, City: {productData[0].product_name}, Email: {productData[0].category}, Phone: {productData[0].price}
                             <button onClick={() => handleDelete(productData[1],'products')}>Delete</button>
+                            <button onClick={() => deleteProduct(productData[1])}>Delete product definitively </button>
                         </li>
                     ))}
                 </ul>
