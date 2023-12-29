@@ -19,7 +19,7 @@ import HintSection from '../../components/HintSection/HintSection';
 import ShowIcon from '../../assets/eye-slash.svg';
 import HideIcon from '../../assets/eye.svg';
 import {useNavigation} from '@react-navigation/native';
-import auth, { firebase } from "@react-native-firebase/auth";
+import auth from '@react-native-firebase/auth';
 
 const LoginScreen: React.FC = () => {
   type LoginScreenProps = {
@@ -49,7 +49,7 @@ const LoginScreen: React.FC = () => {
         password,
       );
       console.log('Login success:', userCredential.user);
-      navigation.replace(RouterKey.HOME_SCREEN);
+      navigation.replace(RouterKey.DRAWERNAVIGATION);
     } catch (error) {
       console.error('Login error:', error);
     }

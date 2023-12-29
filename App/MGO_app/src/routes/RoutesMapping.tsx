@@ -3,8 +3,8 @@ import {RouterKey} from './Routes';
 import {createStackNavigator} from '@react-navigation/stack';
 import LoginScreen from '../screens/LoginScreen/LoginScreen';
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
-import SignUpScreen from '../screens/SingUpScreen/SingUpScreen';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+import SignUpScreen from '../screens/SingUpScreen/SingUpScreen';
 
 export type RootStackParamList = {
   [RouterKey.LOGIN_SCREEN]: undefined;
@@ -20,7 +20,6 @@ const DrawerNavigator = () => {
   return (
     <Drawer.Navigator initialRouteName={RouterKey.HOME_SCREEN}>
       <Drawer.Screen name={RouterKey.HOME_SCREEN} component={HomeScreen} />
-      {/* You can add more screens to your drawer here */}
     </Drawer.Navigator>
   );
 };
