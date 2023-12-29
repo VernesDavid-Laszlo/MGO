@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Image, ScrollView, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Button,
+  FlatList,
+  Image,
+  Text,
+  View,
+} from 'react-native';
 import {styles} from './HomeScreenStyle';
 import {
   collection,
@@ -7,15 +14,29 @@ import {
 } from '@react-native-firebase/firestore/lib/modular';
 import {getDocs} from '@react-native-firebase/firestore/lib/modular/query';
 import storage from '@react-native-firebase/storage';
+import {useNavigation} from '@react-navigation/native';
+import {RootStackParamList} from '../../routes/RoutesMapping';
+import {DrawerNavigationProp} from '@react-navigation/drawer';
+import {RouterKey} from '../../routes/Routes';
 
 type Category = {
   id: string;
   image: string;
   category_name: string;
 };
+
+type DrawerNavProp = DrawerNavigationProp<
+  RootStackParamList,
+  RouterKey.DRAWERNAVIGATION
+>;
+
 const HomePage: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigation = useNavigation<DrawerNavProp>();
+  const openDrawer = () => {
+    navigation.openDrawer();
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,6 +68,13 @@ const HomePage: React.FC = () => {
 
     fetchData();
   }, []);
+  const renderCategory = ({item}: {item: Category}) => (
+    <View style={styles.categoryItem}>
+      <Text style={styles.categoryText}>{item.category_name}</Text>
+
+      <Image source={{uri: item.image}} style={styles.categoryImage} />
+    </View>
+  );
 
   if (isLoading) {
     return (
@@ -58,20 +86,16 @@ const HomePage: React.FC = () => {
   }
 
   return (
-    <ScrollView style={styles.appStyle}>
+    <View style={styles.appStyle}>
+      <Button title="Menu" onPress={openDrawer} />
       <Text style={styles.bodyText}>Main Categories</Text>
-      <View style={styles.cardContainer}>
-        {categories.map(category => (
-          <View key={category.id} style={styles.categoryItem}>
-            <Image
-              source={{uri: category.image}}
-              style={styles.categoryImage}
-            />
-            <Text style={styles.categoryText}>{category.category_name}</Text>
-          </View>
-        ))}
-      </View>
-    </ScrollView>
+      <FlatList
+        data={categories}
+        renderItem={renderCategory}
+        keyExtractor={item => item.id}
+        numColumns={2}
+      />
+    </View>
   );
 };
 
