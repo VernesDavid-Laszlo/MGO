@@ -19,7 +19,7 @@ import HintSection from '../../components/HintSection/HintSection';
 import ShowIcon from '../../assets/eye-slash.svg';
 import HideIcon from '../../assets/eye.svg';
 import {useNavigation} from '@react-navigation/native';
-import auth, { firebase } from "@react-native-firebase/auth";
+import auth, {firebase} from '@react-native-firebase/auth';
 
 const LoginScreen: React.FC = () => {
   type LoginScreenProps = {
@@ -49,9 +49,9 @@ const LoginScreen: React.FC = () => {
         password,
       );
       console.log('Login success:', userCredential.user);
-      navigation.navigate(RouterKey.HOME_SCREEN);
+      navigation.navigate(RouterKey.MYPROFILE_SCREEN);
     } catch (error) {
-      console.error('Login error:', error.message);
+      console.error('Login error:', error);
     }
   };
 
@@ -76,7 +76,7 @@ const LoginScreen: React.FC = () => {
     setDeleteUsernameVisible(email.length !== 0);
   }, [email.length]);
   const handleSignUppress = () => {
-    navigation.navigate(RouterKey.SIGNUP_SCREEN);
+    navigation.navigate(RouterKey.EDIT_SCREEN);
   };
 
   return (
@@ -132,7 +132,7 @@ const LoginScreen: React.FC = () => {
         <CustomLoginButton handlePress={handleLogin} />
         <CustomSignUpButton handlePress={handleSignUppress} />
         <HintSection />
-      </View >
+      </View>
     </SafeAreaView>
   );
 };
