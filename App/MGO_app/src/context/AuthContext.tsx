@@ -1,37 +1,46 @@
+// AuthContext.tsx
 
-import {firebase} from '@react-native-firebase/auth';
-// import firestore from '@react-native-firebase/firestore';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-//
-//
-// const login = async (email: any, password: any) => {
-//
-//   try {
-//     const userCredential = await firebase
-//       .auth()
-//       .signInWithEmailAndPassword(email, password);
-//
-//     const userInfo = {
-//       email: userCredential.user?.email || '',
-//       password: password, // Note: storing the password like this is not recommended for security reasons
-//     };
-//
-//     setUserInfo(userInfo);
-//     await AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
-//
-//     // Fetch dates from Firestore
-//     const datesCollection = firestore().collection('dates'); // Replace 'dates' with your actual Firestore collection
-//     const datesSnapshot = await datesCollection.get();
-//     const datesData = datesSnapshot.docs.map(doc => doc.data());
-//
-//     // Set the retrieved dates state
-//     setDates(datesData);
-//
-//     return true;
-//   } catch (error) {
-//     setLoginError(error.message);
-//     return false;
-//   }
-// };
-//
-// export default AuthContext;
+import React, {createContext, useContext} from 'react';
+import auth from '@react-native-firebase/auth';
+import {navigate} from '../components/Navigation/NavigationService';
+import {RouterKey} from '../routes/Routes';
+
+interface AuthContextData {
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  // Add other functions like login, signUp if needed
+}
+
+const AuthContext = createContext<AuthContextData>({} as AuthContextData);
+
+export const useAuth = () => useContext(AuthContext);
+
+export const AuthProvider: React.FC<{children: React.ReactNode}> = ({
+  children,
+}) => {
+  const login = async (email: string, password: string) => {
+    try {
+      await auth().signInWithEmailAndPassword(email, password);
+      console.log('User logged in');
+      navigate(RouterKey.DRAWERNAVIGATION); // Navigate to the home screen after successful login
+    } catch (error) {
+      console.error('Login error:', error);
+    }
+  };
+  const logout = async () => {
+    try {
+      await auth().signOut();
+      navigate(RouterKey.LOGIN_SCREEN); // Navigate after logout
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
+
+  // Define other functions like login, signUp here
+
+  return (
+    <AuthContext.Provider value={{login, logout /*, other functions */}}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
