@@ -1,0 +1,150 @@
+import {StyleSheet} from 'react-native';
+
+const styles = StyleSheet.create({
+  body: {
+    backgroundColor: 'black',
+  },
+  cardContainerUP: {
+    backgroundColor: '#333',
+    borderWidth: 1,
+    borderColor: 'white',
+    borderRadius: 10,
+    padding: 20,
+    maxWidth: 1200,
+    position: 'relative',
+    margin: 'auto',
+  },
+  bodyUpInput: {
+    borderRadius: 15,
+  },
+  categoryDescriptionImageUploadPage: {
+    backgroundColor: '#333',
+    borderWidth: 1,
+    borderColor: 'white',
+    borderRadius: 10,
+    padding: 20,
+    maxWidth: 1200,
+    position: 'relative',
+    marginTop: 10,
+    marginLeft: 10,
+  },
+  imageUploadPage: {
+    marginTop: 10,
+  },
+  imageUploadPageLabel: {
+    display: 'flex',
+    marginBottom: 5,
+    fontSize: 16,
+    color: 'white',
+  },
+  imageUploadPageInput: {
+    display: 'none',
+  },
+  imageUploadPageLabelAfter: {
+    //content: 'Select Image',
+    padding: 8,
+    backgroundColor: '#3498db',
+    color: 'white',
+    borderRadius: 5,
+    marginLeft: 20,
+  },
+  imageUploadPageInputHover: {
+    backgroundColor: '#2980b9',
+  },
+  categoryUploadPage: {
+    marginBottom: 150,
+  },
+  descriptionUploadPageTextarea: {
+    height: 250,
+    width: '90%',
+    marginTop: 30,
+    borderRadius: 15,
+    padding: 20,
+    fontSize: 18,
+  },
+  bodyUP: {
+    position: 'relative',
+    backgroundColor: 'black',
+    minWidth: 280,
+    color: 'white',
+    height: '100%',
+    fontSize: 30,
+    margin: 20,
+    padding: 0,
+  },
+  uploadPageTitle: {
+    marginLeft: 50,
+    marginTop: 70,
+  },
+  userUploadFormDiv: {
+    marginTop: 10,
+    marginBottom: 20,
+    marginRight: 0,
+    marginLeft: 0,
+    display: 'flex',
+    flexWrap: 'nowrap',
+    width: '100%',
+  },
+  userUploadFormDivLabel: {
+    minWidth: 50,
+    marginRight: 160,
+    marginLeft: 100,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  userUploadFormDivPrice: {
+    minWidth: 200,
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: 20,
+  },
+  footerUploadPage: {
+    display: 'flex',
+    bottom: 0,
+    justifyContent: 'center',
+    left: 0,
+    marginRight: 20,
+    width: '100%',
+    backgroundColor: 'black',
+    alignContent: 'flex-end',
+  },
+  priceUploadPageInput: {
+    minHeight: 35,
+    alignSelf: 'center',
+  },
+  buttonUploadPage: {
+    marginTop: 20,
+    padding: 10,
+    fontSize: 16,
+    backgroundColor: '#3498db',
+    color: 'white',
+    borderRadius: 5,
+  },
+  buttonUploadPageHover: {
+    backgroundColor: '#2980b9',
+  },
+  categoryUploadPageSelect: {
+    padding: 10,
+    fontSize: 16,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    marginTop: 30,
+    marginBottom: 5,
+    height: 60,
+    width: '100%',
+    boxSizing: 'border-box',
+    backgroundColor: 'white',
+    color: '#333',
+  },
+  categoryUploadPageSelectHover: {
+    borderColor: '#3498db',
+  },
+  categoryUploadPageSelectFocus: {
+    outline: 'none',
+    borderColor: '#3498db',
+    boxShadow: '0 0 5px rgba(52, 152, 219, 0.7)',
+  },
+});
+
+export default styles;
