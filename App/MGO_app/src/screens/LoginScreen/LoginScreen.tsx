@@ -30,6 +30,8 @@ const LoginScreen: React.FC = () => {
   const {login} = useAuth(); // Use the login function from AuthContext
 
   const handleEmailChange = useCallback((text: string) => setEmail(text), []);
+  const [loginError, setLoginError] = useState('');
+
   const handlePasswordChange = useCallback(
     (text: string) => setPassword(text),
     [],
@@ -43,11 +45,13 @@ const LoginScreen: React.FC = () => {
   const handleLogin = async () => {
     try {
       await login(email, password);
+      setLoginError(''); // Clear any previous error
     } catch (error) {
-      console.error('Login error:', error);
-      // Optionally set an error state and display it
+      // console.error('Login error:', error);
+      setLoginError(error.message); // Display the error message
     }
   };
+
 
   const handleSignUppress = () => navigation.navigate(RouterKey.SIGNUP_SCREEN);
 
@@ -102,9 +106,9 @@ const LoginScreen: React.FC = () => {
             </TouchableOpacity>
           </View>
         </SafeAreaView>
-        {/*{!!loginError ? (*/}
-        {/*  <Text style={styles.errorText}>Incorrect username or password.</Text>*/}
-        {/*) : null}*/}
+        {!!loginError ? (
+          <Text style={styles.errorText}>Incorrect username or password.</Text>
+        ) : null}
         <CustomLoginButton handlePress={handleLogin} />
         <CustomSignUpButton handlePress={handleSignUppress} />
         <HintSection />

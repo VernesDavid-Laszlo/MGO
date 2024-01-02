@@ -12,6 +12,8 @@ import {
 } from '@react-navigation/drawer';
 import {RouterKey} from '../../routes/Routes';
 import {useAuth} from '../../context/AuthContext';
+import {styles} from './CustomDrawerContentStyle';
+import ShowIcon from '../../assets/eye-slash.svg';
 
 const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
   const {logout} = useAuth();
@@ -19,19 +21,19 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
     <DrawerContentScrollView {...props}>
       <DrawerItem
         // style={styles.drawerItem}
-        // icon={() => <HomeScreenIcon style={styles.drawerIcon} />
+        icon={() => <HomeScreenIcon width={25} height={25} />}
         label="Home"
         onPress={() => props.navigation.navigate(RouterKey.HOME_SCREEN)}
       />
       <DrawerItem
-        // icon={() => <ProfileIcon style={styles.drawerIcon} />}
+        icon={() => <ProfileIcon width={25} height={25} />}
         label="Account"
         onPress={() => {
           /* Navigate to Account Screen */
         }}
       />
       <DrawerItem
-        // icon={() => <MyProductsIcon style={styles.drawerIcon} />}
+        icon={() => <MyProductsIcon width={25} height={25} />}
         label="Inventory"
         onPress={() => {
           /* Navigate to Inventory Screen */
@@ -39,8 +41,18 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
       />
       {/* ... other drawer items ... */}
       <DrawerItem
-        // icon={() => <LogOutIcon style={styles.drawerIcon} />}
+        icon={() => <LogOutIcon width={25} height={25} />}
         label="Logout"
+        onPress={() => logout()} // Call logout on press
+      />
+      <DrawerItem
+        icon={() => <MessageIcon width={25} height={25} />}
+        label="Message"
+        onPress={() => logout()} // Call logout on press
+      />
+      <DrawerItem
+        icon={() => <FavouritesIcon width={25} height={25} />}
+        label="Favorites"
         onPress={() => logout()} // Call logout on press
       />
     </DrawerContentScrollView>
