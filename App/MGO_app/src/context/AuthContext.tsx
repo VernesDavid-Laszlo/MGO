@@ -19,14 +19,20 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({
   children,
 }) => {
   const login = async (email: string, password: string) => {
+    if (!email || !password) {
+      throw new Error('Email and password cannot be empty.');
+    }
+
     try {
       await auth().signInWithEmailAndPassword(email, password);
       console.log('User logged in');
       navigate(RouterKey.DRAWERNAVIGATION); // Navigate to the home screen after successful login
     } catch (error) {
-      console.error('Login error:', error);
+      // console.error('Login error:', error);
+      throw error; // Propagate the error
     }
   };
+
   const logout = async () => {
     try {
       await auth().signOut();
