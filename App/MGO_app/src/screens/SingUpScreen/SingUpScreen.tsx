@@ -12,9 +12,6 @@ import {
 import CustomSignUpButton from '../../components/SignUpButton/SignUpButton';
 import styles from './SignUpStyle';
 import {Colors} from '../../utils/Colors';
-import {RouterKey} from '../../routes/Routes';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RootStackParamList} from '../../routes/RoutesMapping';
 import DeleteIcon from '../../assets/detele-button.svg';
 import HintSection from '../../components/HintSection/HintSection';
 import ShowIcon from '../../assets/eye-slash.svg';
@@ -22,7 +19,7 @@ import HideIcon from '../../assets/eye.svg';
 import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-
+import {RouterKey} from '../../routes/Routes';
 const SignUpScreen: React.FC = () => {
   const navigation = useNavigation();
 
@@ -31,9 +28,8 @@ const SignUpScreen: React.FC = () => {
   const [confpassword, setConfirmPassword] = useState('');
   const [username, setUsername] = useState('');
   const [city, setCity] = useState('');
-  const [address, setAddress] = useState('');
+  const [address] = useState('');
   const [phonenumber, setPhoneNumber] = useState('');
-
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const handleTogglePasswordVisibility = useCallback(() => {
@@ -46,7 +42,10 @@ const SignUpScreen: React.FC = () => {
         return;
       }
 
-      const userCredential = await auth().createUserWithEmailAndPassword(email, password);
+      const userCredential = await auth().createUserWithEmailAndPassword(
+        email,
+        password,
+      );
       const user = userCredential.user;
       console.log('User created:', user.uid);
 
@@ -55,11 +54,9 @@ const SignUpScreen: React.FC = () => {
         userName: username,
         phoneNumber: phonenumber,
         address: address,
-        city: city
+        city: city,
       });
-
-      // Navigate to Home Screen and remove SignUp screen from stack
-      navigation.replace('HomeScreen'); // Replace 'HomeScreen' with your home screen's route name
+      navigation.navigate(RouterKey.HOME_SCREEN);
     } catch (error) {
       console.error('Error:', error.message);
     }
