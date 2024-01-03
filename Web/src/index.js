@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import firebase from "firebase/compat/app";
 import {getFirestore,collection,getDocs} from "firebase/firestore";
 import UploadPage from "./components/UploadPage/UploadPage";
-import ProductCard from "./components/ProductCard/ProductCard";
+import Product from "./components/Product/Product";
 import EditPage from "./components/EditPage/Editpage";
 import MyProfile from "./components/MyProfile/MyProfile";
 import MyProfilePage from "./components/MyProfile/MyProfile";

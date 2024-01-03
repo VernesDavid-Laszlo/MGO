@@ -12,6 +12,8 @@ import SearchComponent from "./components/SearchBar/SearchBar";
 import ProductDetails from "./components/ProductsBySearch/ProductsBySearch";
 import MessagesPage from "./components/MessagesPage/MessagesPage";
 import EditPage from "./components/EditPage/Editpage";
+import UploadPage from "./components/UploadPage/UploadPage";
+import Product from "./components/Product/Product";
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -52,6 +54,8 @@ function App() {
                     <Route path="/product-details/:productId" component={ProductDetails} />
                     <Route path="/favorites" component={FavoritePage} />
                     <Route path="/messages" component={MessagesPage} />
+                    <Route path="/upload" component={UploadPage}/>
+                    <Route path="/prodcard" component={Product}/>
                     <Redirect from="/" to="/login" />
                 </Switch>
             </div>

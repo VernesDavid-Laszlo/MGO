@@ -4,11 +4,13 @@ import remove from './imagesf/remove.png';
 import { getFirestore, collection, getDocs, doc, where, getDoc, deleteDoc } from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import './FavoritePage.css';
+import {useHistory} from "react-router-dom";
 
 function FavoritePage() {
     const [favoriteProducts, setFavoriteProducts] = useState([]);
     const [users, setUsers] = useState({});
     const [imageUrls, setImageUrls] = useState({});
+    const history = useHistory();
 
     useEffect(() => {
         const fetchFavoriteProducts = async () => {
@@ -70,6 +72,13 @@ function FavoritePage() {
         fetchImageUrls();
     }, [favoriteProducts]);
 
+    const handleCardClick = (product) => {
+        history.push({
+            pathname: '/prodcard',
+            state: { productData: product },
+        });
+    };
+
     const removeFromFavorites = (productId) => {
         const updatedFavorites = favoriteProducts.filter((product) => product.id !== productId);
         setFavoriteProducts(updatedFavorites);
@@ -86,7 +95,7 @@ function FavoritePage() {
                     Your favourite products:
                 </div>
                 {favoriteProducts.map((product) => (
-                    <div key={product.id} className="cardFP">
+                    <div key={product.id} className="cardFP" onClick={() => handleCardClick(product)}>
                         {imageUrls[product.id] ? (
                             <img
                                 src={imageUrls[product.id]}
@@ -101,7 +110,7 @@ function FavoritePage() {
                             <div className="productNameAndPriceFP">
                                 <img src={remove} alt="Heart" className="faviconFP" onClick={() => removeFromFavorites(product.id)} />
                                 <div className="priceTagFP">
-                                    <p> {product.price}</p>
+                                    <p style={{color:"black"}}> {product.price}</p>
                                 </div>
                             </div>
                             <p style={{ color: 'white', fontWeight: 'bold', fontSize: '20px' }}>
