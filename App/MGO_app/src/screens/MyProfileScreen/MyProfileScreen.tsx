@@ -39,9 +39,6 @@ const MyProfileScreen: React.FC = () => {
   const [userEmail, setUserEmail] = useState<string>('');
 
   // Render your component with the updated state
-
-  const userDocRef = doc(firestore(), 'users', 'your_user_id'); // Replace with actual user ID
-
   const fetchResultsMP = (querySnapshot: any) => {
     querySnapshot.forEach(async (doc: any, index: number) => {
       const productData = [doc.data(), doc.id, index + 1];
