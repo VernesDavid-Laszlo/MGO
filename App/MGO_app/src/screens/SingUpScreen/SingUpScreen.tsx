@@ -56,7 +56,7 @@ const SignUpScreen: React.FC = () => {
         address: address,
         city: city,
       });
-      navigation.navigate(RouterKey.HOME_SCREEN);
+      navigation.navigate(RouterKey.DRAWERNAVIGATION);
     } catch (error) {
       console.error('Error:', error.message);
     }
