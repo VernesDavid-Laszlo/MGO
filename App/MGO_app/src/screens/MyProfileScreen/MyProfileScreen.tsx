@@ -31,7 +31,7 @@ const MyProfileScreen: React.FC = () => {
   const [productId, setProductId] = useState<string[]>([]);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [isProd, setIsProd] = useState<boolean>(true);
-  const [showProducts, setShowProducts] = useState<boolean>(true);
+  const [showProducts, setShowProducts] = useState<boolean>(false);
   const [username, setUsername] = useState<string>('');
   const [userAddress, setUserAddress] = useState<string>('');
   const [userCity, setUserCity] = useState<string>('');
@@ -111,7 +111,6 @@ const MyProfileScreen: React.FC = () => {
             setUserCity(userData?.city || '');
             setUserPhoneNum(userData?.phoneNumber || '');
             setUserEmail(userData?.email || '');
-            console.log('User data:', userData);
             myProducts();
           }
         }
@@ -134,6 +133,7 @@ const MyProfileScreen: React.FC = () => {
       .catch((error: any) => {
         console.error('Error deleting product: ', error);
       });
+    myProducts();
   };
 
   const toggleProducts = () => {

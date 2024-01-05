@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
   cardContainerUP: {
-    backgroundColor: '#333',
+    backgroundColor: 'black',
     borderWidth: 1,
     borderColor: 'white',
     borderRadius: 10,
@@ -13,23 +13,38 @@ const styles = StyleSheet.create({
     maxWidth: 1200,
     position: 'relative',
     margin: 'auto',
+    marginTop: 20,
+    marginBottom: 50,
   },
   bodyUpInput: {
     borderRadius: 15,
   },
-  categoryDescriptionImageUploadPage: {
-    backgroundColor: '#333',
-    borderWidth: 1,
-    borderColor: 'white',
-    borderRadius: 10,
-    padding: 20,
-    maxWidth: 1200,
-    position: 'relative',
-    marginTop: 10,
-    marginLeft: 10,
-  },
   imageUploadPage: {
     marginTop: 10,
+  },
+
+  selectedImageContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    padding: 10,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: 'white',
+    justifyContent: 'space-between',
+  },
+  selectedImage: {
+    width: 100,
+    height: 100,
+    marginRight: 10,
+
+  },
+  deleteButton: {
+    color: 'red', // or any other color you prefer
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginLeft: 5,
+    padding: 5,
   },
   imageUploadPageLabel: {
     display: 'flex',
@@ -52,15 +67,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#2980b9',
   },
   categoryUploadPage: {
-    marginBottom: 150,
+    marginBottom: 20,
   },
   descriptionUploadPageTextarea: {
     height: 250,
-    width: '90%',
-    marginTop: 30,
+    marginBottom: 10,
     borderRadius: 15,
     padding: 20,
     fontSize: 18,
+    backgroundColor: '#333',
+    borderWidth: 1,
+    borderColor: 'white',
   },
   bodyUP: {
     position: 'relative',
@@ -69,13 +86,51 @@ const styles = StyleSheet.create({
     color: 'white',
     height: '100%',
     fontSize: 30,
-    margin: 20,
     padding: 0,
   },
-  uploadPageTitle: {
-    marginLeft: 50,
-    marginTop: 70,
+  uploadPageHeader: {
+    marginTop: 10,
+    marginBottom: 20,
+    fontSize: 24,
+    display: 'flex',
+    justifyContent: 'space-evenly',
   },
+  uploadPageTitle: {
+    fontSize: 18,
+    marginBottom: 5,
+  },
+  uploadPageInput: {
+    borderColor: 'white',
+    borderWidth: 1,
+    borderRadius: 15,
+    backgroundColor: '#333',
+  },
+
+  uploadPagePrice: {
+    fontSize: 18,
+    marginBottom: 5,
+    marginTop: 20,
+  },
+  uploadPageCurrencyText: {
+    fontSize: 18,
+    marginBottom: 5,
+    marginTop: 20,
+  },
+  uploadPageCurrencyValue: {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingBottom: 10,
+    paddingTop: 10,
+    paddingRight: 75,
+    paddingLeft: 75,
+    backgroundColor: '#333',
+    borderRadius: 15,
+    borderColor: 'white',
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+
   userUploadFormDiv: {
     marginTop: 10,
     marginBottom: 20,
@@ -114,15 +169,15 @@ const styles = StyleSheet.create({
   },
   buttonUploadPage: {
     marginTop: 20,
-    padding: 10,
+    padding: 13,
     fontSize: 16,
     backgroundColor: '#3498db',
     color: 'white',
+    height: 50,
+    alignSelf: 'center',
     borderRadius: 5,
   },
-  buttonUploadPageHover: {
-    backgroundColor: '#2980b9',
-  },
+
   categoryUploadPageSelect: {
     padding: 10,
     fontSize: 16,

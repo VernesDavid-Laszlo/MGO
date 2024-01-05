@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   },
   thanksText: {
     color: 'green',
+    marginTop: 15,
   },
   ratingInputContainer: {
     alignItems: 'center',

@@ -156,7 +156,7 @@ const ProductDetailsCard: React.FC = () => {
                 showsHorizontalScrollIndicator={false}
                 pagingEnabled
                 horizontal
-                onScroll={({nativeEvent}) => onchange && onchange(nativeEvent)}>
+                scrollEnabled={true}>
                 {imageUrls.map((imageUrl, index) => (
                   <Image
                     key={index}
