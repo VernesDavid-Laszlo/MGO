@@ -1,14 +1,19 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import HeartBlack from '../../assets/heart.svg';
+import HeartRed from '../../assets/heart2.svg';
+import {RouterKey} from '../../routes/Routes';
+import {Colors} from '../../utils/Colors';
 
 type Product = {
   id: string;
   category: string;
   description: string;
-  images: string[]; // Array of image URLs
+  images: string[];
   price: string;
   product_name: string;
-  product_name_lowercase: string;
   user: string;
 };
 
@@ -17,25 +22,70 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({product}) => {
-  const firstImageUrl = product.images[0];
+  const navigation = useNavigation();
+  const [isFavorited, setIsFavorited] = useState(false);
+
+  useEffect(() => {
+    const checkFavoriteStatus = async () => {
+      const favorites = await AsyncStorage.getItem('favorites');
+      if (favorites) {
+        const ids = JSON.parse(favorites);
+        setIsFavorited(ids.includes(product.id));
+      }
+    };
+
+    checkFavoriteStatus();
+  }, [product.id]);
+
+  const handleFavoritePress = async () => {
+    const favorites = await AsyncStorage.getItem('favorites');
+    let favoriteIds = favorites ? JSON.parse(favorites) : [];
+
+    if (favoriteIds.includes(product.id)) {
+      favoriteIds = favoriteIds.filter(id => id !== product.id);
+    } else {
+      favoriteIds.push(product.id);
+    }
+
+    await AsyncStorage.setItem('favorites', JSON.stringify(favoriteIds));
+    setIsFavorited(!isFavorited);
+  };
 
   return (
     <View style={styles.card}>
-      <Image source={{uri: firstImageUrl}} style={styles.image} />
+      <TouchableOpacity onPress={handleFavoritePress}>
+        {isFavorited ? (
+          <HeartRed style={styles.heartIcon} />
+        ) : (
+          <HeartBlack style={styles.heartIcon} />
+        )}
+      </TouchableOpacity>
+      <Image source={{uri: product.images[0]}} style={styles.image} />
       <Text style={styles.name}>{product.product_name}</Text>
       <Text style={styles.name}>{product.price}</Text>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() =>
+          navigation.navigate(RouterKey.PRODUCT_DETAILS_CARD, {product})
+        }>
         <Text style={styles.buttonText}>View Details</Text>
       </TouchableOpacity>
     </View>
   );
 };
-
 // Add your StyleSheet styles here
 
 const styles = StyleSheet.create({
+  heartIcon: {
+    left: 320,
+    bottom: 15,
+  },
+  mailicons: {
+    left: 280,
+    top: 9,
+  },
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.LIGHTGRAY,
     borderRadius: 10,
     padding: 15,
     marginVertical: 10,
@@ -58,7 +108,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   button: {
-    backgroundColor: '#007bff',
+    backgroundColor: Colors.PURPLE,
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 5,

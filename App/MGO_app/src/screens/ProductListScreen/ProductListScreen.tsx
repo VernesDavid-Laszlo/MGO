@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   FlatList,
   ActivityIndicator,
+  RefreshControl,
   StyleSheet,
   Text,
 } from 'react-native';
@@ -10,6 +11,10 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import {Colors} from '../../utils/Colors';
+import {RouterKey} from '../../routes/Routes';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RootStackParamList} from '../../routes/RoutesMapping';
+import {RouteProp} from '@react-navigation/native';
 
 // Define the Product type based on your Firestore data structure
 type Product = {
@@ -23,65 +28,79 @@ type Product = {
   user: string;
 };
 
-type ProductListScreenProps = {
-  route: {
-    params: {
-      categoryId: string;
-    };
-  };
-};
+type ProductListScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  RouterKey.PRODUCTLIST
+>;
 
+type ProductListScreenRouteProp = RouteProp<
+  RootStackParamList,
+  RouterKey.PRODUCTLIST
+>;
+
+type ProductListScreenProps = {
+  navigation: ProductListScreenNavigationProp;
+  route: ProductListScreenRouteProp;
+};
 const ProductListScreen: React.FC<ProductListScreenProps> = ({route}) => {
   const {categoryId} = route.params;
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const fetchProducts = async () => {
+    setIsLoading(true);
+    setIsRefreshing(true);
+
+    try {
+      const querySnapshot = await firestore()
+        .collection('products')
+        .where('category', '==', categoryId)
+        .get();
+
+      const fetchedProductsPromises = querySnapshot.docs.map(async doc => {
+        const productData = doc.data() as Omit<Product, 'id'>;
+        const productId = doc.id; // Get the product ID from the document
+
+        const imageUrls = await Promise.all(
+          productData.images.map(async imageName => {
+            const imageRef = storage().ref(
+              `Products/${productId}/${imageName}`,
+            );
+            try {
+              const imageUrl = await imageRef.getDownloadURL();
+              return imageUrl;
+            } catch (error) {
+              console.error(`Error fetching image ${imageName}:`, error);
+              return ''; // Return an empty string or a placeholder image URL
+            }
+          }),
+        );
+
+        return {
+          ...productData,
+          id: doc.id,
+          images: imageUrls.filter(url => url !== ''), // Filter out any empty strings
+        };
+      });
+
+      const fetchedProducts = await Promise.all(fetchedProductsPromises);
+      setProducts(fetchedProducts);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    } finally {
+      setIsLoading(false);
+      setIsRefreshing(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setIsLoading(true);
-        const querySnapshot = await firestore()
-          .collection('products')
-          .where('category', '==', categoryId)
-          .get();
-
-        const fetchedProductsPromises = querySnapshot.docs.map(async doc => {
-          const productData = doc.data() as Omit<Product, 'id'>;
-          const productId = doc.id; // Get the product ID from the document
-
-          const imageUrls = await Promise.all(
-            productData.images.map(async imageName => {
-              const imageRef = storage().ref(
-                `Products/${productId}/${imageName}`,
-              );
-              try {
-                const imageUrl = await imageRef.getDownloadURL();
-                return imageUrl;
-              } catch (error) {
-                console.error(`Error fetching image ${imageName}:`, error);
-                return ''; // Return an empty string or a placeholder image URL
-              }
-            }),
-          );
-
-          return {
-            ...productData,
-            id: doc.id,
-            images: imageUrls.filter(url => url !== ''), // Filter out any empty strings
-          };
-        });
-
-        const fetchedProducts = await Promise.all(fetchedProductsPromises);
-        setProducts(fetchedProducts);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchProducts();
   }, [categoryId]);
+
+  const onRefresh = () => {
+    fetchProducts();
+  };
 
   const renderEmptyComponent = () => (
     <View style={styles.emptyContainer}>
@@ -90,32 +109,33 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({route}) => {
       </Text>
     </View>
   );
-  if (isLoading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
-        <Text style={styles.loadingText}>Loading...</Text>
-      </View>
-    );
-  }
 
   return (
     <View style={{flex: 1}}>
-      {isLoading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
-      ) : (
-        <FlatList
-          data={products}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => <ProductCard product={item} />}
-          ListEmptyComponent={renderEmptyComponent} // Use this prop to render the empty component
-        />
+      <FlatList
+        data={products}
+        keyExtractor={item => item.id}
+        renderItem={({item}) => <ProductCard product={item} />}
+        ListEmptyComponent={renderEmptyComponent}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={onRefresh}
+            title="Refreshing..." // This is for iOS
+          />
+        }
+      />
+      {isLoading && (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#0000ff" />
+          <Text style={styles.loadingText}>Loading...</Text>
+        </View>
       )}
     </View>
   );
 };
+
 const styles = StyleSheet.create({
-  // ... (existing styles)
   emptyContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -128,16 +148,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   loadingContainer: {
-    flex: 1,
-    justifyContent: 'center', // Középre helyezi a tartalmat függőlegesen
-    alignItems: 'center', // Középre helyezi a tartalmat vízszintesen
-    backgroundColor: Colors.BACKGROUND_COLOR,
-    padding: 20,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
   },
   loadingText: {
-    fontSize: 18, // Betűméret
-    marginBottom: 10,
+    fontSize: 18,
     color: Colors.WHITE,
   },
 });
+
 export default ProductListScreen;
