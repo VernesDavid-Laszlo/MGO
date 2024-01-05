@@ -41,19 +41,17 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
       />
       <DrawerItem
         icon={() => <FavouritesIcon width={25} height={25} />}
-        label="Upload product"
+        label="Favorites"
         onPress={() => {
-          props.navigation.navigate(RouterKey.UPLOAD_SCREEN);
+          props.navigation.navigate(RouterKey.FAVORITES_SCREEN);
         }}
-        // Call logout on press
       />
-      {/* ... other drawer items ... */}
       <DrawerItem
         icon={() => <LogOutIcon width={25} height={25} />}
         label="Details Card"
         onPress={() => {
           props.navigation.navigate(RouterKey.PRODUCT_DETAILS_CARD);
-      }} // Call logout on press
+        }}
       />
       <DrawerItem
         icon={() => <MessageIcon width={25} height={25} />}
@@ -61,8 +59,8 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
         onPress={() => logout()} // Call logout on press
       />
       <DrawerItem
-        icon={() => <FavouritesIcon width={25} height={25} />}
-        label="Favorites"
+        icon={() => <LogOutIcon width={25} height={25} />}
+        label="Logout"
         onPress={() => logout()} // Call logout on press
       />
     </DrawerContentScrollView>

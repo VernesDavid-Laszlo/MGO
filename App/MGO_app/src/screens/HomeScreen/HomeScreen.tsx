@@ -1,5 +1,3 @@
-// HomePage.tsx
-
 import React, {useEffect, useState} from 'react';
 import {
   View,
@@ -9,7 +7,6 @@ import {
   Image,
   ActivityIndicator,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {
   collection,
   getFirestore,
@@ -17,16 +14,22 @@ import {
 import {styles} from './HomeScreenStyle';
 import {RouterKey} from '../../routes/Routes';
 import storage from '@react-native-firebase/storage';
-import {getDocs} from '@react-native-firebase/firestore/lib/modular/query'; // Adjust this path as needed
+import {getDocs} from '@react-native-firebase/firestore/lib/modular/query';
+import {RootStackParamList} from '../../routes/RoutesMapping';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 type Category = {
   id: string;
   image: string;
   category_name: string;
 };
-
-const HomePage: React.FC = () => {
-  const navigation = useNavigation();
+type HomePageNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  RouterKey.HOME_SCREEN
+>;
+const HomePage: React.FC<{navigation: HomePageNavigationProp}> = ({
+  navigation,
+}) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -60,7 +63,7 @@ const HomePage: React.FC = () => {
 
   const handleCategoryPress = (categoryId: string) => {
     console.log('Homepage category id given to the listscreen: ' + categoryId);
-    navigation.navigate(RouterKey.PRODUCTLIST, {categoryId}); // Make sure the route name matches
+    navigation.navigate(RouterKey.PRODUCTLIST, {categoryId});
   };
 
   const renderCategory = ({item}: {item: Category}) => (
