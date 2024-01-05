@@ -177,7 +177,8 @@ const ProductDetailsCard: React.FC = () => {
                 style={{flex: 1}}
                 showsHorizontalScrollIndicator={false}
                 pagingEnabled
-                horizontal>
+                horizontal
+                scrollEnabled={true}>
                 {imageUrls.map((imageUrl, index) => (
                   <Image
                     key={index}

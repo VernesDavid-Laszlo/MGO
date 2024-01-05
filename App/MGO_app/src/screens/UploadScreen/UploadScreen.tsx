@@ -1,5 +1,7 @@
 import React, {ChangeEventHandler, useEffect, useState} from 'react';
-import getStorage from '@react-native-firebase/storage';
+import getStorage, {FirebaseStorageTypes} from '@react-native-firebase/storage';
+import {launchImageLibrary} from 'react-native-image-picker';
+
 import ref from '@react-native-firebase/storage';
 import getDownloadURL from '@react-native-firebase/storage';
 import getDocs, {
@@ -7,23 +9,19 @@ import getDocs, {
 } from '@react-native-firebase/firestore';
 import DocumentSnapshot from '@react-native-firebase/firestore';
 import DocumentData from '@react-native-firebase/firestore';
+import {RadioButton} from 'react-native-paper';
 import {
   View,
   Text,
   Image,
   TouchableOpacity,
-  StyleSheet,
   Alert,
   ScrollView,
   TextInput,
 } from 'react-native';
 import FirebaseApp from '@react-native-firebase/firestore';
 import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
-import {
-  ImagePickerResponse,
-  launchImageLibrary,
-} from 'react-native-image-picker';
+import ImagePicker, {ImagePickerResponse} from 'react-native-image-picker';
 
 import {
   addDoc,
@@ -36,17 +34,22 @@ import {arrayUnion} from '@react-native-firebase/firestore/lib/modular/FieldValu
 import getDoc from '@react-native-firebase/firestore';
 import * as url from 'url';
 import styles from './UploadScreeenStyle';
+import Picker from 'react-native-picker-select';
+import auth, {firebase} from '@react-native-firebase/auth';
+import RNPickerSelect from 'react-native-picker-select';
+import storage from '@react-native-firebase/storage';
 
 const UploadScreen: React.FC = () => {
   const [title, setTitle] = useState<string>('');
   const [price, setPrice] = useState<string>('');
   const [productDescription, setProductDescription] = useState<string>('');
   const [category, setCategory] = useState<string>('');
-  const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [currency, setCurrency] = useState<string>('');
   const [username, setUsername] = useState<string>('');
   const db = getFirestore();
-  const user = auth().currentUser;
+  const [image, setImage] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,11 +77,6 @@ const UploadScreen: React.FC = () => {
     fetchData();
   }, [auth, db]);
 
-  const handleImageChange = (files: FileList | null) => {
-    if (files) {
-      setSelectedImages(prevImages => [...prevImages, ...Array.from(files)]);
-    }
-  };
 
   const handleTitleChange = (text: string) => {
     setTitle(text);
@@ -90,22 +88,12 @@ const UploadScreen: React.FC = () => {
     }
   };
 
-  const handleProductDescriptionChange: ChangeEventHandler<
-    HTMLTextAreaElement
-  > = event => {
-    const text = event.target.value;
+  const handleProductDescriptionChange = (text: string) => {
     setProductDescription(text);
   };
 
   const handleCategoryChange = (text: string) => {
     setCategory(text);
-  };
-
-  const uploadFile = async (storageRef: string, localFileUri: string) => {
-    const reference = getStorage().ref(storageRef);
-    const response = await fetch(localFileUri);
-    const blob = await response.blob();
-    return reference.put(blob);
   };
 
   const handleSaveChanges = async () => {
@@ -140,14 +128,13 @@ const UploadScreen: React.FC = () => {
           const productRef = collection(db, 'products');
           const newProductDocRef = await addDoc(productRef, {
             product_name: title,
-            price,
+            price: price,
             description: productDescription,
             category: categoryId,
             user: userId,
           });
 
           const productId = newProductDocRef.id;
-          const storageRef = getStorage().ref(`Products/${productId}`);
 
           // Use Promise.all to wait for all image uploads to complete
           {
@@ -161,6 +148,9 @@ const UploadScreen: React.FC = () => {
             });
           }));*/
           }
+          uploadImagesToStorage(selectedImages, productId).then(() => {
+            Alert.alert('Success');
+          });
 
           console.log(
             'Product data and images uploaded successfully to Firestore and Storage',
@@ -183,135 +173,206 @@ const UploadScreen: React.FC = () => {
     setSelectedImages([]);
   };
 
+  const handleCurrencyChange = (text: string) => {
+    setCurrency(text);
+    if (!isNaN(Number(price)) && price !== '') {
+      setPrice(`${price}${text}`);
+    }
+  };
+
+  const uploadImagesToStorage = async (images: string[], productId: any) => {
+    try {
+      const promises = images.map(async (image) => {
+        const imageName = image.split('/').pop(); // Extracting the image name
+        const reference = getStorage().ref(`Products/${productId}/${imageName}`);
+        console.log(reference);
+        const response = await fetch(image);
+        const blob = await response.blob();
+        await reference.put(blob);
+        const downloadURL = await reference.getDownloadURL();
+
+        const firestoreReference = getFirestore().collection('products').doc(productId);
+        await firestoreReference.update({
+          images: arrayUnion(imageName)
+        });
+        return downloadURL;
+      });
+
+
+      const uploadedImageURLs = await Promise.all(promises);
+      return uploadedImageURLs;
+    } catch (error) {
+      console.error('Error uploading images to Firebase Storage:', error);
+      throw error;
+    }
+  };
+
+
+  const chooseImage = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        maxHeight: 200,
+        maxWidth: 200,
+        selectionLimit: 5,
+      },
+      response => {
+        // Handle the response here
+        if (!response.didCancel && !response.errorCode) {
+          const kepek = response.assets?.map(asset => asset.uri) ?? [];
+          setSelectedImages(
+            prevImages => [...prevImages, ...(kepek ?? [])] as string[],
+          );
+        }
+      },
+    );
+  };
+
   const handleDeleteImage = (index: number) => {
     const updatedImages = [...selectedImages];
     updatedImages.splice(index, 1);
     setSelectedImages(updatedImages);
   };
 
-  const handleCurrencyChange = (text: string) => {
-    setCurrency(text);
-
-    if (!isNaN(Number(price)) && price !== '') {
-      setPrice(`${price}${text}`);
-    }
-  };
-
   return (
-    <View>
+    <ScrollView>
       {/*<Header />*/}
       <View style={styles.bodyUP}>
         <View style={styles.cardContainerUP}>
-          <View style={styles.uploadPageTitle}>
-            <Text>
-              {auth().currentUser?.displayName} You can upload your products
-              here{' '}
+          <View>
+            <Text style={styles.uploadPageHeader}>
+              Upload your products here
             </Text>
           </View>
-          <View style={styles.userUploadForm}>
-            <Text> Title</Text>
+          <View>
+            <Text style={styles.uploadPageTitle}> Title</Text>
             <View>
               <TextInput
                 id="title"
                 value={title}
                 onChangeText={handleTitleChange}
                 placeholder=""
+                style={styles.uploadPageInput}
               />
             </View>
-            <View style={styles.priceUploadPageall}>
-              <View style={styles.priceUploadPage}>
-                <Text> Price</Text>
+            <View>
+              <View>
+                <Text style={styles.uploadPagePrice}> Price</Text>
                 <TextInput
                   id="price"
                   value={price}
                   onChangeText={handlePriceChange}
                   placeholder=""
+                  style={styles.uploadPageInput}
                 />
               </View>
-              <View style={styles.currencyUploadPage}>
-                <Text>Select a currency:</Text>
-                <TouchableOpacity
-                  style={styles.currencyRadioButton}
-                  onPress={() => handleCurrencyChange('$')}>
-                  <Text>$</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.currencyRadioButton}
-                  onPress={() => handleCurrencyChange('€')}>
-                  <Text>€</Text>
-                </TouchableOpacity>
+              <View>
+                <Text style={styles.uploadPageCurrencyText}>
+                  Select a currency:
+                </Text>
+                <View style={styles.uploadPageCurrencyValue}>
+                  <Text style={{fontSize: 18, marginRight: -33}}>$</Text>
+                  <RadioButton
+                    value="$"
+                    status={currency === '$' ? 'checked' : 'unchecked'}
+                    onPress={() => handleCurrencyChange('$')}
+                  />
+                  <Text style={{fontSize: 18, marginRight: -33}}>€</Text>
+                  <RadioButton
+                    value="€"
+                    status={currency === '€' ? 'checked' : 'unchecked'}
+                    onPress={() => handleCurrencyChange('€')}
+                  />
+                </View>
               </View>
             </View>
           </View>
-          <View style={styles.descriptionUploadPage}>
-            <Text> Product description</Text>
+          <View>
+            <Text style={{fontSize: 18, marginTop: 20, marginBottom: 5}}>
+              {' '}
+              Product description
+            </Text>
             <View>
-              <textarea
-                id="productDescription"
+              <TextInput
+                style={styles.descriptionUploadPageTextarea}
+                editable
+                multiline
+                numberOfLines={50}
+                maxLength={1000}
+                onChangeText={handleProductDescriptionChange}
                 value={productDescription}
-                onChange={handleProductDescriptionChange}
-                placeholder=""
+                textAlignVertical="top"
               />
             </View>
           </View>
-          {/*<View style={styles.imageUploadPage}>
-            <View>
-              <Text>Select Images:</Text>
-              <TouchableOpacity
-                style={styles.imageUploadButton}
-                onPress={handleImageChange}>
-                <Text>Choose File</Text>
-              </TouchableOpacity>
-            </View>
+          <View style={styles.imageUploadPage}>
+            <TouchableOpacity onPress={chooseImage}>
+              <Text
+                style={{
+                  marginBottom: 15,
+                  fontSize: 18,
+                  backgroundColor: '#3498db',
+                  color: 'white',
+                  width: 140,
+                  borderRadius: 5,
+                  padding: 5,
+                }}>
+                Choose Images
+              </Text>
+            </TouchableOpacity>
             {selectedImages.length > 0 && (
               <View>
-                <Text>Selected Images:</Text>
-                <View style={styles.selectedImagesContainer}>
-                  {selectedImages.map((image, index) => (
-                    <View key={index} style={styles.selectedImageItem}>
-                      <Image
-                        source={{uri: URL.createObjectURL(image)}}
-                        style={styles.selectedImage}
-                      />
-                      <TouchableOpacity
-                        onPress={() => handleDeleteImage(index)}
-                        style={styles.deleteImageButton}>
-                        <Text>X</Text>
-                      </TouchableOpacity>
-                    </View>
-                  ))}
-                </View>
+                <Text style={{fontSize: 18,marginBottom: 10}}>Selected Images:</Text>
+                {selectedImages.map((imageUri, index) => (
+                  <View key={index} style={styles.selectedImageContainer}>
+                    <Image
+                      source={{uri: imageUri}}
+                      style={styles.selectedImage}
+                    />
+                    <TouchableOpacity onPress={() => handleDeleteImage(index)}>
+                      <Text style={styles.deleteButton}>X</Text>
+                    </TouchableOpacity>
+                  </View>
+                ))}
               </View>
             )}
-          </View>*/}
+          </View>
           <View style={styles.categoryUploadPage}>
             <View>
-              <Text>Product category:</Text>
-              <Picker
-                selectedValue={category}
-                onValueChange={itemValue => handleCategoryChange(itemValue)}>
-                <Picker.Item label="Select a category" value="" />
-                <Picker.Item label="TV's" value="TV's" />
-                <Picker.Item label="Laptops" value="Laptops" />
-                <Picker.Item label="Phones" value="Phones" />
-                <Picker.Item label="Cars" value="Cars" />
-                <Picker.Item label="Household" value="Household" />
-                <Picker.Item label="Clothes" value="Clothes" />
-                <Picker.Item label="Fragrances" value="Fragrances" />
-                <Picker.Item label="Speakers" value="Speakers" />
-                <Picker.Item label="Others" value="Others" />
-              </Picker>
+              <Text style={styles.uploadPageTitle}>Product category:</Text>
+              <View
+                style={{
+                  borderColor: 'white',
+                  borderWidth: 1,
+                  borderRadius: 15,
+                  backgroundColor: '#333',
+                  marginTop: 10,
+                }}>
+                <RNPickerSelect
+                  onValueChange={handleCategoryChange}
+                  items={[
+                    {label: "TV's", value: "TV's"},
+                    {label: 'Laptops', value: 'Laptops'},
+                    {label: 'Phones', value: 'Phones'},
+                    {label: 'Cars', value: 'Cars'},
+                    {label: 'Household', value: 'Household'},
+                    {label: 'Clothes', value: 'Clothes'},
+                    {label: 'Fragrances', value: 'Fragrances'},
+                    {label: 'Speakers', value: 'Speakers'},
+                    {label: 'Others', value: 'Others'},
+                  ]}
+                />
+              </View>
             </View>
-            <TouchableOpacity
-              style={styles.uploadButton}
-              onPress={handleSaveChanges}>
-              <Text>Upload product</Text>
+            <TouchableOpacity onPress={handleSaveChanges}>
+              <Text style={styles.buttonUploadPage}>Upload product</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.footerUploadPage}>{/*<Footer />*/}</View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

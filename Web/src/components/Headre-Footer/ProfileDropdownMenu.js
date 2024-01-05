@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import user from './ProfileIcons/user.png';
 import edit from './ProfileIcons/edit.png';
+import admin from './ProfileIcons/admin.png';
 import logout from './ProfileIcons/logout.png';
 import './ProfileDropdownMenu.css';
 import firebase from 'firebase/compat/app';
@@ -13,7 +14,8 @@ function ProfileDropdownMenu({ onLogout }) {
     const [username, setUsername] = useState('');
     const menuRef = useRef();
     const history = useHistory();
-
+    const userIds = ["jmA281aSglaot4queXMoMTk3SeC2"];
+    const currentUserId = firebase.auth().currentUser.uid;
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -52,6 +54,9 @@ function ProfileDropdownMenu({ onLogout }) {
     const handleEditProfile = () => {
         history.push('/edit');
     };
+    const handleAdmin = () => {
+        history.push('/admin');
+    }
 
     return (
         <div className="App">
@@ -70,6 +75,9 @@ function ProfileDropdownMenu({ onLogout }) {
                         <DropdownItem img={user} text="My Profile" onClick={handleMyProfile} />
                         <DropdownItem img={edit} text="Edit Profile" onClick={handleEditProfile}/>
                         <DropdownItem img={logout} text="Logout" onClick={handleLogout} />
+                        {userIds.includes(currentUserId) && (
+                            <DropdownItem img={admin} text="Admin" onClick={handleAdmin} />
+                        )}
                     </ul>
                 </div>
             </div>

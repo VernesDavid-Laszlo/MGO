@@ -2,14 +2,16 @@ import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   cardContainerEP: {
-    backgroundColor: '#333',
+    backgroundColor: 'black',
     borderColor: 'white',
-    borderRadius: 10,
     borderWidth: 1,
+    borderRadius: 10,
     padding: 20,
     maxWidth: 1200,
     position: 'relative',
-    margin: 70,
+    marginTop: 20,
+    marginBottom: 50,
+
     marginHorizontal: 'auto',
   },
   bodyEP: {
@@ -22,11 +24,8 @@ const styles = StyleSheet.create({
     padding: 0,
     margin: 0,
   },
-  bodyEPInput: {
-    height: 27,
-  },
   editPageTitle: {
-    marginTop: 20,
+    marginTop: 10,
     marginBottom: 20,
   },
   userEditForm: {
@@ -37,6 +36,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     flexDirection: 'row',
     width: '100%',
+
   },
   userEditFormLabel: {
     marginBottom: 10,
@@ -51,6 +51,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'white',
     borderRadius: 15,
+    backgroundColor: '#333',
+
   },
   cardContainerEPInput: {
     borderRadius: 15,
