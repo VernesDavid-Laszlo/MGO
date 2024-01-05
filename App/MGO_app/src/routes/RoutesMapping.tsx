@@ -7,12 +7,14 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import CustomDrawerHeader from '../components/CustomDrawerNavigationHeader/CustomDrawerHeader';
 import SignUpScreen from '../screens/SingUpScreen/SingUpScreen';
 import CustomDrawerContent from '../components/CustomDrawerContent/CustomDrawerContent';
+import ProductListScreen from '../screens/ProductListScreen/ProductListScreen';
 
 export type RootStackParamList = {
   [RouterKey.LOGIN_SCREEN]: undefined;
   [RouterKey.HOME_SCREEN]: undefined;
   [RouterKey.SIGNUP_SCREEN]: undefined;
   [RouterKey.DRAWERNAVIGATION]: undefined;
+  [RouterKey.PRODUCTLIST]: {categoryId: string};
 };
 
 const {Navigator, Screen} = createStackNavigator<RootStackParamList>();
@@ -32,6 +34,11 @@ const DrawerNavigator = () => {
         ),
       }}>
       <Drawer.Screen name={RouterKey.HOME_SCREEN} component={HomeScreen} />
+      <Drawer.Screen
+        name={RouterKey.PRODUCTLIST}
+        component={ProductListScreen}
+      />
+
       {/* ... other screens ... */}
     </Drawer.Navigator>
   );
