@@ -16,13 +16,18 @@ import DeleteIcon from '../../assets/detele-button.svg';
 import HintSection from '../../components/HintSection/HintSection';
 import ShowIcon from '../../assets/eye-slash.svg';
 import HideIcon from '../../assets/eye.svg';
-import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {RouterKey} from '../../routes/Routes';
-const SignUpScreen: React.FC = () => {
-  const navigation = useNavigation();
-
+import {RootStackParamList} from '../../routes/RoutesMapping';
+import {StackNavigationProp} from '@react-navigation/stack';
+type SignUpScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  RouterKey.SIGNUP_SCREEN
+>;
+const SignUpScreen: React.FC<{navigation: SignUpScreenNavigationProp}> = ({
+  navigation,
+}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confpassword, setConfirmPassword] = useState('');
@@ -56,9 +61,9 @@ const SignUpScreen: React.FC = () => {
         address: address,
         city: city,
       });
-      navigation.navigate(RouterKey.HOME_SCREEN);
+      navigation.navigate(RouterKey.DRAWERNAVIGATION);
     } catch (error) {
-      console.error('Error:', error.message);
+      console.error('Error:', error);
     }
   };
 
