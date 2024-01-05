@@ -7,4 +7,7 @@ export enum RouterKey {
   DRAWERNAVIGATION = 'DrawerNavigationToHomePage',
   UPLOAD_SCREEN = 'UploadScreen',
   PRODUCT_DETAILS_CARD = 'ProductDetailsCard',
+  DRAWERNAVIGATION = 'DrawerNavigationToHomePage',
+  PRODUCTLIST = 'ProductListScreen',
+
 }

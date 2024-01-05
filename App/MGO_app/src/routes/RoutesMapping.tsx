@@ -11,6 +11,8 @@ import MyProfileScreen from '../screens/MyProfileScreen/MyProfileScreen';
 import EditScreen from '../screens/EditScreen/EditScreen';
 import UploadScreen from '../screens/UploadScreen/UploadScreen';
 import ProductDetailsCard from '../screens/ProductDetailsCard/ProductDetailsCard';
+import ProductListScreen from '../screens/ProductListScreen/ProductListScreen';
+
 
 export type RootStackParamList = {
   [RouterKey.LOGIN_SCREEN]: undefined;
@@ -21,6 +23,8 @@ export type RootStackParamList = {
   [RouterKey.MYPROFILE_SCREEN]: undefined;
   [RouterKey.UPLOAD_SCREEN]: undefined;
   [RouterKey.PRODUCT_DETAILS_CARD]: undefined;
+  [RouterKey.PRODUCTLIST]: {categoryId: string};
+
 };
 
 const {Navigator, Screen} = createStackNavigator<RootStackParamList>();
@@ -40,10 +44,16 @@ const DrawerNavigator = () => {
         ),
       }}>
       <Drawer.Screen name={RouterKey.HOME_SCREEN} component={HomeScreen} />
+
       <Drawer.Screen name={RouterKey.MYPROFILE_SCREEN} component={MyProfileScreen} />
       <Drawer.Screen name={RouterKey.EDIT_SCREEN} component={EditScreen} />
       <Drawer.Screen name={RouterKey.UPLOAD_SCREEN} component={UploadScreen} />
-      <Drawer.Screen name={RouterKey.PRODUCT_DETAILS_CARD} component={ProductDetailsCard} />
+
+      <Drawer.Screen
+        name={RouterKey.PRODUCTLIST}
+        component={ProductListScreen}
+      />
+
 
       {/* ... other screens ... */}
     </Drawer.Navigator>

@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {Colors} from '../../utils/Colors';
 export const styles = StyleSheet.create({
   headerContainer: {
     height: 60,
@@ -9,10 +10,12 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   menuText: {
+    color: Colors.BLACK,
     fontSize: 24,
     marginRight: 20,
   },
   headerTitle: {
+    color: Colors.BLACK,
     fontSize: 20,
   },
   // Add more styles as needed
