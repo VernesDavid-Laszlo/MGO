@@ -29,21 +29,31 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
         icon={() => <ProfileIcon width={25} height={25} />}
         label="Account"
         onPress={() => {
-          /* Navigate to Account Screen */
+          props.navigation.navigate(RouterKey.MYPROFILE_SCREEN);
         }}
       />
       <DrawerItem
         icon={() => <MyProductsIcon width={25} height={25} />}
-        label="Inventory"
+        label="Edit profile"
         onPress={() => {
-          /* Navigate to Inventory Screen */
+          props.navigation.navigate(RouterKey.EDIT_SCREEN);
         }}
+      />
+      <DrawerItem
+        icon={() => <FavouritesIcon width={25} height={25} />}
+        label="Upload product"
+        onPress={() => {
+          props.navigation.navigate(RouterKey.UPLOAD_SCREEN);
+        }}
+        // Call logout on press
       />
       {/* ... other drawer items ... */}
       <DrawerItem
         icon={() => <LogOutIcon width={25} height={25} />}
-        label="Logout"
-        onPress={() => logout()} // Call logout on press
+        label="Details Card"
+        onPress={() => {
+          props.navigation.navigate(RouterKey.PRODUCT_DETAILS_CARD);
+      }} // Call logout on press
       />
       <DrawerItem
         icon={() => <MessageIcon width={25} height={25} />}
