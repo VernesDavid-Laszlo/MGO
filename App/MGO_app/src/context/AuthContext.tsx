@@ -36,7 +36,9 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({
   const logout = async () => {
     try {
       await auth().signOut();
-      navigate(RouterKey.LOGIN_SCREEN); // Navigate after logout
+      navigate(RouterKey.LOGIN_SCREEN);
+      console.log('User logged out');
+      // Navigate after logout
     } catch (error) {
       console.error('Logout error:', error);
     }

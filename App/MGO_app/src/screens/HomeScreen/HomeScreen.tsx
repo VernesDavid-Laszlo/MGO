@@ -1,12 +1,23 @@
+// HomePage.tsx
+
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, FlatList, Image, Text, View} from 'react-native';
-import {styles} from './HomeScreenStyle';
+import {
+  View,
+  FlatList,
+  TouchableOpacity,
+  Text,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import {
   collection,
   getFirestore,
 } from '@react-native-firebase/firestore/lib/modular';
-import {getDocs} from '@react-native-firebase/firestore/lib/modular/query';
+import {styles} from './HomeScreenStyle';
+import {RouterKey} from '../../routes/Routes';
 import storage from '@react-native-firebase/storage';
+import {getDocs} from '@react-native-firebase/firestore/lib/modular/query'; // Adjust this path as needed
 
 type Category = {
   id: string;
@@ -15,6 +26,7 @@ type Category = {
 };
 
 const HomePage: React.FC = () => {
+  const navigation = useNavigation();
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -22,7 +34,6 @@ const HomePage: React.FC = () => {
     const fetchData = async () => {
       const db = getFirestore();
       const colRef = collection(db, 'category');
-
       try {
         setIsLoading(true);
         const snapshot = await getDocs(colRef);
@@ -36,7 +47,6 @@ const HomePage: React.FC = () => {
             category_name: data.category_name,
           };
         });
-
         const categoriesData = await Promise.all(categoryDataPromises);
         setCategories(categoriesData);
       } catch (error) {
@@ -45,15 +55,21 @@ const HomePage: React.FC = () => {
         setIsLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
+  const handleCategoryPress = (categoryId: string) => {
+    console.log('Homepage category id given to the listscreen: ' + categoryId);
+    navigation.navigate(RouterKey.PRODUCTLIST, {categoryId}); // Make sure the route name matches
+  };
+
   const renderCategory = ({item}: {item: Category}) => (
-    <View style={styles.categoryItem}>
+    <TouchableOpacity
+      style={styles.categoryItem}
+      onPress={() => handleCategoryPress(item.id)}>
       <Text style={styles.categoryText}>{item.category_name}</Text>
       <Image source={{uri: item.image}} style={styles.categoryImage} />
-    </View>
+    </TouchableOpacity>
   );
 
   if (isLoading) {
