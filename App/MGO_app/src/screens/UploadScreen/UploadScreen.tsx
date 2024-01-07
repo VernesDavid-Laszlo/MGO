@@ -1,14 +1,4 @@
-import React, {ChangeEventHandler, useEffect, useState} from 'react';
-import getStorage, {FirebaseStorageTypes} from '@react-native-firebase/storage';
 import {launchImageLibrary} from 'react-native-image-picker';
-
-import ref from '@react-native-firebase/storage';
-import getDownloadURL from '@react-native-firebase/storage';
-import getDocs, {
-  FirebaseFirestoreTypes,
-} from '@react-native-firebase/firestore';
-import DocumentSnapshot from '@react-native-firebase/firestore';
-import DocumentData from '@react-native-firebase/firestore';
 import {RadioButton} from 'react-native-paper';
 import {
   View,
@@ -19,25 +9,18 @@ import {
   ScrollView,
   TextInput,
 } from 'react-native';
-import FirebaseApp from '@react-native-firebase/firestore';
-import firestore from '@react-native-firebase/firestore';
-import ImagePicker, {ImagePickerResponse} from 'react-native-image-picker';
 
+import {arrayUnion} from '@react-native-firebase/firestore/lib/modular/FieldValue';
+import styles from './UploadScreeenStyle';
+import RNPickerSelect from 'react-native-picker-select';
+import React, {useEffect, useState} from 'react';
 import {
   addDoc,
   collection,
-  doc,
   getFirestore,
-  updateDoc,
 } from '@react-native-firebase/firestore/lib/modular';
-import {arrayUnion} from '@react-native-firebase/firestore/lib/modular/FieldValue';
-import getDoc from '@react-native-firebase/firestore';
-import * as url from 'url';
-import styles from './UploadScreeenStyle';
-import Picker from 'react-native-picker-select';
-import auth, {firebase} from '@react-native-firebase/auth';
-import RNPickerSelect from 'react-native-picker-select';
-import storage from '@react-native-firebase/storage';
+import auth from '@react-native-firebase/auth';
+import getStorage from '@react-native-firebase/storage';
 
 const UploadScreen: React.FC = () => {
   const [title, setTitle] = useState<string>('');
@@ -76,7 +59,6 @@ const UploadScreen: React.FC = () => {
 
     fetchData();
   }, [auth, db]);
-
 
   const handleTitleChange = (text: string) => {
     setTitle(text);
@@ -182,22 +164,25 @@ const UploadScreen: React.FC = () => {
 
   const uploadImagesToStorage = async (images: string[], productId: any) => {
     try {
-      const promises = images.map(async (image) => {
+      const promises = images.map(async image => {
         const imageName = image.split('/').pop(); // Extracting the image name
-        const reference = getStorage().ref(`Products/${productId}/${imageName}`);
+        const reference = getStorage().ref(
+          `Products/${productId}/${imageName}`,
+        );
         console.log(reference);
         const response = await fetch(image);
         const blob = await response.blob();
         await reference.put(blob);
         const downloadURL = await reference.getDownloadURL();
 
-        const firestoreReference = getFirestore().collection('products').doc(productId);
+        const firestoreReference = getFirestore()
+          .collection('products')
+          .doc(productId);
         await firestoreReference.update({
-          images: arrayUnion(imageName)
+          images: arrayUnion(imageName),
         });
         return downloadURL;
       });
-
 
       const uploadedImageURLs = await Promise.all(promises);
       return uploadedImageURLs;
@@ -206,7 +191,6 @@ const UploadScreen: React.FC = () => {
       throw error;
     }
   };
-
 
   const chooseImage = () => {
     launchImageLibrary(
@@ -323,7 +307,9 @@ const UploadScreen: React.FC = () => {
             </TouchableOpacity>
             {selectedImages.length > 0 && (
               <View>
-                <Text style={{fontSize: 18,marginBottom: 10}}>Selected Images:</Text>
+                <Text style={{fontSize: 18, marginBottom: 10}}>
+                  Selected Images:
+                </Text>
                 {selectedImages.map((imageUri, index) => (
                   <View key={index} style={styles.selectedImageContainer}>
                     <Image

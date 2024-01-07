@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     flexDirection: 'row',
     width: '100%',
-
   },
   userEditFormLabel: {
     marginBottom: 10,
@@ -52,7 +51,6 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderRadius: 15,
     backgroundColor: '#333',
-
   },
   cardContainerEPInput: {
     borderRadius: 15,

@@ -10,6 +10,12 @@ const styles = StyleSheet.create({
     padding: 0,
     position: 'relative',
   },
+  editIcon: {
+    width: 25,
+    height: 25,
+    position: 'relative',
+    left: 340,
+  },
   cardContainerMP: {
     backgroundColor: '#333',
     borderRadius: 10,
