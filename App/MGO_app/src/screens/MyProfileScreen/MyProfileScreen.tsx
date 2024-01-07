@@ -1,32 +1,29 @@
 import React, {useEffect, useState} from 'react';
 import getStorage from '@react-native-firebase/storage';
-import ref from '@react-native-firebase/storage';
-import getDownloadURL from '@react-native-firebase/storage';
-import getDocs, {
-  FirebaseFirestoreTypes,
-} from '@react-native-firebase/firestore';
-import DocumentSnapshot from '@react-native-firebase/firestore';
-import DocumentData from '@react-native-firebase/firestore';
 import {
   View,
   Text,
   Image,
   TouchableOpacity,
-  StyleSheet,
-  Alert, ScrollView,
+  Alert,
+  ScrollView,
 } from 'react-native';
-import FirebaseApp from '@react-native-firebase/firestore';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import styles from './MyProfileScreenStyle';
-import {query} from '@react-native-firebase/database/lib/modular/query';
-import {
-  deleteDoc,
-  where,
-} from '@react-native-firebase/firestore/lib/modular/query';
-import getDoc from '@react-native-firebase/firestore';
+import {deleteDoc} from '@react-native-firebase/firestore/lib/modular/query';
 import {doc} from '@react-native-firebase/firestore/lib/modular';
-const MyProfileScreen: React.FC = () => {
+import EditIcon from '../../assets/edit.svg';
+import {RouterKey} from '../../routes/Routes';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RootStackParamList} from '../../routes/RoutesMapping';
+type MyProfileScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  RouterKey.MYPROFILE_SCREEN
+>;
+const MyProfileScreen: React.FC<{
+  navigation: MyProfileScreenNavigationProp;
+}> = ({navigation}) => {
   const [productList, setProductList] = useState<any[]>([]);
   const [productId, setProductId] = useState<string[]>([]);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
@@ -144,13 +141,18 @@ const MyProfileScreen: React.FC = () => {
     }
     setShowProducts(!showProducts);
   };
+  const handleEditScreenNavigation = () => {
+    navigation.navigate(RouterKey.EDIT_SCREEN);
+  };
 
   return (
     <View>
-      {/*<Header />*/}
       <ScrollView style={styles.bodyMP}>
         <View style={styles.cardContainerMP}>
           <View>
+            <TouchableOpacity onPress={handleEditScreenNavigation}>
+              <EditIcon style={styles.editIcon} />
+            </TouchableOpacity>
             <Text style={styles.myProfileTitle}>Your Profile {username}</Text>
           </View>
           <View style={styles.userProfileForm}>
@@ -177,7 +179,9 @@ const MyProfileScreen: React.FC = () => {
           <Text style={{fontSize: 24, margin: 10}}>Your Products</Text>
           {isProd ? (
             <TouchableOpacity onPress={toggleProducts}>
-              <Text style={styles.productsButton}>{showProducts ? 'Hide' : 'Show'} My Products</Text>
+              <Text style={styles.productsButton}>
+                {showProducts ? 'Hide' : 'Show'} My Products
+              </Text>
             </TouchableOpacity>
           ) : (
             <Text>No products yet</Text>

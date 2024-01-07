@@ -13,6 +13,7 @@ import UploadScreen from '../screens/UploadScreen/UploadScreen';
 import ProductDetailsCard from '../screens/ProductDetailsCard/ProductDetailsCard';
 import ProductListScreen from '../screens/ProductListScreen/ProductListScreen';
 import FavoritesScreen from '../screens/FavoriteScreen/FavoritesScreen';
+import EditScreen from '../screens/EditScreen/EditScreen';
 
 export type RootStackParamList = {
   [RouterKey.LOGIN_SCREEN]: undefined;
@@ -65,6 +66,7 @@ const DrawerNavigator = () => {
         name={RouterKey.FAVORITES_SCREEN}
         component={FavoritesScreen}
       />
+      <Drawer.Screen name={RouterKey.EDIT_SCREEN} component={EditScreen} />
 
       {/* ... other screens ... */}
     </Drawer.Navigator>

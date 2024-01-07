@@ -21,6 +21,7 @@ import firestore from '@react-native-firebase/firestore';
 import {RouterKey} from '../../routes/Routes';
 import {RootStackParamList} from '../../routes/RoutesMapping';
 import {StackNavigationProp} from '@react-navigation/stack';
+
 type SignUpScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   RouterKey.SIGNUP_SCREEN
