@@ -10,6 +10,7 @@ import Product from "./components/Product/Product";
 import EditPage from "./components/EditPage/Editpage";
 import MyProfile from "./components/MyProfile/MyProfile";
 import MyProfilePage from "./components/MyProfile/MyProfile";
+import AdminPage from "./components/AdminPage/AdminPage";
 
 
 const firebaseConfig = {
@@ -48,15 +49,11 @@ getDocs(colRef).then((snapshot)=>{
 
 
 
-
-
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-        <App/>
 
-
+        <App />
     </React.StrictMode>,
 
 );

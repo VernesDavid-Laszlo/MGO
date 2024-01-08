@@ -21,8 +21,6 @@ const EditPage = () => {
     const user = firebase.auth().currentUser;
 
 
-
-
     const handleNewPasswordChange = (e) => {
         setNewPassword(e.target.value);
     };
@@ -113,10 +111,15 @@ const EditPage = () => {
 
                     if (Object.keys(updatedData).length > 0) {
                         await updateDoc(userDocRef, updatedData);
-                        console.log('Data updated successfully');
+
+                    }
+                    if (newName || newAddress || newCity || newPhoneNumber || (newPassword && confirmPassword)) {
+                        alert("updated successfully");
+                    }
+                    else {
+                        alert("no changes were made");
                     }
                 }
-                alert("updated successfully");
                 setNewPassword('');
                 setConfirmPassword('');
                 setNewName('');

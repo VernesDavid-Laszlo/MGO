@@ -87,6 +87,7 @@ body {
 }
 
 
+
 #uploadPageTitle {
     margin-left: 50px;
     margin-top: 70px;
@@ -100,14 +101,13 @@ body {
 }
 
 #userUploadForm div label {
-    min-width: 200px;
+    min-width: 50px;
     margin-right: 160px;
     margin-left: 100px;
     display: flex;
     align-items: center;
 }
-
-#userUploadForm div input {
+#userUploadForm div #price {
     min-width: 200px;
     display: flex;
     align-items: center;
@@ -121,13 +121,14 @@ body {
     justify-content:center;
     left: 0;
     margin-right: 20px;
-
     width: 100%;
     background: black;
     align-content: end;
-
 }
-
+#priceUploadPage input{
+    min-height:35px;
+    align-self: center;
+}
 #uploadPageTitle {
     margin-left: 20px;
 }
@@ -176,18 +177,12 @@ body {
 }
 
 
-@media screen and (max-width: 520px) {
-
-}
-
 @media screen and (max-width: 650px) and (min-width: 520px) {
     #userUploadForm div input,
     #userUploadForm div label {
         width: 100%;
         margin: 3px 20px;
     }
-
-
 
 
     .bodyUP {
@@ -214,19 +209,16 @@ body {
     }
 }
 
-#userUploadForm div label{
-    max-width: none;
 
-}
 #uploadPageTitle{
     margin-top: 0;
 }
 
 
-@media screen and (min-width: 650px) {
+
 
     #userUploadForm div label {
-        width: 68%;
+
         max-width: 400px;
         margin: 3px 20px;
     }
@@ -242,6 +234,10 @@ body {
         max-width: 91%;
         display: flex;
         justify-content: space-between;
+
+    }
+    #currencyUploadPage{
+        margin-left: 30px;
     }
 
     #userUploadForm #last {
@@ -258,11 +254,36 @@ body {
         margin-top: 100px;
 
     }
+    #currencyUploadPage {
+        display: flex;
+        align-items: center; /* Center items vertically */
+        max-width: 20px;
 
-}
+    }
+    #currencyUploadPage fieldset{
+        margin: 0;
+        max-width: 300px;
+    }
+    #priceUploadPageall {
+        display: flex;
+        align-items: center; /* Center items vertically */
+        justify-content: space-around;
+        width: 50%;
+    }
+
+    #dollarUploadPage {
+        max-width: 50px;
+    }
+    #currencyUploadPage label {
+        margin: -30px
+    }
+    #currencyUploadPage fieldset{
+        margin: 0;
+    }
+
 
 @media screen and (max-width: 520px) {
-    #userUploadForm div input,
+    #userUploadForm div #title,#userUploadForm div #price,
     #userUploadForm div label {
         width: 100%;
         margin: 3px 20px;

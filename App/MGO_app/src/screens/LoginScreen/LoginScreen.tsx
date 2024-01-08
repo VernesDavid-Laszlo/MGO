@@ -12,72 +12,52 @@ import CustomSignUpButton from '../../components/SignUpButton/SignUpButton';
 import styles from './LoginScreen.style';
 import {Colors} from '../../utils/Colors';
 import {RouterKey} from '../../routes/Routes';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RootStackParamList} from '../../routes/RoutesMapping';
+import {useNavigation} from '@react-navigation/native';
+import {useAuth} from '../../context/AuthContext'; // Import useAuth
+
 import DeleteIcon from '../../assets/detele-button.svg';
 import HintSection from '../../components/HintSection/HintSection';
 import ShowIcon from '../../assets/eye-slash.svg';
 import HideIcon from '../../assets/eye.svg';
-import {useNavigation} from '@react-navigation/native';
-import auth, { firebase } from "@react-native-firebase/auth";
 
 const LoginScreen: React.FC = () => {
-  type LoginScreenProps = {
-    navigation: StackNavigationProp<RootStackParamList, RouterKey.LOGIN_SCREEN>;
-  };
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const [error, setError] = useState('');
-  const navigation = useNavigation();
-
-  const handleEmailChange = useCallback((text: string) => {
-    setEmail(text);
-  }, []);
-
-  const handlePasswordChange = useCallback((text: string) => {
-    setPassword(text);
-  }, []);
-  //
-  const handleDeleteEmail = useCallback(() => {
-    setEmail('');
-  }, []);
-
-  const handleLogin = async () => {
-    try {
-      const userCredential = await auth().signInWithEmailAndPassword(
-        email,
-        password,
-      );
-      console.log('Login success:', userCredential.user);
-      navigation.navigate(RouterKey.HOME_SCREEN);
-    } catch (error) {
-      console.error('Login error:', error.message);
-    }
-  };
-
-  // const handleLogin = async () => {
-  //   const success = await login(username, password);
-  //   if (success) {
-  //     setLoading(true);
-  //     const result = await loadProfile();
-  //     if (result) {
-  //       navigation.navigate(RouterKey.HOME_SCREEN;
-  //     }
-  //   }
-  // };
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isDeleteUsernameVisible, setDeleteUsernameVisible] = useState(false);
 
-  const handleTogglePasswordVisibility = useCallback(() => {
-    setIsPasswordVisible(prevState => !prevState);
-  }, []);
+  const navigation = useNavigation();
+  const {login} = useAuth(); // Use the login function from AuthContext
+
+  const handleEmailChange = useCallback((text: string) => setEmail(text), []);
+  const [loginError, setLoginError] = useState('');
+
+  const handlePasswordChange = useCallback(
+    (text: string) => setPassword(text),
+    [],
+  );
+  const handleDeleteEmail = useCallback(() => setEmail(''), []);
+  const handleTogglePasswordVisibility = useCallback(
+    () => setIsPasswordVisible(prev => !prev),
+    [],
+  );
+
+  const handleLogin = async () => {
+    try {
+      await login(email, password);
+      setLoginError('');
+    } catch (error) {
+      // console.error('Login error:', error);
+      setLoginError(error.message); // Display the error message
+    }
+  };
+
+
+  const handleSignUppress = () => navigation.navigate(RouterKey.SIGNUP_SCREEN);
 
   useEffect(() => {
     setDeleteUsernameVisible(email.length !== 0);
-  }, [email.length]);
-  const handleSignUppress = () => {
-    navigation.navigate(RouterKey.SIGNUP_SCREEN);
-  };
+  }, [email]);
 
   return (
     <SafeAreaView style={styles.mainContainer}>
@@ -126,13 +106,13 @@ const LoginScreen: React.FC = () => {
             </TouchableOpacity>
           </View>
         </SafeAreaView>
-        {/*{!!loginError ? (*/}
-        {/*  <Text style={styles.errorText}>Incorrect username or password.</Text>*/}
-        {/*) : null}*/}
+        {!!loginError ? (
+          <Text style={styles.errorText}>Incorrect username or password.</Text>
+        ) : null}
         <CustomLoginButton handlePress={handleLogin} />
         <CustomSignUpButton handlePress={handleSignUppress} />
         <HintSection />
-      </View >
+      </View>
     </SafeAreaView>
   );
 };
