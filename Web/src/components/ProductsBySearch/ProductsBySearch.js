@@ -1,4 +1,3 @@
-// ProductDetails.js
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { getFirestore, doc, getDoc, collection } from 'firebase/firestore';
@@ -18,14 +17,14 @@ function ProductDetails() {
     useEffect(() => {
         const fetchProductDetails = async () => {
             const db = getFirestore();
+            if (!productId) {
+                console.error('Product ID is undefined');
+                return;
+            }
             try {
                 console.log('Fetching product details for productId:', productId);
                 const productRef = doc(db, 'products', productId);
-                console.log('productRef path:', productRef.path);
-
                 const productDoc = await getDoc(productRef);
-                console.log('productDoc data:', productDoc.data());
-
                 if (productDoc.exists()) {
                     setProduct(productDoc.data());
                     fetchImageUrl(productDoc.data());
@@ -36,7 +35,6 @@ function ProductDetails() {
                 console.error('Error fetching product details:', error);
             }
         };
-
         fetchProductDetails();
     }, [productId]);
 

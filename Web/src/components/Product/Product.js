@@ -40,7 +40,7 @@ const Product = () => {
         const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
         setFavorites(storedFavorites);
 
-        const auth = getAuth(); // Import getAuth from firebase/auth
+        const auth = getAuth();
         const user = auth.currentUser;
         if (user) {
             setSenderUserId(user.uid);

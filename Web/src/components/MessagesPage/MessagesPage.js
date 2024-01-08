@@ -39,7 +39,7 @@ function MessagesPage() {
         const messagesQuery = query(
             messagesCollection,
             where('recipient', '==', loggedInUserId),
-            orderBy('timestamp', 'desc')
+            orderBy('timestamp', 'asc')
         );
 
         const messagesSnapshot = await getDocs(messagesQuery);
@@ -50,18 +50,17 @@ function MessagesPage() {
             const senderId = messageData.sender;
             const senderData = await getUserData(senderId);
 
-            if (!newMessagesBySender[senderId]) {
-                newMessagesBySender[senderId] = [];
-            }
-            newMessagesBySender[senderId].push({
+            // Itt az új logika: ha már létezik az adott küldőtől üzenet, akkor felülírjuk azt a legfrissebbel
+            newMessagesBySender[senderId] = {
                 ...messageData,
                 id: docSnapshot.id,
                 senderUsername: senderData ? senderData.userName : 'Ismeretlen'
-            });
+            };
         }
 
         setMessagesBySender(newMessagesBySender);
     };
+
 
     const openChat = (userId) => {
         setActiveChatUserId(userId);
@@ -78,16 +77,15 @@ function MessagesPage() {
             <Header />
             <h2 className="h2text">Latest Received Messages</h2>
             <div className="messagesContainer">
-                {Object.entries(messagesBySender).map(([senderId, messages]) => (
+                {Object.entries(messagesBySender).map(([senderId, message]) => (
                     <div key={senderId} className="containerMP" onClick={() => openChat(senderId)}>
-                        {messages.map((message) => (
-                            <div key={message.id} className="message">
-                                <strong>{message.senderUsername}</strong> to You: {message.text}
-                            </div>
-                        ))}
+                        <div className="message">
+                            <strong>{message.senderUsername}</strong> to You: {message.text}
+                        </div>
                     </div>
                 ))}
             </div>
+
             <Footer />
             {chatModalOpen && (
                 <ChatModal
