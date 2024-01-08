@@ -1,0 +1,27 @@
+/* MessagesPage.css */
+
+.h2text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.containerMP {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 10px;
+    border: 1px solid #444046;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #444046;
+    color: white;
+}
+
+.message {
+    margin-top: 10px;
+    padding: 5px;
+    border-radius: 8px;
+}
+
