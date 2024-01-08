@@ -14,6 +14,7 @@ import MessagesPage from "./components/MessagesPage/MessagesPage";
 import EditPage from "./components/EditPage/Editpage";
 import UploadPage from "./components/UploadPage/UploadPage";
 import Product from "./components/Product/Product";
+import AdminPage from "./components/AdminPage/AdminPage";
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -50,12 +51,27 @@ function App() {
                     <Route path="/edit">
                         {loggedIn ? <EditPage /> : <Redirect to="/login" />}
                     </Route>
-                    <Route path="/products/:categoryId" component={ProductsByCaregory} />
-                    <Route path="/product-details/:productId" component={ProductDetails} />
-                    <Route path="/favorites" component={FavoritePage} />
-                    <Route path="/messages" component={MessagesPage} />
-                    <Route path="/upload" component={UploadPage}/>
-                    <Route path="/prodcard" component={Product}/>
+                    <Route path="/admin">
+                        {loggedIn ? <AdminPage /> : <Redirect to="/login" />}
+                    </Route>
+                    <Route path="/products/:categoryId">
+                        {loggedIn ? <ProductsByCaregory /> : <Redirect to="/login" />}
+                    </Route>
+                    <Route path="/product-details/:productId">
+                        {loggedIn ? <ProductDetails/> : <Redirect to="/login" />}
+                    </Route>
+                    <Route path="/favorites">
+                        {loggedIn ? <FavoritePage/> : <Redirect to="/login" />}
+                    </Route>
+                    <Route path="/messages">
+                        {loggedIn ? <MessagesPage/> : <Redirect to="/login" />}
+                    </Route>
+                    <Route path="/upload">
+                        {loggedIn ? <UploadPage/> : <Redirect to="/login" />}
+                    </Route>
+                    <Route path="/prodcard">
+                        {loggedIn ? <Product/> : <Redirect to="/login" />}
+                    </Route>
                     <Redirect from="/" to="/login" />
                 </Switch>
             </div>
