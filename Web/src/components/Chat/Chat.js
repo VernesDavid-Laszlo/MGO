@@ -10,8 +10,7 @@ import {
     where,
     orderBy,
     onSnapshot,
-    serverTimestamp,
-    getDocs
+    serverTimestamp
 } from 'firebase/firestore';
 
 const ChatModal = ({ closeChat, senderUserId, recipientUserId }) => {
@@ -22,43 +21,29 @@ const ChatModal = ({ closeChat, senderUserId, recipientUserId }) => {
         const db = getFirestore();
         const messagesRef = collection(db, 'messages');
 
-        const q1 = query(
+        const q = query(
             messagesRef,
-            where('sender', '==', senderUserId),
-            where('recipient', '==', recipientUserId),
+            where('sender', 'in', [senderUserId, recipientUserId]),
+            where('recipient', 'in', [senderUserId, recipientUserId]),
             orderBy('timestamp', 'asc')
         );
 
-        const q2 = query(
-            messagesRef,
-            where('sender', '==', recipientUserId),
-            where('recipient', '==', senderUserId),
-            orderBy('timestamp', 'asc')
-        );
-
-        const getMessages = async () => {
-            const [snapshot1, snapshot2] = await Promise.all([
-                getDocs(q1),
-                getDocs(q2)
-            ]);
-
-            const fetchedMessages = [...snapshot1.docs, ...snapshot2.docs]
-                .map(doc => ({
-                    id: doc.id,
-                    ...doc.data(),
-                }))
-                .sort((a, b) => a.timestamp.seconds - b.timestamp.seconds);
-
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const fetchedMessages = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
             setMessages(fetchedMessages);
-        };
+        });
 
-        getMessages();
-
+        return () => unsubscribe();
     }, [senderUserId, recipientUserId]);
 
-
-
     const sendMessage = async () => {
+        if (messageText.trim() === '') {
+            return; // Prevent sending empty messages
+        }
+
         try {
             const db = getFirestore();
             const messagesRef = collection(db, 'messages');

@@ -14,7 +14,7 @@ function ProfileDropdownMenu({ onLogout }) {
     const [username, setUsername] = useState('');
     const menuRef = useRef();
     const history = useHistory();
-    const userIds = ["jmA281aSglaot4queXMoMTk3SeC2"];
+    const userIds = ["GZim4UfLf3cyWqEYLLicmibmCer1"];
     const currentUserId = firebase.auth().currentUser.uid;
     useEffect(() => {
         const fetchData = async () => {
@@ -39,9 +39,7 @@ function ProfileDropdownMenu({ onLogout }) {
     const handleLogout = async () => {
         try {
             await firebase.auth().signOut();
-
             onLogout();
-
             history.push('/login');
         } catch (error) {
             console.error('Error logging out:', error.message);
@@ -74,10 +72,11 @@ function ProfileDropdownMenu({ onLogout }) {
                     <ul>
                         <DropdownItem img={user} text="My Profile" onClick={handleMyProfile} />
                         <DropdownItem img={edit} text="Edit Profile" onClick={handleEditProfile}/>
-                        <DropdownItem img={logout} text="Logout" onClick={handleLogout} />
                         {userIds.includes(currentUserId) && (
                             <DropdownItem img={admin} text="Admin" onClick={handleAdmin} />
                         )}
+                        <DropdownItem img={logout} text="Logout" onClick={handleLogout} />
+
                     </ul>
                 </div>
             </div>
