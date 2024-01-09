@@ -66,7 +66,7 @@ const ProductCard: React.FC<ProductCardProps> = ({product}) => {
       <TouchableOpacity
         style={styles.button}
         onPress={() =>
-          navigation.navigate(RouterKey.PRODUCT_DETAILS_CARD, {product})
+            navigation.navigate(RouterKey.PRODUCT_DETAILS_CARD, {product: product})
         }>
         <Text style={styles.buttonText}>View Details</Text>
       </TouchableOpacity>

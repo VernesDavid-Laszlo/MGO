@@ -20,10 +20,14 @@ import {getDocs} from '@react-native-firebase/firestore/lib/modular/query';
 import getStorage from '@react-native-firebase/storage';
 import styles from './ProductDetailsCardStyle';
 import {Linking} from 'react-native';
+import {useRoute} from '@react-navigation/native';
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
-const ProductDetailsCard: React.FC = () => {
-  const [productData, setProductData] = useState<any | null>(null);
+const ProductDetailsCard = () => {
+  const navigationRoute = useRoute();
+  const product = navigationRoute.params.product;
+
+  const [productData, setProductData] = useState(route.params.product);
   const [userPhoneNumber, setUserPhoneNumber] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
   const [imageUrls, setImageUrls] = useState<string[]>([]);
