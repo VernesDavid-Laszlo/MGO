@@ -11,58 +11,10 @@ import {
 } from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import { Header, Footer } from '../Headre-Footer/Header-Footer';
-import heart from './images/heart1.png';
 import './ProductsbyCategory.css';
+import ProductCard from "../ProductCard/ProductCard";
 
-function ProductCard({ product, user, onFavoriteClick }) {
-    const [imageUrl, setImageUrl] = useState('');
 
-    const fetchImageUrl = async () => {
-        try {
-            const storage = getStorage();
-            const imageRef = ref(storage, `Products/${product.id}/${product.images[0]}`);
-            const url = await getDownloadURL(imageRef);
-            setImageUrl(url);
-        } catch (error) {
-            console.error('Error fetching image URL from Firebase Storage: ', error);
-        }
-    };
-
-    useEffect(() => {
-        fetchImageUrl();
-    }, [product.id, product.images]);
-
-    return (
-        <div className="centerPBC">
-            <div className="cardPBC">
-                {imageUrl ? (
-                    <img src={imageUrl} alt="Product" className="cardImagePBC" />
-                ) : (
-                    <div>Loading image...</div>
-                )}
-
-                <div className="cardContentPBC">
-                    <div className="productNameAndPricePBC">
-                        <img
-                            src={heart}
-                            alt="Heart"
-                            className="faviconPBC"
-                            onClick={() => onFavoriteClick(product)}
-                            style={{ cursor: 'pointer' }}
-                        />
-                        <div className="priceTagPBC">
-                            <p> {product.price}</p>
-                        </div>
-                    </div>
-                    <p style={{ color: 'white', fontWeight: 'bold', fontSize: '20px' }}>
-                        {product.product_name}
-                    </p>
-                    <p className="userLocationPBC">Location: {user?.city}</p>
-                </div>
-            </div>
-        </div>
-    );
-}
 
 function ProductsByCategory() {
     const { categoryId } = useParams();
@@ -170,6 +122,16 @@ function ProductsByCategory() {
         }
     };
 
+    const handleProductCardClick = (product) => {
+        // A termék kiválasztása után megteheted, amit szeretnél.
+        // Például navigálhatsz a Product oldalra, és átadhatod a kiválasztott termék adatait.
+        // history.push('/prodcard');
+        history.push({
+            pathname: '/prodcard', // Az útvonal, ahova navigálsz
+            state: { productData: product }, // A termék adatai, amit továbbítasz
+        });
+    };
+
     return (
         <div className="bodyPBC">
             <div>
@@ -192,7 +154,7 @@ function ProductsByCategory() {
                     </select>
                 </div>
                 {products.map((product) => (
-                    <ProductCard key={product.id} product={product} user={users[product.user]} onFavoriteClick={handleFavoriteClick} />
+                    <ProductCard key={product.id} product={product} user={users[product.user]} onFavoriteClick={handleFavoriteClick} onClick={() => handleProductCardClick(product)} />
                 ))}
             </div>
             <div>

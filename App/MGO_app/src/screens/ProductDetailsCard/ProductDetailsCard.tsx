@@ -138,16 +138,38 @@ const ProductDetailsCard: React.FC = () => {
     rateUser(productData.user, newRating);
     closeRatingModal();
   };
+  const renderDescription = () => {
+    return productData.description.split('-').map((item, index) => (
+      <Text
+        key={index}
+        style={{
+          fontSize: 14,
+          lineHeight: 20,
+          backgroundColor: '#333',
+          borderRadius: 15,
+          padding: 10,
+          color: 'white',
+        }}>
+        {item.trim()}
+      </Text>
+    ));
+  };
 
   return (
     <ScrollView style={{backgroundColor: 'black', padding: 10}}>
       {productData && (
-        <View>
+        <>
           <SafeAreaView style={{flex: 1}}>
-            <Text style={{fontSize: 27, marginBottom: 10}}>
+            <Text style={{fontSize: 27, marginBottom: 10, color: 'white'}}>
               {productData.product_name}
             </Text>
-            <Text style={{fontSize: 22, fontWeight: 'bold', marginTop: 15}}>
+            <Text
+              style={{
+                fontSize: 22,
+                fontWeight: 'bold',
+                marginTop: 15,
+                color: 'white',
+              }}>
               Price: {productData.price}
             </Text>
             <View style={{marginBottom: 20, marginTop: 20}}>
@@ -175,19 +197,11 @@ const ProductDetailsCard: React.FC = () => {
                 fontWeight: 'bold',
                 marginTop: 10,
                 marginBottom: 15,
+                color: 'white',
               }}>
               Description
             </Text>
-            <Text
-              style={{
-                fontSize: 14,
-                lineHeight: 20,
-                backgroundColor: '#333',
-                borderRadius: 15,
-                padding: 10,
-              }}>
-              {productData.description}
-            </Text>
+            {renderDescription()}
           </View>
           <View style={styles.container}>
             <View style={styles.userInfo}>
@@ -230,7 +244,7 @@ const ProductDetailsCard: React.FC = () => {
               )}
             </View>
           </View>
-        </View>
+        </>
       )}
     </ScrollView>
   );

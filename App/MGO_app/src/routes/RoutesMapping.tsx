@@ -8,9 +8,12 @@ import CustomDrawerHeader from '../components/CustomDrawerNavigationHeader/Custo
 import SignUpScreen from '../screens/SingUpScreen/SingUpScreen';
 import CustomDrawerContent from '../components/CustomDrawerContent/CustomDrawerContent';
 import MyProfileScreen from '../screens/MyProfileScreen/MyProfileScreen';
-import EditScreen from '../screens/EditScreen/EditScreen';
+// import EditScreen from '../screens/EditScreen/EditScreen';
 import UploadScreen from '../screens/UploadScreen/UploadScreen';
 import ProductDetailsCard from '../screens/ProductDetailsCard/ProductDetailsCard';
+import ProductListScreen from '../screens/ProductListScreen/ProductListScreen';
+import FavoritesScreen from '../screens/FavoriteScreen/FavoritesScreen';
+import EditScreen from '../screens/EditScreen/EditScreen';
 
 export type RootStackParamList = {
   [RouterKey.LOGIN_SCREEN]: undefined;
@@ -21,6 +24,8 @@ export type RootStackParamList = {
   [RouterKey.MYPROFILE_SCREEN]: undefined;
   [RouterKey.UPLOAD_SCREEN]: undefined;
   [RouterKey.PRODUCT_DETAILS_CARD]: undefined;
+  [RouterKey.PRODUCTLIST]: {categoryId: string};
+  [RouterKey.FAVORITES_SCREEN]: undefined;
 };
 
 const {Navigator, Screen} = createStackNavigator<RootStackParamList>();
@@ -40,10 +45,28 @@ const DrawerNavigator = () => {
         ),
       }}>
       <Drawer.Screen name={RouterKey.HOME_SCREEN} component={HomeScreen} />
-      <Drawer.Screen name={RouterKey.MYPROFILE_SCREEN} component={MyProfileScreen} />
-      <Drawer.Screen name={RouterKey.EDIT_SCREEN} component={EditScreen} />
+
+      <Drawer.Screen
+        name={RouterKey.MYPROFILE_SCREEN}
+        component={MyProfileScreen}
+      />
+      {/*<Drawer.Screen name={RouterKey.EDIT_SCREEN} component={EditScreen} />*/}
       <Drawer.Screen name={RouterKey.UPLOAD_SCREEN} component={UploadScreen} />
-      <Drawer.Screen name={RouterKey.PRODUCT_DETAILS_CARD} component={ProductDetailsCard} />
+      <Drawer.Screen
+        name={RouterKey.PRODUCT_DETAILS_CARD}
+        component={ProductDetailsCard}
+      />
+
+      <Drawer.Screen
+        name={RouterKey.PRODUCTLIST}
+        component={ProductListScreen}
+      />
+
+      <Drawer.Screen
+        name={RouterKey.FAVORITES_SCREEN}
+        component={FavoritesScreen}
+      />
+      <Drawer.Screen name={RouterKey.EDIT_SCREEN} component={EditScreen} />
 
       {/* ... other screens ... */}
     </Drawer.Navigator>

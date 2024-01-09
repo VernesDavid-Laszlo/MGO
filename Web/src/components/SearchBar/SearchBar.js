@@ -19,7 +19,6 @@ const SearchComponent = () => {
     const history = useHistory();
 
     useEffect(() => {
-        // Példa arra, hogy hogyan adhatod hozzá a kisbetűs mezőt a termékekhez
         const addLowercaseFieldToProducts = async () => {
             const productsRef = collection(db, 'products');
             const snapshot = await getDocs(productsRef);
@@ -28,12 +27,11 @@ const SearchComponent = () => {
                 const data = doc.data();
                 const lowercaseName = data.product_name.toLowerCase();
 
-                // Hozzáadja a kisbetűs mezőt a termékhez
+
                 await updateDoc(doc.ref, { product_name_lowercase: lowercaseName });
             });
         };
 
-        // Hívja meg a függvényt, példa adatok hozzáadásához
         addLowercaseFieldToProducts();
     }, [db]);
 
