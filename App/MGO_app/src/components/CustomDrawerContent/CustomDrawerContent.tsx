@@ -12,9 +12,6 @@ import {
 } from '@react-navigation/drawer';
 import {RouterKey} from '../../routes/Routes';
 import {useAuth} from '../../context/AuthContext';
-import {styles} from './CustomDrawerContentStyle';
-import ShowIcon from '../../assets/eye-slash.svg';
-
 const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
   const {logout} = useAuth();
   return (
@@ -34,35 +31,26 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
       />
       <DrawerItem
         icon={() => <MyProductsIcon width={25} height={25} />}
-        label="Edit profile"
-        onPress={() => {
-          props.navigation.navigate(RouterKey.EDIT_SCREEN);
-        }}
-      />
-      <DrawerItem
-        icon={() => <FavouritesIcon width={25} height={25} />}
-        label="Upload product"
+        label="Upload Product"
         onPress={() => {
           props.navigation.navigate(RouterKey.UPLOAD_SCREEN);
         }}
-        // Call logout on press
-      />
-      {/* ... other drawer items ... */}
-      <DrawerItem
-        icon={() => <LogOutIcon width={25} height={25} />}
-        label="Details Card"
-        onPress={() => {
-          props.navigation.navigate(RouterKey.PRODUCT_DETAILS_CARD);
-      }} // Call logout on press
-      />
-      <DrawerItem
-        icon={() => <MessageIcon width={25} height={25} />}
-        label="Message"
-        onPress={() => logout()} // Call logout on press
       />
       <DrawerItem
         icon={() => <FavouritesIcon width={25} height={25} />}
         label="Favorites"
+        onPress={() => {
+          props.navigation.navigate(RouterKey.FAVORITES_SCREEN);
+        }}
+      />
+      <DrawerItem
+        icon={() => <MessageIcon width={25} height={25} />}
+        label="Message"
+        onPress={() => alert('Sorry this feature is not implemented yet!')} // Call logout on press
+      />
+      <DrawerItem
+        icon={() => <LogOutIcon width={25} height={25} />}
+        label="Logout"
         onPress={() => logout()} // Call logout on press
       />
     </DrawerContentScrollView>

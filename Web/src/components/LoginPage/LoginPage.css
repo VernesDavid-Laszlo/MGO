@@ -10,7 +10,7 @@
 .cardLP {
     position: relative;
     width: 280px;
-    height: 390px;
+    height: 450px;
     background-color: #000;
     display: flex;
     flex-direction: column;
@@ -92,4 +92,15 @@
     width: 80px;
     height: 80px;
     border: 2px solid #8707ff;
+}
+
+.forgot-password-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.forgot-password-link {
+    color: #8707ff ;
+    text-decoration: none;
 }

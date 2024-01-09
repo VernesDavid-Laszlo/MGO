@@ -45,7 +45,7 @@ const LoginScreen: React.FC = () => {
   const handleLogin = async () => {
     try {
       await login(email, password);
-      setLoginError(''); // Clear any previous error
+      setLoginError('');
     } catch (error) {
       // console.error('Login error:', error);
       setLoginError(error.message); // Display the error message

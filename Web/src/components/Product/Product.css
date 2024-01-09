@@ -1,0 +1,223 @@
+#headerPC {
+    margin-top: 10px;
+}
+
+.parent {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 40px auto;
+}
+
+.div1, .div2, .div3, .rating-section {
+    border: 2px solid #333;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.div2 {
+    width: 100%;
+    border: white 1px solid;
+}
+.div3{
+    background: #333;
+    border: white 1px solid;
+}
+
+.div4 {
+    display: flex;
+    width: 73%;
+    flex-wrap: wrap;
+
+}
+
+.div2 {
+    padding: 20px;
+    margin-left: 20px;
+    background: #333;
+}
+
+.div3, .rating-section {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    max-height: 450px;
+    align-items: center;
+    position: relative;
+    margin: 0 20px;
+    color: white;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+#footer {
+    bottom: 0;
+    margin-top: 150px;
+}
+
+.div3 label {
+    color: white;
+    font-size: 20px;
+}
+#userRatingSection {
+    margin-top: 20px;
+}
+
+.rating-section label {
+    color: white;
+}
+
+#productCardDescription {
+    margin-bottom: 30px;
+    color: white;
+}
+
+#productCardPhoneButton, #productCardMessageButton {
+    position: relative; /* Change to relative */
+    margin-top: 10px; /* Add some margin or spacing between them */
+    background-color: white;
+    border-radius: 10px;
+    width: 70%;
+    height: 40px;
+    cursor: pointer;
+    color: #333;
+}
+#productCardMessageButton{
+   margin-top: 17px;
+}
+
+/* Rest of the styles remain unchanged */
+
+
+
+#productCardPhoneButton:hover, #rate-user-button:hover {
+    background-color: #9c19d3;
+    color: white;
+    border-radius: 10px;
+
+}
+
+#productCardMessageButton:hover {
+    background-color: #9c19d3;
+    color: white;
+    border-radius: 10px;
+}
+
+
+#productCardUserName {
+    text-align: center;
+    color: white;
+}
+
+.div1 {
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    background: #333;
+    border: white 1px solid;
+}
+
+.div1 img {
+    width: 50%;
+    height: 50%;
+    object-fit: scale-down;
+    margin: 0 auto;
+
+}
+
+p {
+    color: white;
+}
+
+.div2 h4 {
+    color: white;
+}
+
+#userRating, .rating-modal{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;}
+
+.rating-section{
+    background-color: black;
+}
+#rate-user-form {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 20px 0;
+}
+#rate-user-form label{
+    margin-bottom: 12px;
+    font-size: 20px;
+}
+#rate-user-content button{
+    height: 30px;
+    width: 100%;
+}
+#rate-user-content input {
+    margin-bottom: 15px;
+    height: 5px;
+    border-radius: 5px;
+    border: 2px solid #333;
+    padding: 10px;
+    font-size: 16px;
+}
+#rate-user-button{
+    border-radius: 5px;
+    cursor: pointer;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+@media screen and (max-width: 1250px) {
+    .parent {
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .div4 {
+        width: 85%;
+    }
+
+    .div3, .rating-section {
+        width: 81.5%;
+        margin: 20px 25px 0 25px ;
+    }
+
+    .div3 button, .rating-section button {
+        max-width: 200px;
+    }
+
+    .div3 label, .rating-section label {
+        margin-top: 10px;
+    }
+
+    .div2, .div1 {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 930px){
+    .div3{
+        width: calc(100% - 160px);
+    }
+}
+@media screen and (max-width: 750px){
+    .div3{
+        width: 79.5%;
+    }
+}
+
+.distance {
+    display: flex;
+    justify-content: space-between;
+}
+.faviconPC{
+    width: 20px;
+    height: 20px;
+}

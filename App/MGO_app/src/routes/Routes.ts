@@ -4,7 +4,9 @@ export enum RouterKey {
   SIGNUP_SCREEN = 'SignUpScreen',
   EDIT_SCREEN = 'EditScreenPage',
   MYPROFILE_SCREEN = 'MyProfileScreen',
-  DRAWERNAVIGATION = 'DrawerNavigationToHomePage',
   UPLOAD_SCREEN = 'UploadScreen',
   PRODUCT_DETAILS_CARD = 'ProductDetailsCard',
+  DRAWERNAVIGATION = 'DrawerNavigationToHomePage',
+  PRODUCTLIST = 'ProductListScreen',
+  FAVORITES_SCREEN = 'FavoritesScreen',
 }
