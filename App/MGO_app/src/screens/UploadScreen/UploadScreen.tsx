@@ -158,7 +158,7 @@ const UploadScreen: React.FC = () => {
   const handleCurrencyChange = (text: string) => {
     setCurrency(text);
     if (!isNaN(Number(price)) && price !== '') {
-      setPrice(`${price}${currency}`);
+      setPrice(`${price}${text}`);
     }
   };
 
