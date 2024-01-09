@@ -16,12 +16,27 @@ function LoginPage() {
             history.push('/home');
         } catch (error) {
             console.error('Login failed:', error.message);
-            setError('Invalid email or password!   Please try again!    ');
+            setError('Invalid email or password! Please try again!');
         }
     };
 
     const handleSignup = () => {
         history.push('/signup');
+    };
+
+    const handleForgotPassword = async () => {
+        if (!email) {
+            setError('Please enter your email address.');
+            return;
+        }
+
+        try {
+            await firebase.auth().sendPasswordResetEmail(email);
+            setError('Password reset email sent. Please check your inbox.');
+        } catch (error) {
+            console.error('Password reset failed:', error.message);
+            setError('Failed to send password reset email. Please try again.');
+        }
     };
 
     return (
@@ -48,6 +63,9 @@ function LoginPage() {
                         placeholder="Password"
                     />
                     {error && <p className="error-message" style={{ color: 'red' }}>{error}</p>}
+                    <div className="forgot-password-container">
+                        <a href="#" onClick={handleForgotPassword} className="forgot-password-link">Forgot Password?</a>
+                    </div>
                 </div>
                 <div className="cardLP-buttons">
                     <button onClick={handleLogin}>Login</button>
