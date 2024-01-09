@@ -66,14 +66,13 @@ const ProductCard: React.FC<ProductCardProps> = ({product}) => {
       <TouchableOpacity
         style={styles.button}
         onPress={() =>
-            navigation.navigate(RouterKey.PRODUCT_DETAILS_CARD, {product: product})
+          navigation.navigate(RouterKey.PRODUCT_DETAILS_CARD, {product})
         }>
         <Text style={styles.buttonText}>View Details</Text>
       </TouchableOpacity>
     </View>
   );
 };
-// Add your StyleSheet styles here
 
 const styles = StyleSheet.create({
   heartIcon: {
