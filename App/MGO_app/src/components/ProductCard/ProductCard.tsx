@@ -73,7 +73,6 @@ const ProductCard: React.FC<ProductCardProps> = ({product}) => {
     </View>
   );
 };
-// Add your StyleSheet styles here
 
 const styles = StyleSheet.create({
   heartIcon: {

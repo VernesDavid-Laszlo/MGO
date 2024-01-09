@@ -20,6 +20,8 @@ import HintSection from '../../components/HintSection/HintSection';
 import ShowIcon from '../../assets/eye-slash.svg';
 import HideIcon from '../../assets/eye.svg';
 
+//// TODO handele no internet connection error
+
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -52,7 +54,6 @@ const LoginScreen: React.FC = () => {
     }
   };
 
-
   const handleSignUppress = () => navigation.navigate(RouterKey.SIGNUP_SCREEN);
 
   useEffect(() => {
@@ -80,8 +81,8 @@ const LoginScreen: React.FC = () => {
               onChangeText={handleEmailChange}
             />
             <TouchableOpacity
-              onPress={handleDeleteEmail}
-              style={{width: '10%'}}>
+              style={{width: '10%'}}
+              onPress={handleDeleteEmail}>
               {isDeleteUsernameVisible && <DeleteIcon width={25} height={25} />}
             </TouchableOpacity>
           </View>
@@ -106,7 +107,7 @@ const LoginScreen: React.FC = () => {
             </TouchableOpacity>
           </View>
         </SafeAreaView>
-        {!!loginError ? (
+        {loginError ? (
           <Text style={styles.errorText}>Incorrect username or password.</Text>
         ) : null}
         <CustomLoginButton handlePress={handleLogin} />

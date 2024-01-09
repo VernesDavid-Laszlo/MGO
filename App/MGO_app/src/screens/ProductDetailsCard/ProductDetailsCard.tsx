@@ -10,28 +10,42 @@ import {
   SafeAreaView,
   Dimensions,
 } from 'react-native';
-import {
-  collection,
-  doc,
-  getFirestore,
-  updateDoc,
-} from '@react-native-firebase/firestore/lib/modular';
-import {getDocs} from '@react-native-firebase/firestore/lib/modular/query';
-import getStorage from '@react-native-firebase/storage';
+import {doc, updateDoc} from '@react-native-firebase/firestore/lib/modular';
 import styles from './ProductDetailsCardStyle';
 import {Linking} from 'react-native';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
+import {RootStackParamList} from '../../routes/RoutesMapping';
+import {RouterKey} from '../../routes/Routes';
+import {navigationRef} from '../../components/Navigation/NavigationService';
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
-const ProductDetailsCard: React.FC = () => {
-  const [productData, setProductData] = useState<any | null>(null);
+export type Product = {
+  id: string;
+  category: string;
+  description: string;
+  images: string[];
+  price: string;
+  product_name: string;
+  user: string;
+};
+type ProductDetailsRouteProps = RouteProp<
+  RootStackParamList,
+  RouterKey.PRODUCT_DETAILS_CARD
+>;
+
+const ProductDetailsCard = () => {
+  // Use the correct type for the route
+  const route = useRoute<ProductDetailsRouteProps>();
+  const {product} = route.params;
+
   const [userPhoneNumber, setUserPhoneNumber] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [userRating, setUserRating] = useState<number | null>(null);
-  const [isRatingModalOpen, setRatingModalOpen] = useState<boolean>(false);
+  const [, setRatingModalOpen] = useState<boolean>(false);
   const [newRating, setNewRating] = useState<number>(0);
   const [hasReviewed, setHasReviewed] = useState<boolean>(false);
-  const firestore = getFirestore();
 
   const rateUser = async (userId: string, rating: number) => {
     try {
@@ -67,64 +81,36 @@ const ProductDetailsCard: React.FC = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const db = getFirestore();
-        const productsCollection = collection(db, 'products');
-        const productsSnapshot = await getDocs(productsCollection);
-
-        if (!productsSnapshot.empty) {
-          // Assuming there's only one product for demonstration
-          const productDoc = productsSnapshot.docs[0];
-          const productData = productDoc.data();
-
-          setProductData(productData);
-
-          // Fetch image URLs from Firebase Storage
-          const storage = getStorage();
-
-          const imageUrlsPromises = productData.images.map(
-            async (imageName: string) => {
-              try {
-                const imageUrl = await storage
-                  .ref(`Products/${productDoc.id}/${imageName}`)
-                  .getDownloadURL();
-                setImageUrls(prevUrls => [...prevUrls, imageUrl]);
-                return imageUrl;
-              } catch (error) {
-                console.error(
-                  `Error fetching image URL for ${imageName}:`,
-                  error,
-                );
-                return ''; // or handle the error in a way that fits your application
-              }
-            },
-          );
-
-          const urls = await Promise.all(imageUrlsPromises);
-          setImageUrls(urls);
-
-          // Fetch user data based on the product's user field
-          const userDocRef = getFirestore().doc(`users/${productData.user}`);
-          const userDocSnapshot = await userDocRef.get();
-          if (userDocSnapshot.exists) {
-            const userData = userDocSnapshot.data();
-            setUserPhoneNumber(userData?.phoneNumber || '');
-            setUserName(userData?.userName || '');
-            setUserRating(userData?.averageRating || null);
-          } else {
-            console.error('User not found');
-          }
-        } else {
-          console.error('No products found');
-        }
-      } catch (error) {
-        console.error('Error fetching product data:', error);
+    // Fetch user data
+    const fetchUserData = async () => {
+      const userRef = firestore().doc(`users/${product.user}`);
+      const userDoc = await userRef.get();
+      if (userDoc.exists) {
+        const userData = userDoc.data();
+        setUserPhoneNumber(userData?.phoneNumber || '');
+        setUserName(userData?.userName || '');
+        setUserRating(userData?.averageRating || null);
       }
     };
 
-    fetchData();
-  }, []);
+    // Fetch image URLs from Firebase Storage
+    const fetchImageUrls = async () => {
+      try {
+        // Directly use the image URLs if they're already full URLs
+        const validUrls = product.images.filter(url => url.startsWith('http'));
+        setImageUrls(validUrls);
+      } catch (error) {
+        console.error(`Error verifying image URLs: ${error}`);
+        setImageUrls([]); // Set an empty array if there's an error
+      }
+    };
+
+    // Fetch user and image data if the product object is defined
+    if (product) {
+      fetchImageUrls();
+      fetchUserData();
+    }
+  }, [product]); // Only re-run if the product object changes
 
   const closeRatingModal = () => {
     setRatingModalOpen(false);
@@ -135,11 +121,15 @@ const ProductDetailsCard: React.FC = () => {
       Alert.alert('Please rate the product from 1 to 5');
       return;
     }
-    rateUser(productData.user, newRating);
+    rateUser(product.user, newRating);
     closeRatingModal();
   };
+
+  const openChat = () => {
+    navigationRef.navigate(RouterKey.CHAT_SCREEN, {recipient: product.user});
+  };
   const renderDescription = () => {
-    return productData.description.split('-').map((item, index) => (
+    return product.description.split('-').map((item, index) => (
       <Text
         key={index}
         style={{
@@ -157,11 +147,11 @@ const ProductDetailsCard: React.FC = () => {
 
   return (
     <ScrollView style={{backgroundColor: 'black', padding: 10}}>
-      {productData && (
+      {product && (
         <>
           <SafeAreaView style={{flex: 1}}>
             <Text style={{fontSize: 27, marginBottom: 10, color: 'white'}}>
-              {productData.product_name}
+              {product.product_name}
             </Text>
             <Text
               style={{
@@ -170,7 +160,7 @@ const ProductDetailsCard: React.FC = () => {
                 marginTop: 15,
                 color: 'white',
               }}>
-              Price: {productData.price}
+              Price: {product.price}
             </Text>
             <View style={{marginBottom: 20, marginTop: 20}}>
               <ScrollView
@@ -217,6 +207,11 @@ const ProductDetailsCard: React.FC = () => {
                 onPress={() => Linking.openURL(`tel:${userPhoneNumber}`)}>
                 <Text style={styles.callerButton}>Call Seller</Text>
               </TouchableOpacity>
+
+              <TouchableOpacity onPress={openChat}>
+                <Text style={styles.callerButton}>Send a message</Text>
+              </TouchableOpacity>
+
               <Text
                 style={[
                   styles.reviewText,
