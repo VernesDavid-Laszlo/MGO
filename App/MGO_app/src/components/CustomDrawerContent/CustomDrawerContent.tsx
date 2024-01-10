@@ -46,7 +46,8 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
       <DrawerItem
         icon={() => <MessageIcon width={25} height={25} />}
         label="Message"
-        onPress={() => alert('Sorry this feature is not implemented yet!')} // Call logout on press
+        // onPress={() => props.navigation.navigate(RouterKey.CHAT_SCREEN)}
+        onPress={() => alert('Sorry this feature is not implemented yet!')}
       />
       <DrawerItem
         icon={() => <LogOutIcon width={25} height={25} />}

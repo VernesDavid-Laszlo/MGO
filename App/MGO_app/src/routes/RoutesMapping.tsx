@@ -10,10 +10,13 @@ import CustomDrawerContent from '../components/CustomDrawerContent/CustomDrawerC
 import MyProfileScreen from '../screens/MyProfileScreen/MyProfileScreen';
 // import EditScreen from '../screens/EditScreen/EditScreen';
 import UploadScreen from '../screens/UploadScreen/UploadScreen';
-import ProductDetailsCard from '../screens/ProductDetailsCard/ProductDetailsCard';
+import ProductDetailsCard, {
+  Product,
+} from '../screens/ProductDetailsCard/ProductDetailsCard';
 import ProductListScreen from '../screens/ProductListScreen/ProductListScreen';
 import FavoritesScreen from '../screens/FavoriteScreen/FavoritesScreen';
 import EditScreen from '../screens/EditScreen/EditScreen';
+import ChatScreen from '../screens/Chat/ChatScreen';
 
 export type RootStackParamList = {
   [RouterKey.LOGIN_SCREEN]: undefined;
@@ -23,9 +26,10 @@ export type RootStackParamList = {
   [RouterKey.EDIT_SCREEN]: undefined;
   [RouterKey.MYPROFILE_SCREEN]: undefined;
   [RouterKey.UPLOAD_SCREEN]: undefined;
-  [RouterKey.PRODUCT_DETAILS_CARD]: undefined;
+  [RouterKey.PRODUCT_DETAILS_CARD]: {product: Product};
   [RouterKey.PRODUCTLIST]: {categoryId: string};
   [RouterKey.FAVORITES_SCREEN]: undefined;
+  [RouterKey.CHAT_SCREEN]: {recipientId: string};
 };
 
 const {Navigator, Screen} = createStackNavigator<RootStackParamList>();
@@ -67,6 +71,7 @@ const DrawerNavigator = () => {
         component={FavoritesScreen}
       />
       <Drawer.Screen name={RouterKey.EDIT_SCREEN} component={EditScreen} />
+      <Drawer.Screen name={RouterKey.CHAT_SCREEN} component={ChatScreen} />
 
       {/* ... other screens ... */}
     </Drawer.Navigator>

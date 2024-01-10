@@ -9,4 +9,5 @@ export enum RouterKey {
   DRAWERNAVIGATION = 'DrawerNavigationToHomePage',
   PRODUCTLIST = 'ProductListScreen',
   FAVORITES_SCREEN = 'FavoritesScreen',
+  CHAT_SCREEN = 'ChatScreen',
 }
