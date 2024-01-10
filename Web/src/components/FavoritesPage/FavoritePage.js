@@ -121,7 +121,7 @@ function FavoritePage() {
                     </div>
                 ))}
             </div>
-            <Footer />
+            {/*<Footer />*/}
         </div>
     );
 }

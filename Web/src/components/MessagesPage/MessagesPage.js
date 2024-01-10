@@ -86,7 +86,7 @@ function MessagesPage() {
                 ))}
             </div>
 
-            <Footer />
+            {/*<Footer />*/}
             {chatModalOpen && (
                 <ChatModal
                     closeChat={closeChat}
