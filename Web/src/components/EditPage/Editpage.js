@@ -231,7 +231,7 @@ const EditPage = () => {
                  <button onClick={handleSaveChanges} id = "buttonEditPage">Save Changes</button>
                 </div>
                 <div className="footerEditPage">
-                    <Footer/>
+                    {/*<Footer/>*/}
                 </div>
             </div>
         </div>

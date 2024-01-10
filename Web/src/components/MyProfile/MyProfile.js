@@ -215,7 +215,7 @@ const MyProfilePage = () => {
                     </ul>
                 </div>
                 <div id="footerMyProfile">
-                    <Footer />
+                    {/*<Footer />*/}
                 </div>
             </div>
         </div>

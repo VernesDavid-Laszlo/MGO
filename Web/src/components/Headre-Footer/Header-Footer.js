@@ -42,11 +42,11 @@ export function Header() {
     );
 }
 
-export function Footer() {
-
-    return (
-        <div className="footer">
-            <p> Contacts: vernes.david.laszlo@student.ms.sapientia.ro </p>
-        </div>
-    );
-}
+// export function Footer() {
+//
+//     return (
+//         <div className="footer">
+//             <p> Contacts: vernes.david.laszlo@student.ms.sapientia.ro </p>
+//         </div>
+//     );
+// }

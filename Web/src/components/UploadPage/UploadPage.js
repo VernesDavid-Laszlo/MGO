@@ -312,7 +312,7 @@ const UploadPage = () => {
                     </button>
                 </div>
                 <div className="footerUploadPage">
-                    <Footer />
+                    {/*<Footer />*/}
                 </div>
             </div>
         </div>
