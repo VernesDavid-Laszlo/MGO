@@ -20,6 +20,7 @@ import {RouterKey} from '../../routes/Routes';
 import {navigationRef} from '../../components/Navigation/NavigationService';
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
+
 export type Product = {
   id: string;
   category: string;
@@ -47,10 +48,41 @@ const ProductDetailsCard = () => {
   const [newRating, setNewRating] = useState<number>(0);
   const [hasReviewed, setHasReviewed] = useState<boolean>(false);
 
+  useEffect(() => {
+    // Fetch user data
+    const fetchUserData = async () => {
+      const userRef = firestore().doc(`users/${product.user}`);
+      const userDoc = await userRef.get();
+      if (userDoc.exists) {
+        const userData = userDoc.data();
+        setUserPhoneNumber(userData?.phoneNumber || '');
+        setUserName(userData?.userName || '');
+        setUserRating(userData?.averageRating || null);
+      }
+    };
+
+    const fetchImageUrls = async () => {
+      try {
+        const validUrls = product.images.filter(url => url.startsWith('http'));
+        setImageUrls(validUrls);
+      } catch (error) {
+        console.error(`Error verifying image URLs: ${error}`);
+        setImageUrls([]); // Set an empty array if there's an error
+      }
+    };
+
+    // Fetch user and image data if the product object is defined
+    if (product) {
+      fetchImageUrls();
+      fetchUserData();
+    }
+  }, [product]); // Only re-run if the product object changes
+
+
   const rateUser = async (userId: string, rating: number) => {
     try {
       // Get reference to the user document
-      const userRef = doc(firestore, 'users', userId);
+      const userRef = doc(firestore(), 'users', userId);
 
       // Fetch the current user document
       const userDoc = await userRef.get();
@@ -80,38 +112,6 @@ const ProductDetailsCard = () => {
     }
   };
 
-  useEffect(() => {
-    // Fetch user data
-    const fetchUserData = async () => {
-      const userRef = firestore().doc(`users/${product.user}`);
-      const userDoc = await userRef.get();
-      if (userDoc.exists) {
-        const userData = userDoc.data();
-        setUserPhoneNumber(userData?.phoneNumber || '');
-        setUserName(userData?.userName || '');
-        setUserRating(userData?.averageRating || null);
-      }
-    };
-
-    // Fetch image URLs from Firebase Storage
-    const fetchImageUrls = async () => {
-      try {
-        // Directly use the image URLs if they're already full URLs
-        const validUrls = product.images.filter(url => url.startsWith('http'));
-        setImageUrls(validUrls);
-      } catch (error) {
-        console.error(`Error verifying image URLs: ${error}`);
-        setImageUrls([]); // Set an empty array if there's an error
-      }
-    };
-
-    // Fetch user and image data if the product object is defined
-    if (product) {
-      fetchImageUrls();
-      fetchUserData();
-    }
-  }, [product]); // Only re-run if the product object changes
-
   const closeRatingModal = () => {
     setRatingModalOpen(false);
   };
@@ -121,6 +121,7 @@ const ProductDetailsCard = () => {
       Alert.alert('Please rate the product from 1 to 5');
       return;
     }
+    console.log('Product user' + product.user);
     rateUser(product.user, newRating);
     closeRatingModal();
   };

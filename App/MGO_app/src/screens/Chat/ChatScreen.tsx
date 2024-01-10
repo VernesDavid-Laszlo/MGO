@@ -1,74 +1,100 @@
 import React, {useState, useEffect} from 'react';
 import {View, TextInput, Button, FlatList, Text} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import {RouterKey} from '../../routes/Routes';
 
-const ChatScreen = ({currentUser, recipient}) => {
-  const [inputText, setInputText] = useState('');
-  const [messages, setMessages] = useState([]);
+type ChatScreenRouteProp = RouteProp<RootStackParamList, RouterKey.CHAT_SCREEN>;
 
-  // Fetch messages
+type Message = {
+  id: string;
+  text: string;
+  sender: string;
+  recipient: string;
+  timestamp: firestore.Timestamp;
+};
+
+type RootStackParamList = {
+  ChatScreen: {recipientId: string};
+};
+
+const ChatScreen: React.FC = () => {
+  const route = useRoute<ChatScreenRouteProp>();
+  const {recipientId} = route.params;
+  const [input, setInput] = useState('');
+  const [messages, setMessages] = useState<Message[]>([]);
+  // Get the current user's ID from Firebase Authentication
+  const currentUser = auth().currentUser?.uid; // This will be undefined if the user is not logged in
+
+  console.log('Current user ' + currentUser);
+  console.log('Recipient id ' + route.params.recipientId);
   useEffect(() => {
+    if (!currentUser || !recipientId) {
+      return;
+    } // Do nothing if we don't have the current user or the recipient ID
+
+    // Listen for new messages between the current user and the recipient
     const unsubscribe = firestore()
       .collection('messages')
-      .where('recipient', '==', recipient)
+      // You might need to adjust the query depending on how you're storing messages
+      .where('participants', 'array-contains', currentUser)
       .orderBy('timestamp', 'desc')
       .onSnapshot(querySnapshot => {
-        const firestoreMessages = querySnapshot.docs.map(doc => ({
-          _id: doc.id,
-          text: doc.data().text,
-          createdAt: doc.data().timestamp.toDate(),
-          user: {
-            _id: doc.data().sender,
-          },
+        const newMessages = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...(doc.data() as Message),
         }));
-        setMessages(firestoreMessages);
+        setMessages(newMessages);
       });
 
-    return () => unsubscribe(); // Detach listener on unmount
-  }, [recipient]);
+    return () => unsubscribe();
+  }, [recipientId, currentUser]);
 
-  // Send a message
   const sendMessage = async () => {
-    if (inputText.trim() === '') {
+    if (!input.trim() || !currentUser || !recipientId) {
       return;
-    }
+    } // Do nothing if the input is empty or we don't have the necessary IDs
 
-    await firestore().collection('messages').add({
-      text: inputText,
-      sender: currentUser,
-      recipient: recipient,
-      timestamp: firestore.FieldValue.serverTimestamp(),
-    });
+    // Add new message to Firestore
+    await firestore()
+      .collection('messages')
+      .add({
+        text: input,
+        sender: currentUser,
+        recipient: recipientId,
+        timestamp: firestore.FieldValue.serverTimestamp(),
+        participants: [currentUser, recipientId],
+      });
 
-    setInputText(''); // Clear the input field
+    setInput('');
   };
-
-  // Render each message item
-  const renderMessageItem = ({item}) => (
-    <View
-      style={{
-        padding: 10,
-        backgroundColor:
-          item.user._id === currentUser ? 'lightblue' : 'lightgreen',
-      }}>
-      <Text>{item.text}</Text>
-    </View>
-  );
 
   return (
     <View style={{flex: 1}}>
       <FlatList
-        inverted
         data={messages}
-        keyExtractor={item => item._id}
-        renderItem={renderMessageItem}
+        inverted // Latest messages at the bottom
+        keyExtractor={item => item.id}
+        renderItem={({item}) => (
+          <Text
+            style={{
+              padding: 8,
+              backgroundColor:
+                item.sender === currentUser ? '#e0e0e0' : '#f0f0f0',
+            }}>
+            {item.text}
+          </Text>
+        )}
       />
-      <TextInput
-        placeholder="Type a message..."
-        value={inputText}
-        onChangeText={setInputText}
-      />
-      <Button title="Send" onPress={sendMessage} />
+      <View style={{flexDirection: 'row', padding: 8}}>
+        <TextInput
+          value={input}
+          onChangeText={setInput}
+          style={{flex: 1, borderWidth: 1, borderColor: 'gray', padding: 8}}
+        />
+        <Button title="Send" onPress={sendMessage} />
+      </View>
     </View>
   );
 };

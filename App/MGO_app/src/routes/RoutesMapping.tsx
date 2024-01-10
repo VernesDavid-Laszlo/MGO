@@ -29,7 +29,7 @@ export type RootStackParamList = {
   [RouterKey.PRODUCT_DETAILS_CARD]: {product: Product};
   [RouterKey.PRODUCTLIST]: {categoryId: string};
   [RouterKey.FAVORITES_SCREEN]: undefined;
-  [RouterKey.CHAT_SCREEN]: undefined;
+  [RouterKey.CHAT_SCREEN]: {recipientId: string};
 };
 
 const {Navigator, Screen} = createStackNavigator<RootStackParamList>();
