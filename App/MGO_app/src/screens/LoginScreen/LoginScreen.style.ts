@@ -15,6 +15,9 @@ const styles = StyleSheet.create({
     color: Colors.RED,
     marginBottom: 10,
   },
+  forgotPasswordText: {
+    color: Colors.WHITE,
+  },
   logoContainer: {
     position: 'relative',
     width: 300,

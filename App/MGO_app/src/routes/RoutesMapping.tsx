@@ -8,7 +8,6 @@ import CustomDrawerHeader from '../components/CustomDrawerNavigationHeader/Custo
 import SignUpScreen from '../screens/SingUpScreen/SingUpScreen';
 import CustomDrawerContent from '../components/CustomDrawerContent/CustomDrawerContent';
 import MyProfileScreen from '../screens/MyProfileScreen/MyProfileScreen';
-// import EditScreen from '../screens/EditScreen/EditScreen';
 import UploadScreen from '../screens/UploadScreen/UploadScreen';
 import ProductDetailsCard, {
   Product,
@@ -17,6 +16,7 @@ import ProductListScreen from '../screens/ProductListScreen/ProductListScreen';
 import FavoritesScreen from '../screens/FavoriteScreen/FavoritesScreen';
 import EditScreen from '../screens/EditScreen/EditScreen';
 import ChatScreen from '../screens/Chat/ChatScreen';
+import ForgotPasswordScreen from '../screens/ForgotPasswordScreen/ForgotPasswordScreen';
 
 export type RootStackParamList = {
   [RouterKey.LOGIN_SCREEN]: undefined;
@@ -29,6 +29,7 @@ export type RootStackParamList = {
   [RouterKey.PRODUCT_DETAILS_CARD]: {product: Product};
   [RouterKey.PRODUCTLIST]: {categoryId: string};
   [RouterKey.FAVORITES_SCREEN]: undefined;
+  [RouterKey.FORGOT_PASSWORD]: undefined;
   [RouterKey.CHAT_SCREEN]: {recipientId: string};
 };
 
@@ -54,7 +55,6 @@ const DrawerNavigator = () => {
         name={RouterKey.MYPROFILE_SCREEN}
         component={MyProfileScreen}
       />
-      {/*<Drawer.Screen name={RouterKey.EDIT_SCREEN} component={EditScreen} />*/}
       <Drawer.Screen name={RouterKey.UPLOAD_SCREEN} component={UploadScreen} />
       <Drawer.Screen
         name={RouterKey.PRODUCT_DETAILS_CARD}
@@ -72,8 +72,6 @@ const DrawerNavigator = () => {
       />
       <Drawer.Screen name={RouterKey.EDIT_SCREEN} component={EditScreen} />
       <Drawer.Screen name={RouterKey.CHAT_SCREEN} component={ChatScreen} />
-
-      {/* ... other screens ... */}
     </Drawer.Navigator>
   );
 };
@@ -95,6 +93,11 @@ const RoutesMapping = () => {
       <Screen
         name={RouterKey.DRAWERNAVIGATION}
         component={DrawerNavigator}
+        options={{headerShown: false}}
+      />
+      <Screen
+        name={RouterKey.FORGOT_PASSWORD}
+        component={ForgotPasswordScreen}
         options={{headerShown: false}}
       />
     </Navigator>

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Image,
+  Alert,
 } from 'react-native';
 import CustomLoginButton from '../../components/LoginButton/LoginButton';
 import CustomSignUpButton from '../../components/SignUpButton/SignUpButton';
@@ -20,7 +21,6 @@ import HintSection from '../../components/HintSection/HintSection';
 import ShowIcon from '../../assets/eye-slash.svg';
 import HideIcon from '../../assets/eye.svg';
 
-//// TODO handele no internet connection error
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -59,6 +59,10 @@ const LoginScreen: React.FC = () => {
   useEffect(() => {
     setDeleteUsernameVisible(email.length !== 0);
   }, [email]);
+
+  const handleForgotPassword = () => {
+    navigation.navigate(RouterKey.FORGOT_PASSWORD);
+  };
 
   return (
     <SafeAreaView style={styles.mainContainer}>
@@ -112,6 +116,9 @@ const LoginScreen: React.FC = () => {
         ) : null}
         <CustomLoginButton handlePress={handleLogin} />
         <CustomSignUpButton handlePress={handleSignUppress} />
+        <TouchableOpacity onPress={handleForgotPassword}>
+          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+        </TouchableOpacity>
         <HintSection />
       </View>
     </SafeAreaView>

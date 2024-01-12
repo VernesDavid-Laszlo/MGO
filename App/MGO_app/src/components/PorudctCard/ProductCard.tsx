@@ -24,10 +24,10 @@ const Card: React.FC<CardProps> = ({
         const url = await imageRef.getDownloadURL(); // Correct way to get the download URL
         setImageUrl(url);
       } catch (error) {
-        console.error(
-          'Error fetching image URL from Firebase Storage: ',
-          error,
-        );
+        // console.error(
+        //   'Error fetching image URL from Firebase Storage: ',
+        //   error,
+        // );
       }
     };
 

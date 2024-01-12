@@ -42,7 +42,7 @@ const FavoritesScreen: React.FC = () => {
                   `Error fetching image URL for ${imageName}:`,
                   error,
                 );
-                return ''; // Return an empty string or a placeholder image URL
+                return '';
               }
             }),
           );
@@ -69,7 +69,7 @@ const FavoritesScreen: React.FC = () => {
         <RefreshControl
           refreshing={isRefreshing}
           onRefresh={fetchFavorites}
-          title="Refreshing..." // This is for iOS
+          title="Refreshing..."
         />
       }
     />

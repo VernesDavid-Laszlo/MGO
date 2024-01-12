@@ -101,16 +101,14 @@ const MyProfilePage = () => {
                     productsPromises.push(imagePromise);
                 });
 
-                // Wait for all image fetching promises to resolve
                 return Promise.all(productsPromises).then((productsWithImages) => ({
                     productsWithImages,
                     productIds,
                 }));
             })
             .then(({ productsWithImages, productIds }) => {
-                // Now, productsWithImages contains an array of products with their respective image URLs
                 setProductList(productsWithImages);
-                setProductId(productIds); // Assuming setProductId is the setter function for productId
+                setProductId(productIds);
                 console.log (productIds);
                 if(productsWithImages.length === 0) {
                     setIsProd(!isProd);
@@ -127,7 +125,6 @@ const MyProfilePage = () => {
         deleteDoc(doc(firebase.firestore(), 'products', userId))
             .then(() => {
                 alert('Product deleted');
-                // Remove user from the state
                 setProductList((prevUserList) => prevUserList.filter((user) => user[1] !== userId));
             })
             .catch((error) => {

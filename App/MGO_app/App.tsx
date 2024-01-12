@@ -4,10 +4,10 @@ import 'react-native-gesture-handler';
 import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
-import {AuthProvider} from './src/context/AuthContext'; // Adjust the path
+import {AuthProvider} from './src/context/AuthContext';
 import RoutesMapping from './src/routes/RoutesMapping';
 import {Platform} from 'react-native';
-import {navigationRef} from '../MGO_app/src/components/Navigation/NavigationService'; // Adjust the path
+import {navigationRef} from '../MGO_app/src/components/Navigation/NavigationService';
 
 const App = () => {
   useEffect(() => {

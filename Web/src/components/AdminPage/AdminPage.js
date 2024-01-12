@@ -39,11 +39,10 @@ const AdminPage = () => {
             const productData = [doc.data(), doc.id];
 
             if (!uniqueIds.has(productData[1])) {
-                // If the ID is not in the Set, update the state
                 setProductList((prevProductList) => [...prevProductList, productData]);
             }
 
-            console.log(productList); // This will log the updated state
+            console.log(productList);
         });
     };
 
@@ -83,10 +82,8 @@ const AdminPage = () => {
 
     const searchUsersByUserName = () => {
         const userNameInputTrimmed = userName.trim();
-        // Clear previous results
         setUserList([]);
 
-        // Query Firestore for UserName
         firebase.firestore().collection('users').where('userName', '==', userNameInputTrimmed)
             .get()
             .then(fetchResults)
@@ -125,18 +122,14 @@ const AdminPage = () => {
         const categoryInputTrimmed = category.trim();
         setCategory('');
         try {
-            // Step 1: Retrieve all users with the specified city
             const userSnapshot = await firebase.firestore().collection('category').where('category_name', '==', categoryInputTrimmed).get();
 
             if (!userSnapshot.empty) {
-                // Step 2: Collect all user IDs, docs 1 tomb amibe minden userSnapshot benne van
                 const categoryIds = userSnapshot.docs.map(doc => doc.id);
 
-                // Step 3: Search for products using the retrieved User IDs
                 await firebase.firestore().collection('products')
                     .where('category', 'in', categoryIds).get().then(fetchProductData);
 
-                // Now you have the products related to multiple users in the specified city
 
             } else {
                 console.log("No users categories with the specified data");
@@ -150,18 +143,14 @@ const AdminPage = () => {
         const cityInputTrimmed = city.trim();
         setCity('');
         try {
-            // Step 1: Retrieve all users with the specified city
             const userSnapshot = await firebase.firestore().collection('users').where('city', '==', cityInputTrimmed).get();
 
             if (!userSnapshot.empty) {
-                // Step 2: Collect all user IDs, docs 1 tomb amibe minden userSnapshot benne van
                 const userIds = userSnapshot.docs.map(doc => doc.id);
 
-                // Step 3: Search for products using the retrieved User IDs
                 await firebase.firestore().collection('products')
                     .where('user', 'in', userIds).get().then(fetchProductData);
 
-                // Now you have the products related to multiple users in the specified city
 
             } else {
                 console.log("No users found with the specified city");
@@ -175,18 +164,14 @@ const AdminPage = () => {
         const productsUserNameInputTrimmed = productsUserName.trim();
         setProductsUserName('');
         try {
-            // Step 1: Retrieve all users with the specified city
             const userSnapshot = await firebase.firestore().collection('users').where('userName', '==', productsUserNameInputTrimmed).get();
 
             if (!userSnapshot.empty) {
-                // Step 2: Collect all user IDs, docs 1 tomb amibe minden userSnapshot benne van
                 const userIds = userSnapshot.docs.map(doc => doc.id);
 
-                // Step 3: Search for products using the retrieved User IDs
                 await firebase.firestore().collection('products')
                     .where('user', 'in', userIds).get().then(fetchProductData);
 
-                // Now you have the products related to multiple users in the specified city
 
             } else {
                 console.log("No users found with the specified city");
@@ -211,7 +196,6 @@ const AdminPage = () => {
         deleteDoc(doc(firebase.firestore(), collection, Id))
             .then(() => {
                 alert( collection + 'deleted');
-                // Remove the given collection from the state
                 setUserList((prevUserList) => prevUserList.filter((user) => user[1] !== Id));
                 setProductList((prevProductList) => prevProductList.filter((product) => product[1] !== Id));
 

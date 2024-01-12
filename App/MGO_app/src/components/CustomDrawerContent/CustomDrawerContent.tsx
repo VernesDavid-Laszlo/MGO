@@ -17,7 +17,6 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItem
-        // style={styles.drawerItem}
         icon={() => <HomeScreenIcon width={25} height={25} />}
         label="Home"
         onPress={() => props.navigation.navigate(RouterKey.HOME_SCREEN)}
@@ -52,7 +51,7 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
       <DrawerItem
         icon={() => <LogOutIcon width={25} height={25} />}
         label="Logout"
-        onPress={() => logout()} // Call logout on press
+        onPress={() => logout()}
       />
     </DrawerContentScrollView>
   );

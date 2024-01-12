@@ -29,7 +29,7 @@ const EditPage = () => {
         setConfirmPassword(e.target.value);
     };
 
-    const handleNewNameChange = (e) => { // Added for newName
+    const handleNewNameChange = (e) => {
         setNewName(e.target.value);
     };
     const handleNewAddressChange = (e) => {
@@ -82,21 +82,10 @@ const EditPage = () => {
                     }
                 }
 
-                // Update name if provided
-                if (newName) {
-                    await updateDoc(userDocRef, {userName: newName});
-                    console.log('Name updated successfully');
-                }
 
-                if (newPhoneNumber) {
-                    await updateDoc(userDocRef, {phoneNumber: newPhoneNumber});
-                    console.log('Phone number updated successfully');
-                }
 
                 // Update address, city, and phoneNumber if provided
                 if (userDoc.exists()) {
-                    const userData = userDoc.data();
-                    const updatedData = {};
 
                     if (newAddress) {
                        await updateDoc(userDocRef, {address: newAddress});
@@ -107,12 +96,16 @@ const EditPage = () => {
                         await updateDoc(userDocRef, {city: newCity});
                         console.log('City updated successfully');
                     }
-
-
-                    if (Object.keys(updatedData).length > 0) {
-                        await updateDoc(userDocRef, updatedData);
-
+                    if (newName) {
+                        await updateDoc(userDocRef, {userName: newName});
+                        console.log('Name updated successfully');
                     }
+
+                    if (newPhoneNumber) {
+                        await updateDoc(userDocRef, {phoneNumber: newPhoneNumber});
+                        console.log('Phone number updated successfully');
+                    }
+
                     if (newName || newAddress || newCity || newPhoneNumber || (newPassword && confirmPassword)) {
                         alert("updated successfully");
                     }

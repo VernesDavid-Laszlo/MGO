@@ -32,7 +32,7 @@ const ChatModal = ({ closeChat, senderUserId, recipientUserId }) => {
             const fetchedMessages = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
-            }));
+                }))
             setMessages(fetchedMessages);
         });
 
@@ -41,7 +41,7 @@ const ChatModal = ({ closeChat, senderUserId, recipientUserId }) => {
 
     const sendMessage = async () => {
         if (messageText.trim() === '') {
-            return; // Prevent sending empty messages
+            return;
         }
 
         try {
