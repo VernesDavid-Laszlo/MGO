@@ -102,7 +102,7 @@ const UploadPage = () => {
                     // Add product data to Firestore
                     const newProductDocRef = await addDoc(productRef, {
                         product_name: title,
-                        price,
+                        price:(price+' '+currency),
                         description: productDescription,
                         category: categoryId,
                         user: userId,
@@ -168,7 +168,7 @@ const UploadPage = () => {
 
         // If price is not empty and is a number, update the price with the selected currency
         if (!isNaN(price) && price !== '') {
-            setPrice(`${price}${selectedCurrency}`);
+            setPrice(price);
         }
     };
 

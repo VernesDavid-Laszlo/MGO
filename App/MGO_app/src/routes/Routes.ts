@@ -10,4 +10,5 @@ export enum RouterKey {
   PRODUCTLIST = 'ProductListScreen',
   FAVORITES_SCREEN = 'FavoritesScreen',
   CHAT_SCREEN = 'ChatScreen',
+  FORGOT_PASSWORD = 'ForgotPasswordScreen',
 }

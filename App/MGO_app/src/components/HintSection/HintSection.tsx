@@ -1,6 +1,5 @@
-import {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
-// @ts-ignore
 import HintLogoDark from '../../../src/assets/hint.svg';
 import {hintstyle} from './HintSection.style';
 
@@ -21,7 +20,9 @@ const HintSection = () => {
         {hintIcon}
       </TouchableOpacity>
       {showHideText ? (
-        <Text style={hintstyle.text}>Please use your email and password!</Text>
+        <Text style={hintstyle.text}>
+          Please use a valid email and a password at least 6 character!
+        </Text>
       ) : null}
     </View>
   );

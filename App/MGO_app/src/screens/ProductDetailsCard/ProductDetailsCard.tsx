@@ -78,7 +78,6 @@ const ProductDetailsCard = () => {
     }
   }, [product]); // Only re-run if the product object changes
 
-
   const rateUser = async (userId: string, rating: number) => {
     try {
       // Get reference to the user document
@@ -127,8 +126,10 @@ const ProductDetailsCard = () => {
   };
 
   const openChat = () => {
-    navigationRef.navigate(RouterKey.CHAT_SCREEN, {recipient: product.user});
+    console.log('DetailsCard recipient id: ' + product.user);
+    navigationRef.navigate(RouterKey.CHAT_SCREEN, {recipientId: product.user});
   };
+
   const renderDescription = () => {
     return product.description.split('-').map((item, index) => (
       <Text

@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    backgroundColor: '#f5f5f5', // Example background color
+    backgroundColor: '#f5f5f5',
     paddingHorizontal: 15,
   },
   menuText: {
@@ -18,5 +18,4 @@ export const styles = StyleSheet.create({
     color: Colors.BLACK,
     fontSize: 20,
   },
-  // Add more styles as needed
 });

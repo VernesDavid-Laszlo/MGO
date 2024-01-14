@@ -26,10 +26,10 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({
     try {
       await auth().signInWithEmailAndPassword(email, password);
       console.log('User logged in');
-      navigate(RouterKey.DRAWERNAVIGATION); // Navigate to the home screen after successful login
+      navigate(RouterKey.DRAWERNAVIGATION);
     } catch (error) {
       // console.error('Login error:', error);
-      throw error; // Propagate the error
+      throw error;
     }
   };
 
@@ -37,17 +37,17 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({
     try {
       await auth().signOut();
       navigate(RouterKey.LOGIN_SCREEN);
-      console.log('User logged out');
+      // console.log('User logged out');
       // Navigate after logout
     } catch (error) {
-      console.error('Logout error:', error);
+      // console.error('Logout error:', error);
     }
   };
 
   // Define other functions like login, signUp here
 
   return (
-    <AuthContext.Provider value={{login, logout /*, other functions */}}>
+    <AuthContext.Provider value={{login, logout}}>
       {children}
     </AuthContext.Provider>
   );

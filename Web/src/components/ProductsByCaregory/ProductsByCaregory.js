@@ -123,12 +123,10 @@ function ProductsByCategory() {
     };
 
     const handleProductCardClick = (product) => {
-        // A termék kiválasztása után megteheted, amit szeretnél.
-        // Például navigálhatsz a Product oldalra, és átadhatod a kiválasztott termék adatait.
-        // history.push('/prodcard');
+
         history.push({
-            pathname: '/prodcard', // Az útvonal, ahova navigálsz
-            state: { productData: product }, // A termék adatai, amit továbbítasz
+            pathname: '/prodcard',
+            state: { productData: product },
         });
     };
 

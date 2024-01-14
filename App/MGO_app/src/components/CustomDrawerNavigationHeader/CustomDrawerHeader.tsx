@@ -16,7 +16,6 @@ const CustomDrawerHeader: React.FC<CustomDrawerHeaderProps> = ({
         <Text style={styles.menuText}>☰</Text>
       </TouchableOpacity>
       <Text style={styles.headerTitle}>{title}</Text>
-      {/* Add more elements to the header if needed */}
     </View>
   );
 };
